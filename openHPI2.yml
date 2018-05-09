@@ -1,0 +1,44 @@
+# define context fields?
+
+XPs:
+    # XP is predefined
+    postXP
+
+events:
+    ForumPost:
+        actions: 
+            - xp: postXP
+              amount: 1
+            - xp: XP
+              amount: 10
+    QuestionAsked:
+        actions:
+            - xp: XP
+              amount: 2
+    VoluntarySelfTestTaken:
+        maxAwards: 1
+        # could be e.g. per user and course
+        scope: [user]
+        conditions: 
+            - parameter: completion_percentage
+              value: 100
+        actions:
+            - xp: XP
+              amount: 2
+
+achievements:
+    CommunicatorBronze:
+        requirements: 
+            - xp: postXP
+              amount: >= 10
+              
+    CommunicatorSilver:
+        requirements:
+            - achievement: CommunicatorBronze
+        replaces: [CommunicatorBronze]
+        
+    ComCom:
+        requirements:
+            - event: ForumPost
+              amount: >= 10
+    
