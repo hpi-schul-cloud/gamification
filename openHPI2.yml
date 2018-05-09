@@ -21,6 +21,8 @@ events:
             - xp: XP
               amount: 20
     VideoClicked: ~
+    SelfAssigmentStarted: ~
+    SelfTestStarted: ~
         
 
 achievements:
