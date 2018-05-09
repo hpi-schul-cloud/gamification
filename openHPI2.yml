@@ -15,16 +15,13 @@ events:
         actions:
             - xp: XP
               amount: 2
-    VoluntarySelfTestTaken:
-        maxAwards: 1
-        # could be e.g. per user and course
-        scope: [user]
-        conditions: 
-            - parameter: completion_percentage
-              value: 100
+    VoluntarySelfTestTaken: ~
+    CourseCompleted:
         actions:
             - xp: XP
-              amount: 2
+              amount: 20
+    VideoClicked: ~
+        
 
 achievements:
     CommunicatorBronze:
@@ -35,10 +32,73 @@ achievements:
     CommunicatorSilver:
         requirements:
             - achievement: CommunicatorBronze
+            - xp: postXP
+              amount: >= 30
         replaces: [CommunicatorBronze]
         
     ComCom:
         requirements:
-            - event: ForumPost
-              amount: >= 10
-    
+            - event: 
+                name: ForumPost
+                amount: >= 10
+              
+    VoluntarySelfTestTakenAward:
+        requirements:
+            - event: 
+                name: VoluntarySelfTestTaken
+                conditions:
+                    - parameter: completion_percentage
+                      value: 100
+        # maxAwarded is implicitly 1
+        # maxAwarded: 1
+        # could be e.g. per user and course, could be renamed to "per"
+        scope: [user]
+        actions:
+            - xp: XP
+              amount: 2
+              
+    JavaPro:
+        requirements:
+            - event: 
+                name: CourseCompleted
+                amount: 5
+                conditions:
+                    - parameter: tags
+                      value: java
+        scope: [user]
+              
+    # achievement per comleted course
+    CourseCompletedAward:
+        requirements:
+            - event: 
+                name: CourseCompleted
+        scope: [user, context.course_id]
+        
+    ContinousAttendance:
+        requirements:
+        # VideoClicked AND (SelfTestStarted OR SelfAssigmentStarted)
+            - event: 
+                name: VideoClicked
+                conditions:
+                    - parameter: watched_videos_of_week_percentage
+                      value: >= 70
+            - OR:
+                - event:
+                    name: SelfTestStarted
+                - event:
+                    name: SelfAssigmentStarted
+        hidden: true
+        scope: [user, context.course_id, context.course_week]
+        actions:
+            - xp: XP
+              amount: 10
+              requirements:
+                - achievement:
+                    name: ContinousAttendance
+                    conditions:
+                        - parameter: context.user_id
+                          value: user_id
+                        - parameter: context.course_week
+                          value: course_week -1
+                        - parameter: context.course_id
+                          value: course_id
