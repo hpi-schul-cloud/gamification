@@ -1,0 +1,50 @@
+XPs:
+    # define your own XP here.
+    # general "XP" is predefined
+    yourXP
+
+events:
+    YourEventName:
+        actions: 
+            - xp: yourXP
+              amount: 1
+    YourEventQithoutAction: ~        
+
+achievements:
+    YourAchievement:
+        requirements: 
+            # implicit AND semantic
+            - achievement: YourOtherAchievement
+            - xp: yourXP
+              amount: >= 10
+            - event:
+                name: YourEventName
+                # amount is implicitly 1
+                amount: >= 10
+                # implicit AND semantic
+                conditions:
+                    - parameter: someParameter
+                      value: 100
+                      # someOtherParameter == 10 XOR someOtherParameter == 100
+                    - OneOf:
+                        - parameter: someOtherParameter
+                          value: 10
+                        - parameter: someOtherParameter
+                          value: 100
+                      # someOtherParameter == 10 OR someOtherParameter == 100
+                    - AnyOf:
+                        - parameter: someOtherParameter
+                          value: 10
+                        - parameter: someOtherParameter
+                          value: 100
+        replaces: [YourOtherAchievement]
+        # maxAwarded is implicitly 1
+        maxAwarded: 2
+        # if no scope is given the achievement can only be reached by maxAwarded (2) users on the whole platform
+        scope: [user]
+        # actions that are executed when achievement is awarded
+        actions:
+            - xp: XP
+              amount: 100
+        # implicitly false
+        hidden: true
