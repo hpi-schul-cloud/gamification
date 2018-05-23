@@ -2,7 +2,7 @@
 
 XPs:
     # XP is predefined
-    postXP
+    - postXP
 
 events:
     ForumPost:
@@ -84,7 +84,7 @@ achievements:
                 conditions:
                     - parameter: watched_videos_of_week_percentage
                       value: >= 70
-            - OR:
+            - AnyOf:
                 - event:
                     name: SelfTestStarted
                 - event:
