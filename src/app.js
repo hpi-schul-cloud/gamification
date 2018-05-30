@@ -9,6 +9,8 @@ const feathers = require('@feathersjs/feathers');
 const configuration = require('@feathersjs/configuration');
 const express = require('@feathersjs/express');
 
+const mongoose = require('mongoose');
+const mongoose_service = require('feathers-mongoose');
 
 
 const middleware = require('./middleware');
@@ -17,6 +19,11 @@ const appHooks = require('./app.hooks');
 const channels = require('./channels');
 
 const app = express(feathers());
+
+const AchievementModel = require('./models/achievement')
+mongoose.Promise = global.Promise;
+
+mongoose.connect('mongodb://localhost:27017/feathers');
 
 // Load app configuration
 app.configure(configuration());
@@ -29,6 +36,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(favicon(path.join(app.get('public'), 'favicon.ico')));
 // Host the public folder
 app.use('/', express.static(app.get('public')));
+console.log(AchievementModel)
+app.use('/messages', mongoose_service({ AchievementModel }));
 
 // Set up Plugins and providers
 app.configure(express.rest());
