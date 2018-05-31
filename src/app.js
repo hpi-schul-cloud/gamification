@@ -9,7 +9,6 @@ const feathers = require('@feathersjs/feathers');
 const configuration = require('@feathersjs/configuration');
 const express = require('@feathersjs/express');
 
-const mongoose_service = require('feathers-mongoose');
 
 
 const middleware = require('./middleware');
@@ -37,7 +36,6 @@ app.configure(express.rest());
 
 
 app.configure(mongoose);
-
 
 // Configure other middleware (see `middleware/index.js`)
 app.configure(middleware);
