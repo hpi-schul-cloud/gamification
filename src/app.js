@@ -9,7 +9,6 @@ const feathers = require('@feathersjs/feathers');
 const configuration = require('@feathersjs/configuration');
 const express = require('@feathersjs/express');
 
-const mongoose = require('mongoose');
 const mongoose_service = require('feathers-mongoose');
 
 
@@ -17,13 +16,11 @@ const middleware = require('./middleware');
 const services = require('./services');
 const appHooks = require('./app.hooks');
 const channels = require('./channels');
+const mongoose = require('./mongoose');
 
 const app = express(feathers());
 
 const AchievementModel = require('./models/achievement')
-mongoose.Promise = global.Promise;
-
-mongoose.connect('mongodb://localhost:27017/feathers');
 
 // Load app configuration
 app.configure(configuration());
@@ -40,6 +37,9 @@ app.use('/messages', mongoose_service({Model: AchievementModel }));
 
 // Set up Plugins and providers
 app.configure(express.rest());
+
+
+app.configure(mongoose);
 
 
 // Configure other middleware (see `middleware/index.js`)
