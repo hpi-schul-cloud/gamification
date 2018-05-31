@@ -1,5 +1,7 @@
 
 
+const ruleChecker = require('../../hooks/rule-checker');
+
 module.exports = {
   before: {
     all: [],
@@ -15,7 +17,7 @@ module.exports = {
     all: [],
     find: [],
     get: [],
-    create: [],
+    create: [ruleChecker()],
     update: [],
     patch: [],
     remove: []
