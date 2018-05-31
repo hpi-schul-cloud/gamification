@@ -29,20 +29,20 @@ achievements:
     CommunicatorBronze:
         requirements: 
             - xp: postXP
-              amount: >= 10
+              amount: ">= 10"
               
     CommunicatorSilver:
         requirements:
             - achievement: CommunicatorBronze
             - xp: postXP
-              amount: >= 30
+              amount: ">= 30"
         replaces: [CommunicatorBronze]
         
     ComCom:
         requirements:
             - event: 
                 name: ForumPost
-                amount: >= 10
+                amount: ">= 10"
               
     VoluntarySelfTestTakenAward:
         requirements:
@@ -83,7 +83,7 @@ achievements:
                 name: VideoClicked
                 conditions:
                     - parameter: watched_videos_of_week_percentage
-                      value: >= 70
+                      value: ">= 70"
             - AnyOf:
                 - event:
                     name: SelfTestStarted
