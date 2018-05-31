@@ -20,8 +20,6 @@ const mongoose = require('./mongoose');
 
 const app = express(feathers());
 
-const AchievementModel = require('./models/achievement')
-
 // Load app configuration
 app.configure(configuration());
 // Enable security, CORS, compression, favicon and body parsing
@@ -33,7 +31,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(favicon(path.join(app.get('public'), 'favicon.ico')));
 // Host the public folder
 app.use('/', express.static(app.get('public')));
-app.use('/messages', mongoose_service({Model: AchievementModel }));
 
 // Set up Plugins and providers
 app.configure(express.rest());
