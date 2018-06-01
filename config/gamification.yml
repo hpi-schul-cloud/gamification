@@ -6,7 +6,7 @@ XPs:
 
 events:
     ForumPost:
-        actions: 
+        actions:
             - xp: postXP
               amount: 1
             - xp: XP
@@ -23,30 +23,30 @@ events:
     VideoClicked: ~
     SelfAssigmentStarted: ~
     SelfTestStarted: ~
-        
+
 
 achievements:
     CommunicatorBronze:
-        requirements: 
+        requirements:
             - xp: postXP
-              amount: ">= 10"
-              
+              amount: 2
+
     CommunicatorSilver:
         requirements:
             - achievement: CommunicatorBronze
             - xp: postXP
-              amount: ">= 30"
+              amount: ">= 5"
         replaces: [CommunicatorBronze]
-        
+
     ComCom:
         requirements:
-            - event: 
+            - event:
                 name: ForumPost
                 amount: ">= 10"
-              
+
     VoluntarySelfTestTakenAward:
         requirements:
-            - event: 
+            - event:
                 name: VoluntarySelfTestTaken
                 conditions:
                     - parameter: completion_percentage
@@ -58,28 +58,28 @@ achievements:
         actions:
             - xp: XP
               amount: 2
-              
+
     JavaPro:
         requirements:
-            - event: 
+            - event:
                 name: CourseCompleted
                 amount: 5
                 conditions:
                     - parameter: tags
                       value: java
         scope: [user]
-              
+
     # achievement per comleted course
     CourseCompletedAward:
         requirements:
-            - event: 
+            - event:
                 name: CourseCompleted
         scope: [user, context.course_id]
-        
+
     ContinousAttendance:
         requirements:
         # VideoClicked AND (SelfTestStarted OR SelfAssigmentStarted)
-            - event: 
+            - event:
                 name: VideoClicked
                 conditions:
                     - parameter: watched_videos_of_week_percentage
