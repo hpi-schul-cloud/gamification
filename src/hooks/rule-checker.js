@@ -11,9 +11,9 @@ module.exports = function (options = {}) {
     if (eventRule) {
       const eventActions = eventRule['actions'];
 
-      for (var action of eventActions) {
+      for (const action of eventActions) {
         //post to xp
-        var appFromContext = context.app;
+        const appFromContext = context.app;
         const xpService = appFromContext.service('xp');
         const uniqueCombination = await xpService.find({
           query: {
@@ -26,12 +26,8 @@ module.exports = function (options = {}) {
         } else {
           xpService.create({user_id: context.data.user_id, name: action['xp'], amount: action['amount']});
         }
-
-
-
       }
     }
-
 
     return context;
   };
