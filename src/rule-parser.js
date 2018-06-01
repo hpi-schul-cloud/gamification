@@ -32,29 +32,53 @@ class Requirements {
     for (const achievementRequirement of this.achievementRequirements) {
       const matches = await context.app.service('achievements').find({query: {
         user_id: context.data.user_id,
-        name: achievementRequirement['achievement'],
-        amount: achievementRequirement['amount']
+        name: achievementRequirement['achievement']
       }});
       if (matches.length === 0) return false;
+      if (!Requirements.isValidAmount(matches[0].amount, achievementRequirement['amount'])) return false;
     }
 
     for (const xpRequirement of this.xpRequirements) {
       const matches = await context.app.service('xp').find({query: {
         user_id: context.data.user_id,
-        name: xpRequirement['xp'],
-        amount: xpRequirement['amount']
+        name: xpRequirement['xp']
       }});
       if (matches.length === 0) return false;
+      if (!Requirements.isValidAmount(matches[0].amount, xpRequirement['amount'])) return false;
     }
     // events
     return true;
+  }
+
+  static isValidAmount(actualAmount, amountCondition) {
+    amountCondition = Number.isInteger(amountCondition) ? `>= ${amountCondition}` : amountCondition;
+    amountCondition = amountCondition.trim();
+    const operator = amountCondition.split(/\s+/)[0];
+    const number = parseInt(amountCondition.split(/\s+/)[1]);
+
+    switch(operator) {
+    case '==':
+      return actualAmount === number;
+    case '>':
+      return actualAmount > number;
+    case '<':
+      return actualAmount < number;
+    case '>=':
+      return actualAmount >= number;
+    case '<=':
+      return actualAmount <= number;
+    case '!=':
+      return actualAmount !== number;
+    default:
+      console.error(`Unexpected operator : ${operator}`);
+    }
   }
 }
 
 try {
   var rules = yaml.safeLoad(fs.readFileSync('./config/gamification.yml', 'utf8'));
 } catch (e) {
-  console.log(e);
+  console.error(e);
 }
 
 
