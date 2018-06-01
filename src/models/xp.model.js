@@ -9,9 +9,9 @@ module.exports = function (app) {
     user_id: {type: String, required: true},
     name: {type: String, required: true},
     amount: {type: Number, required: true},
-  })
+  });
 
-  xp.index({ user_id: 1, name: 1 }, {unique: true})
+  xp.index({ user_id: 1, name: 1 }, {unique: true});
 
   return mongooseClient.model('xp', xp);
 };

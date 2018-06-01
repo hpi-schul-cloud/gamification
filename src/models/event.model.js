@@ -9,7 +9,7 @@ module.exports = function (app) {
     user_id: {type: String, required: true},
     name: {type: String, required: true},
     context: {type: Map, required: false, default: {}}
-  })
+  });
 
   return mongooseClient.model('event', event);
 };
