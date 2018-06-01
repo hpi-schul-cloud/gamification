@@ -8,6 +8,25 @@ try {
   console.log(e);
 }
 
-// parse the rules here
+const achievementRules = [];
+
+for (const achievementName of rules['achievements']) {
+  const rule = new AchievementRule(rules['achievements'][achievementName]);
+  achievementRules.push(rule);
+}
+
+
+//requirements -- achievement xp event     replaces maxAwarded scope actions hidden
+
+class AchievementRule {
+  constructor(rule) {
+    this.requirements = rule['requirements'] === undefined ? [] : rule['requirements'];
+    this.replaces = rule['replaces'] === undefined ? [] : rule['replaces'] ;
+    this.maxAwarded = rule['maxAwarded'] === undefined ? 1 : rule['maxAwarded'];
+    this.scope = rule['scope'] === undefined ? ['user_id'] : rule['scope'];
+    this.actions = rule['actions'] === undefined ? [] : rule['actions'];
+    this.hidden = rule['hidden'] === undefined ? false : rule['hidden'];
+  }
+}
 
 module.exports = rules;
