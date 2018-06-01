@@ -1,6 +1,5 @@
-
-
 const ruleChecker = require('../../hooks/rule-checker');
+const achievementRuleChecker = require('../../hooks/achievement-rule-checker');
 
 module.exports = {
   before: {
@@ -17,7 +16,7 @@ module.exports = {
     all: [],
     find: [],
     get: [],
-    create: [ruleChecker()],
+    create: [ruleChecker(), achievementRuleChecker()],
     update: [],
     patch: [],
     remove: []
