@@ -15,9 +15,9 @@ for (const achievementName of rules['achievements']) {
   achievementRules.push(rule);
 }
 
+rules['achievements'] = achievementRules;
 
-//requirements -- achievement xp event     replaces maxAwarded scope actions hidden
-
+// TODO perhaps add conditions, events etc for requirements
 class AchievementRule {
   constructor(rule) {
     this.requirements = rule['requirements'] === undefined ? [] : rule['requirements'];
