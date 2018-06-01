@@ -15,7 +15,11 @@ module.exports = function (options = {}) {
         //post to xp
         var appFromContext = context.app;
         const xpService = appFromContext.service('xp');
-        const uniqueCombination = await xpService.find({user_id: context.data.user_id, name: action["xp"]});
+        const uniqueCombination = await xpService.find({
+          query: {
+            user_id: context.data.user_id, name: action["xp"]
+          }
+        });
 
         if (uniqueCombination.length > 0) {
           xpService.patch(uniqueCombination[0]._id, {amount: uniqueCombination[0].amount + action["amount"]});
