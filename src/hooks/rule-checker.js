@@ -17,7 +17,8 @@ module.exports = function (options = {}) {
         const xpService = appFromContext.service('xp');
         const uniqueCombination = await xpService.find({
           query: {
-            user_id: context.data.user_id, name: action['xp']
+            user_id: context.data.user_id,
+            name: action['xp']
           }
         });
 
