@@ -24,8 +24,9 @@
   "scripts": {
     "test": "npm run eslint && npm run mocha",
     "eslint": "eslint src/. test/. --config .eslintrc.json",
-    "start": "node $NODE_DEBUG_OPTION src/",
-    "start-windows": "node %NODE_DEBUG_OPTION% src/",
+    "start": "node src/",
+    "debug-linux": "node $NODE_DEBUG_OPTION src/",
+    "debug-windows": "node %NODE_DEBUG_OPTION% src/",
     "mocha": "mocha test/ --recursive --exit"
   },
   "dependencies": {
