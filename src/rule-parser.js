@@ -4,7 +4,8 @@ const fs   = require('fs');
 class AchievementRule {
   constructor(rule, name) {
     this.name = name;
-    this.requirements = new Requirements(rule['requirements'] === undefined ? [] : rule['requirements']);
+    const requirements = rule['requirements'] === undefined ? [] : rule['requirements'];
+    this.requirements = requirements.map((requirement) => Requirement.fromYamlRequirement(requirement));
     this.replaces = rule['replaces'] === undefined ? [] : rule['replaces'] ;
     this.maxAwarded = rule['maxAwarded'] === undefined ? 1 : rule['maxAwarded'];
     this.scope = rule['scope'] === undefined ? ['user_id'] : rule['scope'];
@@ -13,41 +14,39 @@ class AchievementRule {
   }
 
   async isFulfilled(context) {
-    return this.requirements.isFulfilled(context);
+    for (const requirement of this.requirements) {
+      if (!await requirement.isFulfilled(context)) {
+        return false;
+      }
+    }
+
+    return true;
   }
 }
 
-class Requirements {
-  constructor(requirements) {
-    requirements = requirements.map((requirement) => {
-      requirement['amount'] = requirement['amount'] === undefined ? 1 : requirement['amount'];
-      return requirement;
-    });
-    this.achievementRequirements = requirements.filter((requirement) => requirement['achievement'] !== undefined);
-    this.xpRequirements = requirements.filter((requirement) => requirement['xp'] !== undefined);
-    this.eventRequirements = requirements.filter((requirement) => requirement['event'] !== undefined);
+class Requirement {
+  constructor(requirement) {
+    this.requirement = requirement;
   }
 
-  async isFulfilled(context) {
-    for (const achievementRequirement of this.achievementRequirements) {
-      const matches = await context.app.service('achievements').find({query: {
-        user_id: context.data.user_id,
-        name: achievementRequirement['achievement']
-      }});
-      if (matches.length === 0) return false;
-      if (!Requirements.isValidAmount(matches[0].amount, achievementRequirement['amount'])) return false;
+  static fromYamlRequirement(requirement) {
+    if (requirement['achievement'] !== undefined) {
+      return new AchievementRequirement(requirement);
     }
+    if (requirement['xp'] !== undefined) {
+      return new XPRequirement(requirement);
+    }
+    if (requirement['event'] !== undefined) {
+      return new EventRequirement(requirement);
+    }
+    // TODO: AnyOf triggers this error. Once we correctly parse AnyOf,
+    // we can probably re-add this.
+    // throw new Error('Invalid requirement: Either achievement, xp or event needs to be set: ' + JSON.stringify(requirement));
+  }
 
-    for (const xpRequirement of this.xpRequirements) {
-      const matches = await context.app.service('xp').find({query: {
-        user_id: context.data.user_id,
-        name: xpRequirement['xp']
-      }});
-      if (matches.length === 0) return false;
-      if (!Requirements.isValidAmount(matches[0].amount, xpRequirement['amount'])) return false;
-    }
-    // events
-    return true;
+  // eslint-disable-next-line no-unused-vars
+  async isFulfilled(context) {
+    throw new Error('This method needs to be implemented in my subclasses.');
   }
 
   static isValidAmount(actualAmount, amountCondition) {
@@ -70,17 +69,62 @@ class Requirements {
     case '!=':
       return actualAmount !== number;
     default:
-      console.error(`Unexpected operator : ${operator}`);
+      throw new Error(`Unexpected operator : ${operator}`);
     }
   }
 }
 
-try {
-  var rules = yaml.safeLoad(fs.readFileSync('./config/gamification.yml', 'utf8'));
-} catch (e) {
-  console.error(e);
+class XPRequirement extends Requirement {
+  constructor(requirement) {
+    requirement['amount'] = requirement['amount'] === undefined ? 1 : requirement['amount'];
+    super(requirement);
+  }
+
+  async isFulfilled(context) {
+    const matches = await context.app.service('xp').find({
+      query: {
+        user_id: context.data.user_id,
+        name: this.requirement['xp']
+      }
+    });
+    if (matches.length === 0) return false;
+    if (matches.length > 1) throw new Error('Found more than one match, this should be impossible');
+    if (!Requirement.isValidAmount(matches[0].amount, this.requirement['amount'])) return false;
+
+    return true;
+  }
 }
 
+class AchievementRequirement extends Requirement {
+  constructor(requirement) {
+    requirement['amount'] = requirement['amount'] === undefined ? 1 : requirement['amount'];
+    super(requirement);
+  }
+
+  async isFulfilled(context) {
+    const matches = await context.app.service('achievements').find({
+      query: {
+        user_id: context.data.user_id,
+        name: this.requirement['achievement']
+      }
+    });
+    if (matches.length === 0) return false;
+    if (matches.length > 1) throw new Error('Found more than one match, this should be impossible');
+    if (!Requirement.isValidAmount(matches[0].amount, this.requirement['amount'])) return false;
+
+    return true;
+  }
+}
+
+// TODO perhaps add conditions, events etc for requirements
+class EventRequirement extends  Requirement {
+  async isFulfilled(context) {
+    // TODO: Implement event requirements
+    return false;
+  }
+}
+
+let rules = yaml.safeLoad(fs.readFileSync('./config/gamification.yml', 'utf8'));
 
 const achievementRules = [];
 
@@ -90,8 +134,5 @@ for (const achievementName of Object.keys(rules['achievements'])) {
 }
 
 rules['achievements'] = achievementRules;
-
-// TODO perhaps add conditions, events etc for requirements
-
 
 module.exports = rules;
