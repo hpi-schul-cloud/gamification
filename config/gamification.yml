@@ -30,6 +30,9 @@ achievements:
         requirements:
             - xp: postXP
               amount: 2
+        actions:
+            - xp: XP
+              amount: 23
 
     CommunicatorSilver:
         requirements:
