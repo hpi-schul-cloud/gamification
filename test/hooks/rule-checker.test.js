@@ -1,6 +1,6 @@
 const assert = require('assert');
 const feathers = require('@feathersjs/feathers');
-const ruleChecker = require('../../src/hooks/rule-checker');
+const ruleChecker = require('../../src/hooks/xp-rule-checker');
 
 describe('\'ruleChecker\' hook', () => {
   let app;
@@ -21,7 +21,7 @@ describe('\'ruleChecker\' hook', () => {
 
   it('runs the hook', async () => {
     const result = await app.service('dummy').get('test');
-    
+
     assert.deepEqual(result, { id: 'test' });
   });
 });

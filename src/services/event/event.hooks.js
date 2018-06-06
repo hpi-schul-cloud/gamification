@@ -1,4 +1,4 @@
-const ruleChecker = require('../../hooks/rule-checker');
+const ruleChecker = require('../../hooks/xp-rule-checker');
 const achievementRuleChecker = require('../../hooks/achievement-rule-checker');
 
 module.exports = {
