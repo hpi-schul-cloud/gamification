@@ -5,14 +5,15 @@ XPs:
 
 events:
     YourEventName:
-        actions: 
+        actions:
             - xp: yourXP
               amount: 1
-    YourEventQithoutAction: ~        
+    YourEventQithoutAction: ~
 
 achievements:
     YourAchievement:
-        requirements: 
+        requirements:
+        # TODO add anyof / oneof in this level
             # implicit AND semantic
             - achievement: YourOtherAchievement
             - xp: yourXP
