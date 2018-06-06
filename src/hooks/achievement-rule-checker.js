@@ -10,7 +10,7 @@ module.exports = function (options = {}) {
     // TODO max awarded + scope
 
     for (const achievementRule of achievementRules) {
-      if ( await achievementRule.isFulfilled(context)) {
+      if ( await achievementRule.canBeAwarded(context) && await achievementRule.isFulfilled(context)) {
         const achievementService = context.app.service('achievements');
         const uniqueCombination = await achievementService.find({
           query: {

@@ -19,8 +19,19 @@ class AchievementRule {
         return false;
       }
     }
-
     return true;
+  }
+
+  async canBeAwarded(context) {
+    const achievementService = context.app.service('achievements');
+    const awardedSoFar = await achievementService.find({
+      query: {
+        user_id: context.data.user_id,
+        name: this.name
+      }
+    });
+    const amountSoFar = awardedSoFar.length === 0 ? 0 : awardedSoFar[0].amount;
+    return amountSoFar < this.maxAwarded;
   }
 }
 
