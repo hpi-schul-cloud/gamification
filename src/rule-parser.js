@@ -5,7 +5,7 @@ class AchievementRule {
   constructor(rule, name) {
     this.name = name;
     const requirements = rule['requirements'] === undefined ? [] : rule['requirements'];
-    this.requirements = requirements.map((requirement) => Requirement.fromYamlRequirement(requirement));
+    this.requirements = requirements.map(requirement => Requirement.fromYamlRequirement(requirement));
     this.replaces = rule['replaces'] === undefined ? [] : rule['replaces'] ;
     this.maxAwarded = rule['maxAwarded'] === undefined ? 1 : rule['maxAwarded'];
     this.scope = rule['scope'] === undefined ? ['user_id'] : rule['scope'];
@@ -39,9 +39,13 @@ class Requirement {
     if (requirement['event'] !== undefined) {
       return new EventRequirement(requirement);
     }
-    // TODO: AnyOf triggers this error. Once we correctly parse AnyOf,
-    // we can probably re-add this.
-    // throw new Error('Invalid requirement: Either achievement, xp or event needs to be set: ' + JSON.stringify(requirement));
+    if (requirement['AnyOf'] !== undefined) {
+      return new AnyOfRequirement(requirement['AnyOf']);
+    }
+    if (requirement['OneOf'] !== undefined) {
+      return new OneOfRequirement(requirement['OneOf']);
+    }
+    throw new Error('Invalid requirement: Either achievement, xp or event needs to be set: ' + JSON.stringify(requirement));
   }
 
   // eslint-disable-next-line no-unused-vars
@@ -121,6 +125,39 @@ class EventRequirement extends  Requirement {
   async isFulfilled(context) {
     // TODO: Implement event requirements
     return false;
+  }
+}
+
+class AnyOfRequirement extends Requirement {
+  constructor(innerRequirements) {
+    super();
+    this.innerRequirements = innerRequirements.map(requirement => Requirement.fromYamlRequirement(requirement));
+  }
+
+  async isFulfilled(context) {
+    for (const requirement of this.innerRequirements) {
+      if(await requirement.isFulfilled(context)) return true;
+    }
+    return false;
+  }
+}
+
+class OneOfRequirement extends Requirement {
+  constructor(innerRequirements) {
+    super();
+    this.innerRequirements = innerRequirements.map(requirement => Requirement.fromYamlRequirement(requirement));
+  }
+
+  async isFulfilled(context) {
+    let fulfilled = false;
+    for (const requirement of this.innerRequirements) {
+      const requirementIsFulfilled = await requirement.isFulfilled(context);
+      // case: two requirements are true
+      if (requirementIsFulfilled && fulfilled === true) return false;
+      // case: one requirement is true
+      if (requirementIsFulfilled && fulfilled === false) fulfilled = true;
+    }
+    return fulfilled;
   }
 }
 
