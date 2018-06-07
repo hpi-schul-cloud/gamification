@@ -48,7 +48,7 @@ class Requirement {
       return new XPRequirement(requirement);
     }
     if (requirement['event'] !== undefined) {
-      return new EventRequirement(requirement);
+      return new EventRequirement(requirement['event']);
     }
     if (requirement['AnyOf'] !== undefined) {
       return new AnyOfRequirement(requirement['AnyOf']);
@@ -133,9 +133,56 @@ class AchievementRequirement extends Requirement {
 
 // TODO perhaps add conditions, events etc for requirements
 class EventRequirement extends  Requirement {
+
+  constructor(requirement) {
+    requirement['amount'] = requirement['amount'] === undefined ? 1 : requirement['amount'];
+    super(requirement);
+  }
+
+  conditionFulfilled (condition, matchedEvent) {
+    switch(condition) {
+    case condition['parameter'] !== undefined:
+      return condition['value'] === matchedEvent['context'][condition['parameter']];
+    case condition['AnyOf'] !== undefined:
+      return this.checkAnyOf(condition['AnyOf'], matchedEvent);
+    case condition['OneOf'] !== undefined:
+      return this.checkOneOf(condition['OneOf'], matchedEvent);
+    default:
+      throw new Error(`Invalid Condition params: ${condition}`);
+    }
+  }
+
+  checkAnyOf (conditions, matchedEvent) {
+    return conditions.some( c => {
+      return this.conditionFulfilled(c, matchedEvent);
+    });
+  }
+
+
+  checkOneOf (conditions, matchedEvent) {
+    return conditions.filter( c => {
+      return this.conditionFulfilled(c, matchedEvent);
+    }).length === 1;
+  }
+
+  evalConditions (matchedEvent) {
+    const conditions = this.requirement.conditions;
+
+    return conditions.every ( c => {
+      return this.conditionFulfilled(c, matchedEvent);
+    });
+  }
+
   async isFulfilled(context) {
-    // TODO: Implement event requirements
-    return false;
+    const matches = await context.app.service('events').find({
+      query: {
+        user_id: context.data.user_id,
+        name: this.requirement['name'],
+      }
+    });
+
+    const matchAmount = matches.filter(this.evalConditions).length;
+    return Requirement.isValidAmount(matchAmount, this.requirement['amount']);
   }
 }
 
