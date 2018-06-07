@@ -16,6 +16,7 @@ achievements:
         # TODO add anyof / oneof in this level
             # implicit AND semantic
             - achievement: YourOtherAchievement
+              amount: 1
             - xp: yourXP
               amount: >= 10
             - event:
