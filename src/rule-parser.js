@@ -71,20 +71,20 @@ class Requirement {
     const number = parseInt(amountCondition.split(/\s+/)[1]);
 
     switch(operator) {
-    case '==':
-      return actualAmount === number;
-    case '>':
-      return actualAmount > number;
-    case '<':
-      return actualAmount < number;
-    case '>=':
-      return actualAmount >= number;
-    case '<=':
-      return actualAmount <= number;
-    case '!=':
-      return actualAmount !== number;
-    default:
-      throw new Error(`Unexpected operator : ${operator}`);
+      case '==':
+        return actualAmount === number;
+      case '>':
+        return actualAmount > number;
+      case '<':
+        return actualAmount < number;
+      case '>=':
+        return actualAmount >= number;
+      case '<=':
+        return actualAmount <= number;
+      case '!=':
+        return actualAmount !== number;
+      default:
+        throw new Error(`Unexpected operator : ${operator}`);
     }
   }
 }
@@ -141,14 +141,14 @@ class EventRequirement extends  Requirement {
 
   conditionFulfilled (condition, matchedEvent) {
     switch(true) {
-    case condition['parameter'] !== undefined:
-      return condition['value'] === matchedEvent['context'][condition['parameter']];
-    case condition['AnyOf'] !== undefined:
-      return this.checkAnyOf(condition['AnyOf'], matchedEvent);
-    case condition['OneOf'] !== undefined:
-      return this.checkOneOf(condition['OneOf'], matchedEvent);
-    default:
-      throw new Error(`Invalid Condition params: ${JSON.stringify(condition)}`);
+      case condition['parameter'] !== undefined:
+        return condition['value'] === matchedEvent['context'][condition['parameter']];
+      case condition['AnyOf'] !== undefined:
+        return this.checkAnyOf(condition['AnyOf'], matchedEvent);
+      case condition['OneOf'] !== undefined:
+        return this.checkOneOf(condition['OneOf'], matchedEvent);
+      default:
+        throw new Error(`Invalid Condition params: ${JSON.stringify(condition)}`);
     }
   }
 
