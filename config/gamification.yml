@@ -23,9 +23,24 @@ events:
     VideoClicked: ~
     SelfAssigmentStarted: ~
     SelfTestStarted: ~
+    X: ~
 
 
 achievements:
+    AnyOfEventAchievement:
+        requirements:
+            - event:
+                name: X
+                conditions:
+                  - AnyOf:
+                      - parameter: Kim
+                        value: gross
+                      - OneOf:
+                          - parameter: Frede
+                            value: schoen
+                          - parameter: Kim
+                            value: hobbit
+
     CommunicatorBronze:
         requirements:
             - xp: postXP
@@ -33,6 +48,7 @@ achievements:
         actions:
             - xp: XP
               amount: 23
+        hidden: true
 
     CommunicatorSilver:
         requirements:

@@ -172,7 +172,7 @@ class EventRequirement extends  Requirement {
 
 
   checkOneOf (conditions, matchedEvent) {
-    return conditions.filter( c => {
+      return conditions.filter( c => {
       return this.conditionFulfilled(c, matchedEvent);
     }).length === 1;
   }
