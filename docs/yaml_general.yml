@@ -8,7 +8,7 @@ events:
         actions:
             - xp: yourXP
               amount: 1
-    YourEventQithoutAction: ~
+    YourEventWithoutAction: ~
 
 achievements:
     YourAchievement:

@@ -1,4 +1,6 @@
 /* eslint-disable no-unused-vars */
+const rules = require('../../rule-parser.js');
+
 class Service {
   constructor (options) {
     this.options = options || {};
@@ -17,12 +19,16 @@ class Service {
       query: {
         user_id: id
       }
-    })).map(achievement => {
-      return {
-        name: achievement.name,
-        amount: achievement.amount,
-        scope: achievement.scope
-      };
+    })).filter(achievement => {
+      return rules['achievements'].filter( achievementRule => {
+        return (achievementRule.name === achievement.name && achievementRule.hidden === false);
+      });
+    }).map(achievement => {
+        return {
+          name: achievement.name,
+          amount: achievement.amount,
+          scope: achievement.scope
+        };
     });
 
     const xp = (await this.app.service('xp').find({
