@@ -136,20 +136,32 @@ class EventRequirement extends  Requirement {
 
   constructor(requirement) {
     requirement['amount'] = requirement['amount'] === undefined ? 1 : requirement['amount'];
+    requirement['conditions'] = requirement['conditions'] === undefined ? [] : requirement['conditions'];
     super(requirement);
   }
 
   conditionFulfilled (condition, matchedEvent) {
-    switch(condition) {
+    /*switch(condition) {
     case condition['parameter'] !== undefined:
+      console.log('BANANARAMA')
       return condition['value'] === matchedEvent['context'][condition['parameter']];
     case condition['AnyOf'] !== undefined:
       return this.checkAnyOf(condition['AnyOf'], matchedEvent);
     case condition['OneOf'] !== undefined:
       return this.checkOneOf(condition['OneOf'], matchedEvent);
     default:
-      throw new Error(`Invalid Condition params: ${condition}`);
+      throw new Error(`Invalid Condition params: ${condition}`);*/
+    if (condition['parameter'] !== undefined) {
+      console.log('BANANARAMA')
+      return condition['value'] === matchedEvent['context'][condition['parameter']];
     }
+    if (condition['AnyOf'] !== undefined) {
+      return this.checkAnyOf(condition['AnyOf'], matchedEvent);
+    }
+    if (condition['OneOf'] !== undefined) {
+      return this.checkOneOf(condition['OneOf'], matchedEvent);
+    }
+    throw new Error(`Invalid Condition params: ${condition}`);
   }
 
   checkAnyOf (conditions, matchedEvent) {
@@ -168,9 +180,11 @@ class EventRequirement extends  Requirement {
   evalConditions (matchedEvent) {
     const conditions = this.requirement.conditions;
 
-    return conditions.every ( c => {
+
+    const everyConditionFulfilled = conditions.every ( c => {
       return this.conditionFulfilled(c, matchedEvent);
     });
+    return everyConditionFulfilled;
   }
 
   async isFulfilled(context) {
@@ -181,7 +195,10 @@ class EventRequirement extends  Requirement {
       }
     });
 
-    const matchAmount = matches.filter(this.evalConditions).length;
+    const filteredMatches = matches.filter(match => {
+      return this.evalConditions(match);
+    });
+    const matchAmount = filteredMatches.length;
     return Requirement.isValidAmount(matchAmount, this.requirement['amount']);
   }
 }
