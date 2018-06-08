@@ -5,7 +5,7 @@ const rules = require('../rule-parser.js');
 // eslint-disable-next-line no-unused-vars
 module.exports = function (options = {}) {
   return async context => {
-    const achievementRule = rules['achievements'].find( rule => rule.name === context.data.name)
+    const achievementRule = rules['achievements'].find( rule => rule.name === context.data.name);
 
     if (achievementRule) {
       const achievementActions = achievementRule.actions;

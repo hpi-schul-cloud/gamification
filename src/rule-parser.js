@@ -131,7 +131,6 @@ class AchievementRequirement extends Requirement {
   }
 }
 
-// TODO perhaps add conditions, events etc for requirements
 class EventRequirement extends  Requirement {
 
   constructor(requirement) {
@@ -141,27 +140,16 @@ class EventRequirement extends  Requirement {
   }
 
   conditionFulfilled (condition, matchedEvent) {
-    /*switch(condition) {
+    switch(true) {
     case condition['parameter'] !== undefined:
-      console.log('BANANARAMA')
       return condition['value'] === matchedEvent['context'][condition['parameter']];
     case condition['AnyOf'] !== undefined:
       return this.checkAnyOf(condition['AnyOf'], matchedEvent);
     case condition['OneOf'] !== undefined:
       return this.checkOneOf(condition['OneOf'], matchedEvent);
     default:
-      throw new Error(`Invalid Condition params: ${condition}`);*/
-    if (condition['parameter'] !== undefined) {
-      console.log('BANANARAMA')
-      return condition['value'] === matchedEvent['context'][condition['parameter']];
+      throw new Error(`Invalid Condition params: ${JSON.stringify(condition)}`);
     }
-    if (condition['AnyOf'] !== undefined) {
-      return this.checkAnyOf(condition['AnyOf'], matchedEvent);
-    }
-    if (condition['OneOf'] !== undefined) {
-      return this.checkOneOf(condition['OneOf'], matchedEvent);
-    }
-    throw new Error(`Invalid Condition params: ${condition}`);
   }
 
   checkAnyOf (conditions, matchedEvent) {
@@ -172,7 +160,7 @@ class EventRequirement extends  Requirement {
 
 
   checkOneOf (conditions, matchedEvent) {
-      return conditions.filter( c => {
+    return conditions.filter( c => {
       return this.conditionFulfilled(c, matchedEvent);
     }).length === 1;
   }
@@ -180,11 +168,9 @@ class EventRequirement extends  Requirement {
   evalConditions (matchedEvent) {
     const conditions = this.requirement.conditions;
 
-
-    const everyConditionFulfilled = conditions.every ( c => {
+    return conditions.every ( c => {
       return this.conditionFulfilled(c, matchedEvent);
     });
-    return everyConditionFulfilled;
   }
 
   async isFulfilled(context) {
