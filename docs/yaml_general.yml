@@ -13,7 +13,6 @@ events:
 achievements:
     YourAchievement:
         requirements:
-        # TODO add anyof / oneof in this level
             # implicit AND semantic
             - achievement: YourOtherAchievement
               amount: 1
@@ -39,11 +38,21 @@ achievements:
                           value: 10
                         - parameter: someOtherParameter
                           value: 100
+            - AnyOf:
+                - xp: yourXP
+                  amount: >= 10
+                - xp: XP
+                  amount: >= 10
+            - OneOf:
+                - xp: yourXP
+                  amount: >= 10
+                - event:
+                    name: YourEventName
         replaces: [YourOtherAchievement]
         # maxAwarded is implicitly 1
         maxAwarded: 2
-        # if no scope is given the achievement can only be reached by maxAwarded (2) users on the whole platform
-        scope: [user]
+        # implicitly user
+        scope: [context.course_id]
         # actions that are executed when achievement is awarded
         actions:
             - xp: XP
