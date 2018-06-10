@@ -32,7 +32,7 @@ module.exports = function (options = {}) {
               name: replaceName
             }
           });
-          context.app.service('achievements').patch(replacedAchievement[0]._id, {amount: 0});
+          context.app.service('achievements').remove(replacedAchievement[0]._id);
         }
       }
     }
