@@ -15,7 +15,7 @@ describe('\'achievement-rule-checker\' hook', () => {
     });
 
     app.service('dummy').hooks({
-      
+      after: achievementRuleChecker()
     });
   });
 

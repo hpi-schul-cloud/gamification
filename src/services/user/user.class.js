@@ -21,14 +21,14 @@ class Service {
       }
     })).filter(achievement => {
       return rules['achievements'].filter( achievementRule => {
-        return (achievementRule.name === achievement.name && achievementRule.hidden === false);
+        return achievementRule.name === achievement.name && !achievementRule.hidden;
       });
     }).map(achievement => {
-        return {
-          name: achievement.name,
-          amount: achievement.amount,
-          scope: achievement.scope
-        };
+      return {
+        name: achievement.name,
+        amount: achievement.amount,
+        scope: achievement.scope
+      };
     });
 
     const xp = (await this.app.service('xp').find({
