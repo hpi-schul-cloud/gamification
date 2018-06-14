@@ -27,6 +27,16 @@
     "semi": [
       "error",
       "always"
-    ]
+    ],
+    "no-template-curly-in-string": "error",
+    "curly": ["error", "multi-line"],
+    "space-before-function-paren": ["error", {
+      "anonymous": "always", "named": "never", "asyncArrow": "always"
+    }],
+    "space-in-parens": ["error", "never"],
+    "unicode-bom": "error",
+    "brace-style": "error",
+    "func-call-spacing": ["error", "never"],
+    "prefer-arrow-callback": "error"
   }
 }

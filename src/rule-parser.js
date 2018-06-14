@@ -139,7 +139,7 @@ class EventRequirement extends  Requirement {
     super(requirement);
   }
 
-  conditionFulfilled (condition, matchedEvent) {
+  conditionFulfilled(condition, matchedEvent) {
     switch(true) {
       case condition['parameter'] !== undefined:
         return condition['value'] === matchedEvent['context'][condition['parameter']];
@@ -152,23 +152,23 @@ class EventRequirement extends  Requirement {
     }
   }
 
-  checkAnyOf (conditions, matchedEvent) {
-    return conditions.some( c => {
+  checkAnyOf(conditions, matchedEvent) {
+    return conditions.some(c => {
       return this.conditionFulfilled(c, matchedEvent);
     });
   }
 
 
-  checkOneOf (conditions, matchedEvent) {
-    return conditions.filter( c => {
+  checkOneOf(conditions, matchedEvent) {
+    return conditions.filter(c => {
       return this.conditionFulfilled(c, matchedEvent);
     }).length === 1;
   }
 
-  evalConditions (matchedEvent) {
+  evalConditions(matchedEvent) {
     const conditions = this.requirement.conditions;
 
-    return conditions.every ( c => {
+    return conditions.every(c => {
       return this.conditionFulfilled(c, matchedEvent);
     });
   }
