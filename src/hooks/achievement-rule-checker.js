@@ -7,7 +7,7 @@ module.exports = function (options = {}) {
   return async context => {
 
     const achievementRules = rules['achievements'];
-    // TODO max awarded + scope
+    // TODO scope
 
     for (const achievementRule of achievementRules) {
       if (await achievementRule.canBeAwarded(context) && await achievementRule.isFulfilled(context)) {
@@ -24,9 +24,21 @@ module.exports = function (options = {}) {
         } else {
           achievementService.create({user_id: context.data.user_id, name: achievementRule.name, amount: 1});
         }
+
+        for (const replaceName of achievementRule.replaces) {
+          const replacedAchievement = await achievementService.find({
+            query: {
+              user_id: context.data.user_id,
+              name: replaceName
+            }
+          });
+          
+          if (replacedAchievement.length !== 0) {
+            await context.app.service('achievements').remove(replacedAchievement[0]._id);
+          }
+        }
       }
     }
-
     return context;
   };
 };
