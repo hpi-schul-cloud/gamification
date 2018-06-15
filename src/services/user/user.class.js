@@ -2,7 +2,7 @@
 const rules = require('../../rule-parser.js');
 
 class Service {
-  constructor (options) {
+  constructor(options) {
     this.options = options || {};
   }
 
@@ -10,17 +10,17 @@ class Service {
     this.app = app;
   }
 
-  async find (params) {
+  async find(params) {
     return [];
   }
 
-  async get (id, params) {
+  async get(id, params) {
     const achievements = (await this.app.service('achievements').find({
       query: {
         user_id: id
       }
     })).filter(achievement => {
-      return rules['achievements'].filter( achievementRule => {
+      return rules['achievements'].filter(achievementRule => {
         return achievementRule.name === achievement.name && !achievementRule.hidden;
       });
     }).map(achievement => {
