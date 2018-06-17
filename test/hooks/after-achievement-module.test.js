@@ -43,4 +43,31 @@ describe('\'after-achievement-module\' hook', () => {
 
     assert.deepEqual(result[0].amount, 1);
   });
+
+  it('updates XP afer an achievement', async () => {
+
+    const eventName = 'EventGiving10XP';
+    const user_id = 'TestUser'; 
+
+
+    await app.service('xp').create({
+      'name': 'achievementActionXP',
+      'user_id': user_id,
+      'amount': 1
+    });
+
+    await app.service('events').create({
+      'name': eventName,
+      'user_id': user_id
+    });
+
+    const result = await app.service('xp').find({
+      query: {
+        user_id: user_id,
+        name: 'achievementActionXP'
+      }
+    });
+
+    assert.deepEqual(result[0].amount, 2);
+  });
 });

@@ -91,4 +91,26 @@ describe('\'xp rule checker\' hook', () => {
     assert.deepEqual(result1[0].amount, 20);
     assert.deepEqual(result2[0].amount, 30);
   });
+
+  it('updates XP after an event', async () => {
+
+    const eventName = 'EventGiving10XP';
+    const user_id = 'TestUser'; 
+
+    for (let i = 0; i < 2; i ++) {
+      await app.service('events').create({
+        'name': eventName,
+        'user_id': user_id
+      });
+    }
+
+    const result = await app.service('xp').find({
+      query: {
+        user_id: user_id,
+        name: 'XP'
+      }
+    });
+
+    assert.deepEqual(result[0].amount, 20);
+  });
 });
