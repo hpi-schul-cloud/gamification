@@ -7,6 +7,7 @@ const logger = require('winston');
 // logger.level = 'debug';
 
 module.exports = function () {
+  /* istanbul ignore next */
   return context => {
     // This debugs the service call and a stringified version of the hook context
     // You can customize the message (and logger) to your needs
