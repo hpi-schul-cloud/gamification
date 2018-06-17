@@ -15,7 +15,7 @@ describe('\'after-achievement-module\' hook', () => {
   beforeEach(async () => {
     app = feathers();
 
-    app.set('rules', require('../../src/rule-parser.js')(__dirname + '/../after-achievement-module-config.yml'));
+    app.set('rules', require('../../src/rule-parser.js')(__dirname + '/../config/after-achievement-module-config.yml'));
     app.configure(configuration());
     app.configure(require('../../src/mongoose.js'));
 

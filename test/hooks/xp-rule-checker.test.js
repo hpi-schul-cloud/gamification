@@ -15,7 +15,7 @@ describe('\'xp rule checker\' hook', () => {
   beforeEach(async () => {
     app = feathers();
 
-    app.set('rules', require('../../src/rule-parser')(__dirname + '/../xp-rule-checker-config.yml'));
+    app.set('rules', require('../../src/rule-parser')(__dirname + '/../config/xp-rule-checker-config.yml'));
     app.configure(configuration());
     app.configure(require('../../src/mongoose.js'));
 

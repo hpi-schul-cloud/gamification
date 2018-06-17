@@ -15,7 +15,7 @@ describe('\'achievement-rule-checker\' hook', () => {
   beforeEach(async () => {
     app = feathers();
 
-    app.set('rules', require('../../src/rule-parser')(__dirname + '/../achievement-rule-checker-config.yml'));
+    app.set('rules', require('../../src/rule-parser')(__dirname + '/../config/achievement-rule-checker-config.yml'));
     app.configure(configuration());
     app.configure(require('../../src/mongoose.js'));
 
