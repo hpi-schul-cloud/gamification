@@ -42,4 +42,78 @@ describe('\'achievement-rule-checker\' hook', () => {
 
     assert.deepEqual(result[0].amount, 1);
   });
+
+  it('gives an achievement after other achievement', async () => {
+    
+    const user_id = 'Testuser';
+
+    await app.service('events').create({
+      'name': 'EventGiving10XP',
+      'user_id': user_id,
+    });
+
+    const result = await app.service('achievements').find({
+      query: {
+        user_id: user_id,
+        name: 'AchievementRequiringOtherAchievement'
+      }
+    });
+
+    assert.deepEqual(result[0].amount, 1);
+  });
+
+  it('gives achievement requiring 2 Types of XP', async () => {
+    const user_id = 'Testuser';
+
+    await app.service('events').create({
+      'name': 'EventGiving2XPTypes',
+      'user_id': user_id,
+    });
+
+    const result = await app.service('achievements').find({
+      query: {
+        user_id: user_id,
+        name: 'AchievementRequiring2XPTypes'
+      }
+    });
+
+    assert.deepEqual(result[0].amount, 1);
+  });
+
+  it('gives achievement requiring event', async () => {
+    const user_id = 'Testuser';
+
+    await app.service('events').create({
+      'name': 'EventGrantingAchievement',
+      'user_id': user_id,
+    });
+
+    const result = await app.service('achievements').find({
+      query: {
+        user_id: user_id,
+        name: 'AchievementRequiringEvent'
+      }
+    });
+
+    assert.deepEqual(result[0].amount, 1);
+  });
+
+  it('gives AnyOf Achievement', async () => {
+    const user_id = 'Testuser';
+
+    await app.service('events').create({
+      'name': 'EventGiving10XP',
+      'user_id': user_id,
+    });
+
+    const result = await app.service('achievements').find({
+      query: {
+        user_id: user_id,
+        name: 'AnyOfAchievement'
+      }
+    });
+
+    assert.deepEqual(result[0].amount, 1);
+  });
+
 });
