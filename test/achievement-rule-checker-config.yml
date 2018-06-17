@@ -1,0 +1,13 @@
+XPS: []
+
+events:
+    EventGiving10XP:
+        actions:
+            - xp: XP
+              amount: 10 
+
+achievements:
+    10XPAchievement:
+        requirements:
+            - xp: XP
+              amount: 10

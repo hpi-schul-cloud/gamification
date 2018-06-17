@@ -2,7 +2,11 @@
 // 
 // See http://mongoosejs.com/docs/models.html
 // for more of what you can do here.
+let model;
 module.exports = function (app) {
+  if (model)
+    return model;
+
   const mongooseClient = app.get('mongooseClient');
   const { Schema } = mongooseClient;
   const event = new Schema({
@@ -11,5 +15,5 @@ module.exports = function (app) {
     context: {type: Map, required: false, default: {}}
   });
 
-  return mongooseClient.model('event', event);
+  return model = mongooseClient.model('event', event);
 };
