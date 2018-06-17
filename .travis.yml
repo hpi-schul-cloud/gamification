@@ -11,5 +11,8 @@ cache:
 before_install:
   - npm i -g npm@6.1.0
 
+services:
+  - mongodb
+
 script:
   - npm run test
