@@ -11,6 +11,7 @@ async function cleanDatabase(app) {
 
 describe('\'achievement-rule-checker\' hook', () => {
   let app;
+  const user_id = 'TestUser';
 
   beforeEach(async () => {
     app = feathers();
@@ -25,9 +26,6 @@ describe('\'achievement-rule-checker\' hook', () => {
   });
 
   it('gives achievement after 10 XP', async () => {
-
-    const user_id = 'TestUser';
-
     await app.service('events').create({
       'name': 'EventGiving10XP',
       'user_id': user_id,
@@ -44,9 +42,6 @@ describe('\'achievement-rule-checker\' hook', () => {
   });
 
   it('gives an achievement after other achievement', async () => {
-    
-    const user_id = 'Testuser';
-
     await app.service('events').create({
       'name': 'EventGiving10XP',
       'user_id': user_id,
@@ -63,8 +58,6 @@ describe('\'achievement-rule-checker\' hook', () => {
   });
 
   it('gives achievement requiring 2 Types of XP', async () => {
-    const user_id = 'Testuser';
-
     await app.service('events').create({
       'name': 'EventGiving2XPTypes',
       'user_id': user_id,
@@ -81,8 +74,6 @@ describe('\'achievement-rule-checker\' hook', () => {
   });
 
   it('gives achievement requiring event', async () => {
-    const user_id = 'Testuser';
-
     await app.service('events').create({
       'name': 'EventGrantingAchievement',
       'user_id': user_id,
@@ -99,8 +90,6 @@ describe('\'achievement-rule-checker\' hook', () => {
   });
 
   it('gives AnyOf Achievement', async () => {
-    const user_id = 'Testuser';
-
     await app.service('events').create({
       'name': 'EventGiving10XP',
       'user_id': user_id,
@@ -116,4 +105,45 @@ describe('\'achievement-rule-checker\' hook', () => {
     assert.deepEqual(result[0].amount, 1);
   });
 
+
+  it('replaces achievement', async () => {
+    const achievement_name = 'AchievementBeingReplaced';
+    
+    await app.service('events').create({
+      'name': 'EventGiving10XP',
+      'user_id': user_id,
+    });
+
+    let result = await app.service('achievements').find({
+      query: {
+        user_id: user_id,
+        name: achievement_name 
+      }
+    });
+
+    assert.deepEqual(result[0].amount, 1);
+
+    await app.service('events').create({
+      'name': 'EventGiving10XP',
+      'user_id': user_id,
+    });
+
+    result = await app.service('achievements').find({
+      query: {
+        user_id: user_id,
+        name: 'AchievementReplacingOther' 
+      }
+    });
+
+    assert.deepEqual(result[0].amount, 1);
+
+    result = await app.service('achievements').find({
+      query: {
+        user_id: user_id,
+        name: achievement_name 
+      }
+    });
+
+    assert.deepEqual(result, []);
+  });
 });

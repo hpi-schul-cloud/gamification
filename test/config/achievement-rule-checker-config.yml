@@ -36,7 +36,6 @@ achievements:
         requirements:
             - event:
                 name: EventGrantingAchievement
-                amount: 1
     AnyOfAchievement:
         requirements:
             - AnyOf:
@@ -44,4 +43,12 @@ achievements:
                   amount: 10
                 - xp: secondXPType
                   amount: 10
-
+    AchievementReplacingOther:
+        requirements:
+            - xp: XP
+              amount: 20
+        replaces: [AchievementBeingReplaced]
+    AchievementBeingReplaced:
+        requirements:
+            - xp: XP
+              amount: 10
