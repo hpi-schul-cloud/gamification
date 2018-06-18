@@ -203,6 +203,7 @@ class AnyOfRequirement extends Requirement {
   }
 }
 
+/* istanbul ignore next */
 class OneOfRequirement extends Requirement {
   constructor(innerRequirements) {
     super();
