@@ -1,3 +1,4 @@
+/* istanbul ignore next */
 module.exports = function(app) {
   if(typeof app.channel !== 'function') {
     // If no real-time functionality has been configured just return
