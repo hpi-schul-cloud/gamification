@@ -1,8 +1,8 @@
 const assert = require('assert');
 const feathers = require('@feathersjs/feathers');
-const afterAchievementModule = require('../../src/hooks/after-achievement-module');
+const afterAchievementModule = require('../../src/hooks/achievement-actions');
 
-describe('\'after-achievement-module\' hook', () => {
+describe('\'achievement-actions\' hook', () => {
   let app;
 
   beforeEach(() => {
@@ -21,7 +21,7 @@ describe('\'after-achievement-module\' hook', () => {
 
   it('runs the hook', async () => {
     const result = await app.service('dummy').get('test');
-    
+
     assert.deepEqual(result, { id: 'test' });
   });
 });
