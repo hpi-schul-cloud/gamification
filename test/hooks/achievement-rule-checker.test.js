@@ -85,21 +85,21 @@ describe('\'achievement-rule-checker\' hook', () => {
 
   it('works with the global scope', async () => {
     await app.service('events').create({
-      'name': 'ScopeEvent',
+      'name': 'GlobalEvent',
       'user_id': 'User 1',
       'context': {
         'user_id': 'User 1',
       },
     });
     await app.service('events').create({
-      'name': 'ScopeEvent',
+      'name': 'GlobalEvent',
       'user_id': 'User 1',
       'context': {
         'user_id': 'User 1',
       },
     });
     await app.service('events').create({
-      'name': 'ScopeEvent',
+      'name': 'GlobalEvent',
       'user_id': 'User 2',
       'context': {
         'user_id': 'User 2',
@@ -182,7 +182,7 @@ describe('\'achievement-rule-checker\' hook', () => {
 
   describe.skip('replaces achievement', async () => {
     const achievement_name = 'AchievementBeingReplaced';
-    
+
     await app.service('events').create({
       'name': 'EventGiving10XP',
       'user_id': user_id,
@@ -191,7 +191,7 @@ describe('\'achievement-rule-checker\' hook', () => {
     let result = await app.service('achievements').find({
       query: {
         user_id: user_id,
-        name: achievement_name 
+        name: achievement_name
       }
     });
 
@@ -205,7 +205,7 @@ describe('\'achievement-rule-checker\' hook', () => {
     result = await app.service('achievements').find({
       query: {
         user_id: user_id,
-        name: 'AchievementReplacingOther' 
+        name: 'AchievementReplacingOther'
       }
     });
 
@@ -214,7 +214,7 @@ describe('\'achievement-rule-checker\' hook', () => {
     result = await app.service('achievements').find({
       query: {
         user_id: user_id,
-        name: achievement_name 
+        name: achievement_name
       }
     });
 
@@ -233,12 +233,12 @@ describe('\'achievement-rule-checker\' hook', () => {
     let result = await app.service('achievements').find({
       query: {
         user_id: user_id,
-        name: achievement_name 
+        name: achievement_name
       }
     });
 
     assert.deepEqual(result[0].amount, 1);
-    
+
     await app.service('events').create({
       'name': 'EventGiving10XP',
       'user_id': user_id,
@@ -247,13 +247,13 @@ describe('\'achievement-rule-checker\' hook', () => {
     result = await app.service('achievements').find({
       query: {
         user_id: user_id,
-        name: achievement_name 
+        name: achievement_name
       }
     });
 
     assert.deepEqual(result[0].amount, 2);
-    
-    
+
+
     await app.service('events').create({
       'name': 'EventGiving10XP',
       'user_id': user_id,
@@ -262,7 +262,7 @@ describe('\'achievement-rule-checker\' hook', () => {
     result = await app.service('achievements').find({
       query: {
         user_id: user_id,
-        name: achievement_name 
+        name: achievement_name
       }
     });
 

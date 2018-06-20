@@ -32,7 +32,7 @@ class AchievementRule {
       }
     });
 
-    const event = feathersContext.data; // user_id: blah, context: context: course_id: 42
+    const event = feathersContext.data;
 
     const awardedAchievement = awardedSoFar.find(awardedAchievement => {
       return this.scope.every(scopeFieldName => {

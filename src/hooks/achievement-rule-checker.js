@@ -12,21 +12,16 @@ module.exports = function (options = {}) {
 
     for (const achievementRule of achievementRules) {
       if (await achievementRule.canBeAwarded(context) && await achievementRule.isFulfilled(context)) {
-        const scope = {};
-
-        const hasValidFieldNames = achievementRule.scope.every(scopeFieldName => {
+        const scope = achievementRule.scope.reduce((scope, scopeFieldName) => {
           if (scopeFieldName !== 'user_id') {
             const nestedValue = getNestedValue(context.data.context, scopeFieldName);
             if (nestedValue === undefined) {
-              return false;
+              throw new Error(`Received an event of type ${achievementRule.name} where ${scopeFieldName} was not set.`);
             }
             scope[scopeFieldName] = nestedValue;
           }
-          return true;
-        });
-        if (!hasValidFieldNames) {
-          continue;
-        }
+          return scope;
+        }, {});
 
         const achievementService = context.app.service('achievements');
         const uniqueCombination = await achievementService.find({

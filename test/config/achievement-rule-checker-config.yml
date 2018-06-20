@@ -14,6 +14,7 @@ events:
               amount: 10
     EventGrantingAchievement: ~
     ScopeEvent: ~
+    GlobalEvent: ~
 
 achievements:
     ScopeAchievement:
@@ -25,7 +26,7 @@ achievements:
     GlobalAchievement:
         requirements:
             - event:
-                name: ScopeEvent
+                name: GlobalEvent
                 amount: 1
         scope: []
         maxAwarded: 2
