@@ -13,10 +13,19 @@ module.exports = function (options = {}) {
     for (const achievementRule of achievementRules) {
       if (await achievementRule.canBeAwarded(context) && await achievementRule.isFulfilled(context)) {
         const scope = {};
-        for (const scopeFieldName of achievementRule.scope) {
+
+        const hasValidFieldNames = achievementRule.scope.every(scopeFieldName => {
           if (scopeFieldName !== 'user_id') {
-            scope[scopeFieldName] = getNestedValue(context.data.context, scopeFieldName);
+            const nestedValue = getNestedValue(context.data.context, scopeFieldName);
+            if (nestedValue === undefined) {
+              return false;
+            }
+            scope[scopeFieldName] = nestedValue;
           }
+          return true;
+        });
+        if (!hasValidFieldNames) {
+          continue;
         }
 
         const achievementService = context.app.service('achievements');

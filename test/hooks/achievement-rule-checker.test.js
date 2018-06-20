@@ -83,6 +83,38 @@ describe('\'achievement-rule-checker\' hook', () => {
     assert.equal(achievements.length, 2);
   });
 
+  it('works with the global scope', async () => {
+    await app.service('events').create({
+      'name': 'ScopeEvent',
+      'user_id': 'User 1',
+      'context': {
+        'user_id': 'User 1',
+      },
+    });
+    await app.service('events').create({
+      'name': 'ScopeEvent',
+      'user_id': 'User 1',
+      'context': {
+        'user_id': 'User 1',
+      },
+    });
+    await app.service('events').create({
+      'name': 'ScopeEvent',
+      'user_id': 'User 2',
+      'context': {
+        'user_id': 'User 2',
+      },
+    });
+
+    let achievements = await app.service('achievements').find({
+      query: {
+        name: 'GlobalAchievement',
+      }
+    });
+
+    assert.equal(achievements.length, 2);
+  });
+
   it('gives an achievement after other achievement', async () => {
     await app.service('events').create({
       'name': 'EventGiving10XP',

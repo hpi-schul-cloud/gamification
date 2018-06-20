@@ -22,6 +22,13 @@ achievements:
                 name: ScopeEvent
                 amount: 1
         scope: [user_id, context:course_id]
+    GlobalAchievement:
+        requirements:
+            - event:
+                name: ScopeEvent
+                amount: 1
+        scope: []
+        maxAwarded: 2
     10XPAchievement:
         requirements:
             - xp: XP
