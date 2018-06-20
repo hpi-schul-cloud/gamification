@@ -1,0 +1,16 @@
+XPs: []
+
+events: []
+
+achievements:
+    TestAchievement:
+        #add this so rule parsing works
+        requirements:
+            - xp: XP
+              amount: 0
+    HiddenAchievement:
+        #add this so rule parsing works
+        requirements:
+            - xp: XP
+              amount: 0
+        hidden: true
