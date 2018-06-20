@@ -11,7 +11,7 @@ async function cleanDatabase(app) {
 
 describe('\'achievement-actions\' hook', () => {
   let app;
-  const user_id = 'TestUser'; 
+  const user_id = 'TestUser';
 
   beforeEach(async () => {
     app = feathers();

@@ -32,7 +32,7 @@ module.exports = function (options = {}) {
               name: replaceName
             }
           });
-          
+
           /* istanbul ignore else */
           if (replacedAchievement.length !== 0) {
             await context.app.service('achievements').remove(replacedAchievement[0]._id);
