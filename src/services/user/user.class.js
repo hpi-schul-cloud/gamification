@@ -39,7 +39,7 @@ class Service {
     })).map(xp => {
       return {
         name: xp.name,
-        amount: xp.amount,
+        amount: xp.amount
       };
     });
 

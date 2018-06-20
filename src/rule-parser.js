@@ -165,7 +165,7 @@ class EventRequirement extends  Requirement {
     const matches = await context.app.service('events').find({
       query: {
         user_id: context.data.user_id,
-        name: this.requirement['name'],
+        name: this.requirement['name']
       }
     });
 
