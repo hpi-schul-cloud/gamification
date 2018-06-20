@@ -38,6 +38,7 @@
     "brace-style": "error",
     "func-call-spacing": ["error", "never"],
     "prefer-arrow-callback": "error",
-    "no-trailing-spaces": "error"
+    "no-trailing-spaces": "error",
+    "comma-dangle": ["error", "never"]
   }
 }
