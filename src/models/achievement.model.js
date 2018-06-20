@@ -4,8 +4,9 @@
 // for more of what you can do here.
 let model;
 module.exports = function (app) {
-  if (model)
+  if (model) {
     return model;
+  }
 
   const mongooseClient = app.get('mongooseClient');
   const { Schema } = mongooseClient;

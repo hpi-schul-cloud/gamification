@@ -5,7 +5,7 @@
 module.exports = function (options = {}) {
   return async context => {
     const rules = context.app.get('rules');
-    const achievementRule = rules['achievements'].find( rule => rule.name === context.data.name);
+    const achievementRule = rules['achievements'].find(rule => rule.name === context.data.name);
 
     /* istanbul ignore else */
     if (achievementRule) {

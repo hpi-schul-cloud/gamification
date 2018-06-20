@@ -9,7 +9,7 @@ async function cleanDatabase(app) {
   await require('../../src/models/xp.model.js')(app).remove({});
 }
 
-describe('\'after-achievement-module\' hook', () => {
+describe('\'achievement-actions\' hook', () => {
   let app;
   const user_id = 'TestUser'; 
 
