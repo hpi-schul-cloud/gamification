@@ -38,7 +38,7 @@ describe('\'User\' service', () => {
     });
 
     await app.service('achievements').create({
-      name: 'TestAchievement', 
+      name: 'TestAchievement',
       user_id: user_id,
       amount: 1
     });
@@ -53,13 +53,13 @@ describe('\'User\' service', () => {
 
   it('does not return hidden achievements', async () => {
     await app.service('achievements').create({
-      name: 'HiddenAchievement', 
+      name: 'HiddenAchievement',
       user_id: user_id,
       amount: 1
     });
 
     await app.service('achievements').create({
-      name: 'TestAchievement', 
+      name: 'TestAchievement',
       user_id: user_id,
       amount: 1
     });
