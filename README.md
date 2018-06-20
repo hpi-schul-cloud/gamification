@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/frederike-ramin/gamification.svg?branch=master)](https://travis-ci.com/frederike-ramin/gamification)
+[![Coverage Status](https://coveralls.io/repos/github/frederike-ramin/gamification/badge.svg?branch=coveralls)](https://coveralls.io/github/frederike-ramin/gamification?branch=coveralls)
 # gamification
 
 > A reusable microservice for gamification.
