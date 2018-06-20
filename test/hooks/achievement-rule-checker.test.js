@@ -41,6 +41,48 @@ describe('\'achievement-rule-checker\' hook', () => {
     assert.deepEqual(result[0].amount, 1);
   });
 
+  it('grants achievements multiple times for different scopes', async () => {
+    await app.service('events').create({
+      'name': 'ScopeEvent',
+      'user_id': user_id,
+      'context': {
+        'user_id': user_id,
+        'context': {
+          'course_id': 42,
+        },
+      },
+    });
+
+    let achievements = await app.service('achievements').find({
+      query: {
+        user_id: user_id,
+        name: 'ScopeAchievement',
+      }
+    });
+
+    assert.equal(achievements.length, 1);
+
+    await app.service('events').create({
+      'name': 'ScopeEvent',
+      'user_id': user_id,
+      'context': {
+        'user_id': user_id,
+        'context': {
+          'course_id': 1337,
+        },
+      },
+    });
+
+    achievements = await app.service('achievements').find({
+      query: {
+        user_id: user_id,
+        name: 'ScopeAchievement',
+      }
+    });
+
+    assert.equal(achievements.length, 2);
+  });
+
   it('gives an achievement after other achievement', async () => {
     await app.service('events').create({
       'name': 'EventGiving10XP',
