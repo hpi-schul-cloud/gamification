@@ -6,6 +6,16 @@ services:
       - mongo-data:/data/db
     expose:
       - "27017"
+  rabbitmq:
+    image: rabbitmq:3-management
+    hostname: my-rabbit
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_log:/var/log/rabbitmq
+      - rabbitmq_data:/var/lib/rabbitmq/mnesia/rabbit@my-rabbit
+      - ./config/rabbitmq:/etc/rabbitmq
   app:
     build: .
     image: gamification
@@ -16,9 +26,13 @@ services:
       - "3030:3030"
     links:
       - mongo
+      - rabbitmq
     depends_on:
       - mongo
+      - rabbitmq
     environment:
       - MONGO_URL=mongodb://mongo/gamification
 volumes:
   mongo-data:
+  rabbitmq_log:
+  rabbitmq_data:
