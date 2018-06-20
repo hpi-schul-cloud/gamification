@@ -26,28 +26,22 @@ achievements:
                 conditions:
                     - parameter: someParameter
                       value: 100
-                      # someOtherParameter == 10 XOR someOtherParameter == 100
-                    - OneOf:
-                        - parameter: someOtherParameter
-                          value: 10
-                        - parameter: someOtherParameter
-                          value: 100
-                      # someOtherParameter == 10 OR someOtherParameter == 100
+                      # someOtherParameter == 10 OR someOtherParameter == 100 OR any of THESE other parameters
                     - AnyOf:
                         - parameter: someOtherParameter
                           value: 10
                         - parameter: someOtherParameter
                           value: 100
+                        - AnyOf:
+                            - parameter: someOtherParameter
+                              value: 10
+                            - parameter: someOtherParameter
+                              value: 100
             - AnyOf:
                 - xp: yourXP
                   amount: >= 10
                 - xp: XP
                   amount: >= 10
-            - OneOf:
-                - xp: yourXP
-                  amount: >= 10
-                - event:
-                    name: YourEventName
         replaces: [YourOtherAchievement]
         # maxAwarded is implicitly 1
         maxAwarded: 2

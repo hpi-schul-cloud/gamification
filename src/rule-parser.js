@@ -53,9 +53,6 @@ class Requirement {
     if (requirement['AnyOf'] !== undefined) {
       return new AnyOfRequirement(requirement['AnyOf']);
     }
-    if (requirement['OneOf'] !== undefined) {
-      return new OneOfRequirement(requirement['OneOf']);
-    }
     throw new Error('Invalid requirement: Either achievement, xp or event needs to be set: ' + JSON.stringify(requirement));
   }
 
@@ -145,8 +142,6 @@ class EventRequirement extends  Requirement {
         return condition['value'] === matchedEvent['context'][condition['parameter']];
       case condition['AnyOf'] !== undefined:
         return this.checkAnyOf(condition['AnyOf'], matchedEvent);
-      case condition['OneOf'] !== undefined:
-        return this.checkOneOf(condition['OneOf'], matchedEvent);
       default:
         throw new Error(`Invalid Condition params: ${JSON.stringify(condition)}`);
     }
@@ -156,13 +151,6 @@ class EventRequirement extends  Requirement {
     return conditions.some(c => {
       return this.conditionFulfilled(c, matchedEvent);
     });
-  }
-
-
-  checkOneOf(conditions, matchedEvent) {
-    return conditions.filter(c => {
-      return this.conditionFulfilled(c, matchedEvent);
-    }).length === 1;
   }
 
   evalConditions(matchedEvent) {
@@ -203,25 +191,6 @@ class AnyOfRequirement extends Requirement {
   }
 }
 
-/* istanbul ignore next */
-class OneOfRequirement extends Requirement {
-  constructor(innerRequirements) {
-    super();
-    this.innerRequirements = innerRequirements.map(requirement => Requirement.fromYamlRequirement(requirement));
-  }
-
-  async isFulfilled(context) {
-    let fulfilled = false;
-    for (const requirement of this.innerRequirements) {
-      const requirementIsFulfilled = await requirement.isFulfilled(context);
-      // case: two requirements are true
-      if (requirementIsFulfilled && fulfilled === true) return false;
-      // case: one requirement is true
-      if (requirementIsFulfilled && fulfilled === false) fulfilled = true;
-    }
-    return fulfilled;
-  }
-}
 module.exports = function (config_path) {
 
   let rules = yaml.safeLoad(fs.readFileSync(config_path, 'utf8'));
