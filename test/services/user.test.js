@@ -19,12 +19,9 @@ describe('\'User\' service', () => {
     app.set('rules', require('../../src/rule-parser')(__dirname + '/../config/user_config.yml'));
     app.configure(configuration());
     app.configure(require('../../src/mongoose.js'));
-
     await cleanDatabase(app);
     app.configure(services);
-
     app.service('user').setup(app);
-
   });
 
   it('registered the service', () => {
@@ -34,7 +31,6 @@ describe('\'User\' service', () => {
   });
 
   it('gives a user give xp and achievements', async () => {
-
     await app.service('xp').create({
       name: 'XP',
       user_id: user_id,
@@ -56,10 +52,8 @@ describe('\'User\' service', () => {
   });
 
   it('does not return hidden achievements', async () => {
-    const achievement_name = 'HiddenAchievement';
-
     await app.service('achievements').create({
-      name: achievement_name, 
+      name: 'HiddenAchievement', 
       user_id: user_id,
       amount: 1
     });
@@ -73,7 +67,7 @@ describe('\'User\' service', () => {
     const result = await app.service('user').get(user_id);
 
     assert.deepEqual(result.user_id, user_id);
-    assert.notInclude(result.achievements[0], {name: achievement_name});
-
+    assert.include(result.achievements[0], {name: 'TestAchievement'});
+    assert.notInclude(result.achievements[0], {name: 'HiddenAchievement'});
   });
 });
