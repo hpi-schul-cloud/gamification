@@ -11,6 +11,7 @@ async function cleanDatabase(app) {
 
 describe('\'after-achievement-module\' hook', () => {
   let app;
+  const user_id = 'TestUser'; 
 
   beforeEach(async () => {
     app = feathers();
@@ -27,7 +28,6 @@ describe('\'after-achievement-module\' hook', () => {
   it('gives XP afer an achievement', async () => {
 
     const eventName = 'EventGiving10XP';
-    const user_id = 'TestUser'; 
 
     await app.service('events').create({
       'name': eventName,
@@ -47,8 +47,6 @@ describe('\'after-achievement-module\' hook', () => {
   it('updates XP afer an achievement', async () => {
 
     const eventName = 'EventGiving10XP';
-    const user_id = 'TestUser'; 
-
 
     await app.service('xp').create({
       'name': 'achievementActionXP',

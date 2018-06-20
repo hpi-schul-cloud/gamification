@@ -11,6 +11,7 @@ async function cleanDatabase(app) {
 
 describe('\'xp rule checker\' hook', () => {
   let app;
+  const user_id = 'TestUser';
 
   beforeEach(async () => {
     app = feathers();
@@ -27,7 +28,6 @@ describe('\'xp rule checker\' hook', () => {
   it('gives standard XP afer an event', async () => {
 
     const eventName = 'EventGiving10XP';
-    const user_id = 'TestUser'; 
 
     await app.service('events').create({
       'name': eventName,
@@ -47,7 +47,6 @@ describe('\'xp rule checker\' hook', () => {
   it('gives non standard XP after an event', async () => {
 
     const eventName = 'EventGiving25NonStandardXP';
-    const user_id = 'TestUser'; 
 
     await app.service('events').create({
       'name': eventName,
@@ -67,7 +66,6 @@ describe('\'xp rule checker\' hook', () => {
   it('gives non standard XP after an event', async () => {
 
     const eventName = 'EventGivingMultipleKindsOfXP';
-    const user_id = 'TestUser'; 
 
     await app.service('events').create({
       'name': eventName,
@@ -95,7 +93,6 @@ describe('\'xp rule checker\' hook', () => {
   it('updates XP after an event', async () => {
 
     const eventName = 'EventGiving10XP';
-    const user_id = 'TestUser'; 
 
     for (let i = 0; i < 2; i ++) {
       await app.service('events').create({
