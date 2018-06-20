@@ -146,4 +146,52 @@ describe('\'achievement-rule-checker\' hook', () => {
 
     assert.deepEqual(result, []);
   });
+
+
+  it('gives achievement maxAwarded times', async () => {
+    const achievement_name = 'AchievementCanBeAwadedTwice';
+
+    await app.service('events').create({
+      'name': 'EventGiving10XP',
+      'user_id': user_id,
+    });
+
+    let result = await app.service('achievements').find({
+      query: {
+        user_id: user_id,
+        name: achievement_name 
+      }
+    });
+
+    assert.deepEqual(result[0].amount, 1);
+    
+    await app.service('events').create({
+      'name': 'EventGiving10XP',
+      'user_id': user_id,
+    });
+
+    result = await app.service('achievements').find({
+      query: {
+        user_id: user_id,
+        name: achievement_name 
+      }
+    });
+
+    assert.deepEqual(result[0].amount, 2);
+    
+    
+    await app.service('events').create({
+      'name': 'EventGiving10XP',
+      'user_id': user_id,
+    });
+
+    result = await app.service('achievements').find({
+      query: {
+        user_id: user_id,
+        name: achievement_name 
+      }
+    });
+
+    assert.deepEqual(result[0].amount, 2);
+  });
 });
