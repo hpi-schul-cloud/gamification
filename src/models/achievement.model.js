@@ -2,7 +2,12 @@
 // 
 // See http://mongoosejs.com/docs/models.html
 // for more of what you can do here.
+let model;
 module.exports = function (app) {
+  if (model) {
+    return model;
+  }
+
   const mongooseClient = app.get('mongooseClient');
   const { Schema } = mongooseClient;
   const achievement = new Schema({
@@ -13,5 +18,5 @@ module.exports = function (app) {
   });
   achievement.index({ user_id: 1, name: 1 }, {unique: true});
 
-  return mongooseClient.model('achievement', achievement);
+  return model = mongooseClient.model('achievement', achievement);
 };

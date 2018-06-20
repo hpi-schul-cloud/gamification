@@ -203,6 +203,7 @@ class AnyOfRequirement extends Requirement {
   }
 }
 
+/* istanbul ignore next */
 class OneOfRequirement extends Requirement {
   constructor(innerRequirements) {
     super();
@@ -221,16 +222,18 @@ class OneOfRequirement extends Requirement {
     return fulfilled;
   }
 }
+module.exports = function (config_path) {
 
-let rules = yaml.safeLoad(fs.readFileSync('./config/gamification.yml', 'utf8'));
+  let rules = yaml.safeLoad(fs.readFileSync(config_path, 'utf8'));
 
-const achievementRules = [];
+  const achievementRules = [];
 
-for (const achievementName of Object.keys(rules['achievements'])) {
-  const rule = new AchievementRule(rules['achievements'][achievementName], achievementName);
-  achievementRules.push(rule);
-}
+  for (const achievementName of Object.keys(rules['achievements'])) {
+    const rule = new AchievementRule(rules['achievements'][achievementName], achievementName);
+    achievementRules.push(rule);
+  }
 
-rules['achievements'] = achievementRules;
+  rules['achievements'] = achievementRules;
 
-module.exports = rules;
+  return rules;
+};
