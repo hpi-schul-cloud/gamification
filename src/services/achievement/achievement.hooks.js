@@ -1,6 +1,6 @@
 
 
-const afterAchievementModule = require('../../hooks/after-achievement-module');
+const achievementActions = require('../../hooks/achievement-actions');
 
 module.exports = {
   before: {
@@ -17,7 +17,7 @@ module.exports = {
     all: [],
     find: [],
     get: [],
-    create: [afterAchievementModule()],
+    create: [achievementActions()],
     update: [],
     patch: [],
     remove: []

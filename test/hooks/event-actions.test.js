@@ -1,8 +1,8 @@
 const assert = require('assert');
 const feathers = require('@feathersjs/feathers');
-const ruleChecker = require('../../src/hooks/xp-rule-checker');
+const ruleChecker = require('../../src/hooks/event-actions');
 
-describe('\'ruleChecker\' hook', () => {
+describe('\'event-actions\' hook', () => {
   let app;
 
   beforeEach(() => {
