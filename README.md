@@ -6,6 +6,13 @@
 
 This project uses [Feathers](http://feathersjs.com). An open source web framework for building modern real-time applications.
 
+## Development with Docker
+```
+docker-compose -f docker-compose.dev.yml up
+```
+This starts the containers for the app, mongoDB and RabbitMQ. If necessary, the app's container is build automatically in advance.
+The app is then available at http://localhost:3030/.
+
 ## Getting Started
 
 Getting up and running is as easy as 1, 2, 3.
