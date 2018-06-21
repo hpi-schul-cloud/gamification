@@ -10,5 +10,5 @@ process.on('unhandledRejection', (reason, p) =>
 
 server.on('listening', () => {
   logger.info('Feathers application started on http://%s:%d', app.get('host'), port)
-  app.service('amqp-connector').receiveFromQueue(app.get('rabbitHost'), app.get('rabbitQueue'));
+  app.service('amqp-connector').receiveFromQueue(process.env.RABBITMQ_HOST, app.get('rabbitQueue'));
 });

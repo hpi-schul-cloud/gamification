@@ -32,6 +32,7 @@ services:
       - rabbitmq
     environment:
       - MONGO_URL=mongodb://mongo/gamification
+      - RABBITMQ_HOST=rabbitmq
 volumes:
   mongo-data:
   rabbitmq_log:
