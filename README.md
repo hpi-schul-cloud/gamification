@@ -15,6 +15,11 @@ docker-compose -f docker-compose.dev.yml up
 This starts the containers for the app, mongoDB and RabbitMQ. If necessary, the app's container is build automatically in advance.
 The app is then available at http://localhost:3030/.
 
+### RabbitMQ: Sending events manually
+The RabbitMQ management interface is available at http://localhost:15672. In development mode, use Username `guest` and Passowrd `guest` to login.
+
+You can send events manually in the *Exchanges* section. Select the exchange and then publish your message at *Publish message*. Don't forget to insert the *routing key*.
+
 ## Getting Started
 
 Getting up and running is as easy as 1, 2, 3.
