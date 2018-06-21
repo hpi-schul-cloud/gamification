@@ -1,5 +1,5 @@
 // Initializes the `User` service on path `/user`
-const createService = require('./user.class.js');
+const createService = require('./user.class.js')['createService'];
 const hooks = require('./user.hooks');
 
 module.exports = function (app) {

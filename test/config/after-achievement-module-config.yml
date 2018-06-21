@@ -1,0 +1,17 @@
+XPS:
+    - achievementActionXP
+
+events:
+    EventGiving10XP:
+        actions:
+            - xp: XP
+              amount: 10 
+
+achievements:
+    AchievementGiving10XP:
+        requirements:
+            - xp: XP
+              amount: 10
+        actions:
+            - xp: achievementActionXP 
+              amount: 1

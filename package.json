@@ -22,12 +22,13 @@
     "npm": ">= 3.0.0"
   },
   "scripts": {
-    "test": "npm run eslint && npm run mocha",
+    "test": "npm run eslint && npm run coverage",
     "eslint": "eslint src/. test/. --config .eslintrc.json",
     "start": "node src/",
     "debug-linux": "node $NODE_DEBUG_OPTION src/",
     "debug-windows": "node %NODE_DEBUG_OPTION% src/",
-    "mocha": "mocha test/ --recursive --exit"
+    "mocha": "cross-env NODE_ENV=test mocha test/ --recursive --exit --timeout 5000",
+    "coverage": "cross-env NODE_ENV=test nyc mocha test/ --recursive --exit --timeout 5000"
   },
   "dependencies": {
     "@feathersjs/configuration": "^1.0.2",
@@ -45,8 +46,13 @@
     "winston": "^2.4.2"
   },
   "devDependencies": {
+    "chai": "^4.1.2",
+    "coveralls": "^3.0.1",
+    "cross-env": "^5.2.0",
     "eslint": "^4.19.1",
+    "istanbul": "^0.4.5",
     "mocha": "^5.2.0",
+    "nyc": "^12.0.2",
     "request": "^2.87.0",
     "request-promise": "^4.2.2"
   }

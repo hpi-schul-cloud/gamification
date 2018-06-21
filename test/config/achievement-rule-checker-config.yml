@@ -1,0 +1,59 @@
+XPS:
+    - secondXPType
+
+events:
+    EventGiving10XP:
+        actions:
+            - xp: XP
+              amount: 10 
+    EventGiving2XPTypes:
+        actions:
+            - xp: XP
+              amount: 10
+            - xp: secondXPType
+              amount: 10
+    EventGrantingAchievement: ~
+
+achievements:
+    10XPAchievement:
+        requirements:
+            - xp: XP
+              amount: 10
+    AchievementRequiring2XPTypes:
+        requirements:
+            - xp: XP
+              amount: 10
+            - xp: secondXPType
+              amount: 10
+    AchievementBeingRequired:
+        requirements:
+            - xp: XP
+              amount: 10
+    AchievementRequiringOtherAchievement:
+        requirements:
+            - achievement: AchievementBeingRequired
+    AchievementRequiringEvent:
+        requirements:
+            - event:
+                name: EventGrantingAchievement
+    AnyOfAchievement:
+        requirements:
+            - AnyOf:
+                - xp: XP
+                  amount: 10
+                - xp: secondXPType
+                  amount: 10
+    AchievementReplacingOther:
+        requirements:
+            - xp: XP
+              amount: 20
+        replaces: [AchievementBeingReplaced]
+    AchievementBeingReplaced:
+        requirements:
+            - xp: XP
+              amount: 10
+    AchievementCanBeAwadedTwice:
+        requirements:
+            - xp: XP
+              amount: 10
+        maxAwarded: 2

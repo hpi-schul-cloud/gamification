@@ -6,7 +6,6 @@
     "default": 10,
     "max": 50
   },
-  "mongodb": "mongodb://localhost:27017/gamification",
   "rabbitHost": "rabbitmq",
   "rabbitQueue": "my-queue",
   "rabbitExchange": "my-exchange",
