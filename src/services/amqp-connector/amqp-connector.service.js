@@ -3,7 +3,7 @@ const createService = require('./amqp-connector.class.js');
 const hooks = require('./amqp-connector.hooks');
 
 module.exports = function (app) {
-  
+
   const paginate = app.get('paginate');
 
   const options = {

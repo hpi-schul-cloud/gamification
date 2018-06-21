@@ -2,7 +2,7 @@
 const amqp = require('amqplib');
 
 class Service {
-  constructor (options) {
+  constructor(options) {
     this.options = options || {};
   }
 
@@ -10,74 +10,80 @@ class Service {
     this.app = app;
   }
 
-  async find (params) {
+  async find(params) {
     return [];
   }
 
-  async get (id, params) {
+  async get(id, params) {
     return {};
   }
 
-  async create (data, params) {
-    if (Array.isArray(data)) {
+  async create(data, params) {
+    if(Array.isArray(data)) {
       return Promise.all(data.map(current => this.create(current, params)));
     }
 
     return data;
   }
 
-  async update (id, data, params) {
+  async update(id, data, params) {
     return data;
   }
 
-  async patch (id, data, params) {
+  async patch(id, data, params) {
     return data;
   }
 
-  async remove (id, params) {
+  async remove(id, params) {
     return { id };
   }
 
   async sendToQueue(host, queue, message) {
-    amqp.connect('amqp://' + host).then(function(conn) {
-      return conn.createChannel().then(function(ch) {
+    amqp.connect('amqp://' + host).then((conn) => {
+      return conn.createChannel().then((ch) => {
         var ok = ch.assertQueue(queue, {durable: true});
-        return ok.then(function(_qok) {
+        return ok.then((_qok) => {
           ch.sendToQueue(queue, Buffer.from(message));
           return ch.close();
         });
-      }).finally(function() { conn.close(); });
-    }).catch(console.warn);
+      }).finally(() => {
+        conn.close();
+      });
+    }).catch(console.warn); // eslint-disable-line no-console
   }
 
   async sendToExchange(host, exchange, routingKey, message) {
-    amqp.connect('amqp://' + host).then(function(conn) {
-      return conn.createChannel().then(function(ch) {
+    amqp.connect('amqp://' + host).then((conn) => {
+      return conn.createChannel().then((ch) => {
         var ok = ch.assertExchange(exchange, 'direct', {durable: true});
-        return ok.then(function() {
+        return ok.then(() => {
           ch.publish(exchange, routingKey, Buffer.from(message));
           return ch.close();
         });
-      }).finally(function() { conn.close(); });
-    }).catch(console.warn);
+      }).finally(() => {
+        conn.close();
+      });
+    }).catch(console.warn); // eslint-disable-line no-console
   }
 
   async receiveFromQueue(host, queue) {
     let that = this;
-    amqp.connect('amqp://' + host).then(function(conn) {
-      process.once('SIGINT', function() { conn.close(); });
-      return conn.createChannel().then(function(ch) {
+    amqp.connect('amqp://' + host).then((conn) => {
+      process.once('SIGINT', () => {
+        conn.close();
+      });
+      return conn.createChannel().then((ch) => {
         var ok = ch.assertQueue(queue, {durable: true});
-        ok = ok.then(function(_qok) {
-          return ch.consume(queue, function(msg) {
-            console.log(JSON.parse(msg.content));            
+        ok = ok.then((_qok) => {
+          return ch.consume(queue, (msg) => {
+            //console.log(JSON.parse(msg.content));
             that.app.service('events').create(JSON.parse(msg.content));
           }, {noAck: true});
         });
-        return ok.then(function(_consumeOk) {
+        return ok.then((_consumeOk) => {
         });
       });
-    }).catch(console.warn);
+    }).catch(console.warn); // eslint-disable-line no-console
   }
 }
 
