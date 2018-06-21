@@ -86,7 +86,7 @@ class Service {
     }).catch((error) => {
       console.group('rabbitmq'); // eslint-disable-line no-console
       console.warn(error); // eslint-disable-line no-console
-      console.log("reconnecting ..."); // eslint-disable-line no-console
+      console.log('reconnecting ...'); // eslint-disable-line no-console
       console.groupEnd('rabbitmq'); // eslint-disable-line no-console
       setTimeout(() => {
         this.receiveFromQueue(host, queue);
