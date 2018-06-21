@@ -4,8 +4,8 @@ services:
     image: mongo:3.6.5
     volumes:
       - mongo-data:/data/db
-    expose:
-      - "27017"
+    ports:
+      - "27017:27017"
   rabbitmq:
     image: rabbitmq:3-management
     hostname: my-rabbit
