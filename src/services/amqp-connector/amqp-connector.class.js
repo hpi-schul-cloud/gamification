@@ -83,7 +83,15 @@ class Service {
         return ok.then((_consumeOk) => {
         });
       });
-    }).catch(console.warn); // eslint-disable-line no-console
+    }).catch((error) => {
+      console.group('rabbitmq');
+      console.warn(error);
+      console.log("reconnecting ...");
+      console.groupEnd('rabbitmq');
+      setTimeout(() => {
+        this.receiveFromQueue(host, queue);
+      }, 1000);
+    }); // eslint-disable-line no-console
   }
 }
 
