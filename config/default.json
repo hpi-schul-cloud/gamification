@@ -6,7 +6,6 @@
     "default": 10,
     "max": 50
   },
-  "rabbitHost": "rabbitmq",
   "rabbitQueue": "my-queue",
   "rabbitExchange": "my-exchange",
   "rabbitRoutingKey": "testkey"
