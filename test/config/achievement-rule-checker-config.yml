@@ -15,6 +15,9 @@ events:
     EventGrantingAchievement: ~
 
 achievements:
+    ChainedAchievement:
+      requirements:
+        - achievement: 10XPAchievement
     10XPAchievement:
         requirements:
             - xp: XP
@@ -52,8 +55,13 @@ achievements:
         requirements:
             - xp: XP
               amount: 10
-    AchievementCanBeAwadedTwice:
+    AchievementCanBeAwardedTwiceAtOnce:
         requirements:
             - xp: XP
               amount: 10
         maxAwarded: 2
+    AchievementCanBeAwardedTwice:
+            requirements:
+                - event:
+                    name: EventGiving10XP
+            maxAwarded: 2
