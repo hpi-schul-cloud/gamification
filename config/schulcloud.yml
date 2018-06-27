@@ -1,0 +1,191 @@
+XPs:
+
+events:
+  Registered: ~
+  NewsRead: ~
+  AvatarEdited:
+    actions:
+      - xp: XP
+        amount: 1
+  StudentGroupCreated:
+    actions:
+      - xp: XP
+        amount: 2
+  TopicCreated:
+    actions:
+      - xp: XP
+        amount: 2
+  MaterialShared:
+    actions:
+      - xp: XP
+        amount: 10
+  MaterialSearched:
+    actions:
+      - xp: XP
+        amount: 10
+
+achievements:
+  Registered:
+    requirements:
+      - event:
+        name: Registered
+        amount: 1
+    actions:
+      - xp: XP
+        amount: 10
+  ConstantVisitor: ~
+  FirstNewsRead:
+    requirements:
+      - event:
+        name: NewsRead
+        amount: 1
+      actions:
+        - xp: XP
+          amount: 5
+  AvatarCreativity1:
+    requirements:
+      - event:
+        name: AvatarEdited
+        amount: 1
+  AvatarCreativity10:
+    requirements:
+      - event:
+        name: AvatarEdited
+        amount: 10
+    actions:
+      - xp: XP
+        amount: 5
+  AvatarCreativity25:
+    requirements:
+      - event:
+        name: AvatarEdited
+        amount: 25
+    actions:
+      - xp: XP
+        amount: 15
+  TeamPlayer:
+    requrements:
+      - event:
+        name: StudentGroupCreated
+        amount: 1
+    actions:
+      - xp: XP
+        amount: 2
+    scope: [context.course_id]
+  TeamPlayer5:
+    requrements:
+      - event:
+        name: StudentGroupCreated
+        amount: 5
+    actions:
+      - xp: XP
+        amount: 10
+    scope: [context.course_id]
+  TeamPlayer10:
+    requrements:
+      - event:
+        name: StudentGroupCreated
+        amount: 10
+    actions:
+      - xp: XP
+        amount: 20
+    scope: [context.course_id]
+  TopicCreator:
+    requirements:
+      - event:
+        name: TopicCreated
+        amonut: 1
+    actions:
+      - xp: XP
+        amount: 5
+    scope: [context.student_group]
+  TopicCreator5:
+    requirements:
+      - event:
+        name: TopicCreated
+        amonut: 5
+    actions:
+      - xp: XP
+        amount: 10
+    scope: [context.student_group]
+  TopicCreator10:
+    requirements:
+      - event:
+        name: TopicCreated
+        amonut: 10
+    actions:
+      - xp: XP
+        amount: 20
+    scope: [context.student_group]
+  Sharer:
+    requirements:
+      - event:
+        name: MaterialShared
+        amount: 1
+    actions: 
+      - xp: XP
+        amount: 15
+  Sharer5:
+    requirements:
+      - event:
+        name: MaterialShared
+        amount: 5
+    actions: 
+      - xp: XP
+        amount: 25
+  Sharer10:
+    requirements:
+      - event:
+        name: MaterialShared
+        amount: 10
+    actions: 
+      - xp: XP
+        amount: 35
+  Sharer:
+    requirements:
+      - event:
+        name: MaterialShared
+        amount: 1
+    actions: 
+      - xp: XP
+        amount: 15
+  Sharer5:
+    requirements:
+      - event:
+        name: MaterialShared
+        amount: 5
+    actions: 
+      - xp: XP
+        amount: 25
+  Sharer10:
+    requirements:
+      - event:
+        name: MaterialShared
+        amount: 10
+    actions: 
+      - xp: XP
+        amount: 35
+  Explorer:
+    requirements:
+      - event:
+        name: MaterialSearched
+        amount: 1
+    actions: 
+      - xp: XP
+        amount: 15
+  Explorer5:
+    requirements:
+      - event:
+        name: MaterialSearched
+        amount: 5
+    actions: 
+      - xp: XP
+        amount: 25
+  Explorer10:
+    requirements:
+      - event:
+        name: MaterialSearched
+        amount: 10
+    actions: 
+      - xp: XP
+        amount: 35
