@@ -12,7 +12,7 @@ This project uses [Feathers](http://feathersjs.com). An open source web framewor
 ```
 docker-compose -f docker-compose.dev.yml up
 ```
-This starts the containers for the app, mongoDB and RabbitMQ. If necessary, the app's container is build automatically in advance.
+This starts the containers for the app, MongoDB and RabbitMQ. If necessary, the app's container is built automatically in advance.
 The app is then available at http://localhost:3030/.
 
 ### RabbitMQ: Sending events manually
@@ -39,7 +39,7 @@ Getting up and running is as easy as 1, 2, 3.
 
 ## Testing
 
-Set the environment variable to connect to mongoDB: `MONGO_URL=mongodb://127.0.0.1:27017/gamification`. Then simply run `npm test` and all your tests in the `test/` directory will be run.
+Set the environment variable to connect to MongoDB: `MONGO_URL=mongodb://127.0.0.1:27017/gamification`. Then simply run `npm test` and all your tests in the `test/` directory will be run.
 
 ## Scaffolding
 
