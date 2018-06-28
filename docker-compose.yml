@@ -6,16 +6,6 @@ services:
       - mongo-data:/data/db
     ports:
       - "27017:27017"
-  rabbitmq:
-    image: rabbitmq:3-management
-    hostname: my-rabbit
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-    volumes:
-      - rabbitmq_log:/var/log/rabbitmq
-      - rabbitmq_data:/var/lib/rabbitmq/mnesia/rabbit@my-rabbit
-      - ./config/rabbitmq:/etc/rabbitmq
   app:
     build: .
     image: gamification

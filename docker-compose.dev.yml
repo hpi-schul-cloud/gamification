@@ -15,7 +15,7 @@ services:
     volumes:
       - rabbitmq_log:/var/log/rabbitmq
       - rabbitmq_data:/var/lib/rabbitmq/mnesia/rabbit@my-rabbit
-      - ./config/rabbitmq:/etc/rabbitmq
+      - ./dev/rabbitmq-config:/etc/rabbitmq
   app:
     build: 
       context: .
