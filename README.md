@@ -16,7 +16,7 @@ This starts the containers for the app, MongoDB and RabbitMQ. If necessary, the 
 The app is then available at http://localhost:3030/.
 
 ### RabbitMQ: Sending events manually
-The RabbitMQ management interface is available at http://localhost:15672. In development mode, use Username `guest` and Passowrd `guest` to login.
+The RabbitMQ management interface is available at http://localhost:15672. In development mode, use Username `guest` and Password `guest` to login.
 
 You can send events manually in the *Exchanges* section. Select the exchange and then publish your message at *Publish message*. Don't forget to insert the *routing key*.
 
