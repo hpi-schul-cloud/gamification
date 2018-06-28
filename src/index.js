@@ -8,7 +8,8 @@ process.on('unhandledRejection', (reason, p) =>
   logger.error('Unhandled Rejection at: Promise ', p, reason)
 );
 
+app.service('amqp-connector').receiveFromQueue(process.env.RABBITMQ_HOST, app.get('rabbitQueue'));
+
 server.on('listening', () => {
   logger.info('Feathers application started on http://%s:%d', app.get('host'), port);
-  app.service('amqp-connector').receiveFromQueue(process.env.RABBITMQ_HOST, app.get('rabbitQueue'));
 });
