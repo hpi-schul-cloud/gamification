@@ -23,8 +23,26 @@ events:
     actions:
       - xp: XP
         amount: 10
+  HomeWorkSubmitted:
+    actions:
+      - xp: XP
+        amount: 5
+  FunctionXUsed:
+    actions:
+      - xp: XP
+        amount: 1
+  FunctionYUsed:
+    actions:
+      - xp: XP
+        amount: 1
+  FunctionZUsed:
+    actions:
+      - xp: XP
+        amount: 1
 
 achievements:
+  # TODO How to implement?
+  ConstantVisitor: ~
   Registered:
     requirements:
       - event:
@@ -33,7 +51,7 @@ achievements:
     actions:
       - xp: XP
         amount: 10
-  ConstantVisitor: ~
+    scope: [user]
   FirstNewsRead:
     requirements:
       - event:
@@ -42,6 +60,7 @@ achievements:
       actions:
         - xp: XP
           amount: 5
+    scope: [user]
   AvatarCreativity1:
     requirements:
       - event:
@@ -71,7 +90,7 @@ achievements:
     actions:
       - xp: XP
         amount: 2
-    scope: [context.course_id]
+    scope: [user, context.course_id]
   TeamPlayer5:
     requrements:
       - event:
@@ -80,7 +99,7 @@ achievements:
     actions:
       - xp: XP
         amount: 10
-    scope: [context.course_id]
+    scope: [user, context.course_id]
   TeamPlayer10:
     requrements:
       - event:
@@ -89,7 +108,7 @@ achievements:
     actions:
       - xp: XP
         amount: 20
-    scope: [context.course_id]
+    scope: [user, context.course_id]
   TopicCreator:
     requirements:
       - event:
@@ -98,7 +117,7 @@ achievements:
     actions:
       - xp: XP
         amount: 5
-    scope: [context.student_group]
+    scope: [user, context.student_group]
   TopicCreator5:
     requirements:
       - event:
@@ -107,7 +126,7 @@ achievements:
     actions:
       - xp: XP
         amount: 10
-    scope: [context.student_group]
+    scope: [user, context.student_group]
   TopicCreator10:
     requirements:
       - event:
@@ -116,7 +135,7 @@ achievements:
     actions:
       - xp: XP
         amount: 20
-    scope: [context.student_group]
+    scope: [user, context.student_group]
   Sharer:
     requirements:
       - event:
@@ -189,3 +208,29 @@ achievements:
     actions: 
       - xp: XP
         amount: 35
+  SchulCloudExpert:
+    requirements:
+      - event:
+        name: FunctionXUsed
+        amount: 1
+      - event:
+        name: FunctionYUsed
+        amount: 1
+      - event:
+        name: FunctionZUsed
+        amount: 1
+    actions:
+      - xp: XP
+        amount: 40
+    scope: [user]
+  # Be the first who made a submission for a specific assignment
+  # TODO check if this works
+  HomeworkSubmissionFirst:
+    requirements:
+      - event:
+        name: HomeworkSubmitted
+        amount: 1
+    actions:
+      - xp: XP
+        amount: 10
+    scope: [context.assignment_id]
