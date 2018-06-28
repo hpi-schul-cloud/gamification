@@ -44,7 +44,7 @@
         "vhost": "/",
         "destination": "my-queue",
         "destination_type": "queue",
-        "routing_key": "testkey",
+        "routing_key": "my-key",
         "arguments": {}
     }]
 }
