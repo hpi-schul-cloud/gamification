@@ -25,12 +25,21 @@ class AchievementRule {
 
   async canBeAwarded(feathersContext) {
     const achievementService = feathersContext.app.service('achievements');
-    const awardedSoFar = await achievementService.find({
-      query: {
-        user_id: feathersContext.data.user_id,
-        name: this.name,
-      }
-    });
+    let awardedSoFar;
+    if (this.scope.includes('user_id')) {
+      awardedSoFar = await achievementService.find({
+        query: {
+          user_id: feathersContext.data.user_id,
+          name: this.name,
+        }
+      });
+    } else {
+      awardedSoFar = await achievementService.find({
+        query: {
+          name: this.name,
+        }
+      });
+    }
 
     const event = feathersContext.data;
 

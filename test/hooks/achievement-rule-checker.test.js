@@ -112,7 +112,8 @@ describe('\'achievement-rule-checker\' hook', () => {
       }
     });
 
-    assert.equal(achievements.length, 2);
+    assert.equal(achievements.length, 1);
+    assert.equal(achievements[0].user_id, 'User 1');
   });
 
   it('gives an achievement after other achievement', async () => {
