@@ -13,7 +13,7 @@ module.exports = function (app) {
   const event = new Schema({
     user_id: {type: String, required: true},
     name: {type: String, required: true},
-    context: {type: Map, required: false, default: {}}
+    payload: {type: Map, required: false, default: {}}
   });
 
   return model = mongooseClient.model('event', event);
