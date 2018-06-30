@@ -49,7 +49,7 @@ class Service {
       }).finally(() => {
         conn.close();
       });
-    }).catch(console.warn); // eslint-disable-line no-console
+    }).catch(console.warn);
   }
 
   async sendToExchange(host, exchange, routingKey, message) {
@@ -63,7 +63,7 @@ class Service {
       }).finally(() => {
         conn.close();
       });
-    }).catch(console.warn); // eslint-disable-line no-console
+    }).catch(console.warn);
   }
 
   async receiveFromQueue(host, queue) {
@@ -84,14 +84,14 @@ class Service {
         });
       });
     }).catch((error) => {
-      console.group('rabbitmq'); // eslint-disable-line no-console
-      console.warn(error); // eslint-disable-line no-console
-      console.log('reconnecting ...'); // eslint-disable-line no-console
-      console.groupEnd('rabbitmq'); // eslint-disable-line no-console
+      console.group('rabbitmq');
+      console.warn(error);
+      console.log('reconnecting ...');
+      console.groupEnd('rabbitmq');
       setTimeout(() => {
         this.receiveFromQueue(host, queue);
       }, 1000);
-    }); // eslint-disable-line no-console
+    });
   }
 }
 
