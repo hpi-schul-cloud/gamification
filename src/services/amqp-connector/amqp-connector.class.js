@@ -39,51 +39,49 @@ class Service {
   }
 
   async sendToQueue(host, queue, message) {
-    amqp.connect('amqp://' + host).then((conn) => {
-      return conn.createChannel().then((ch) => {
-        var ok = ch.assertQueue(queue, {durable: true});
-        return ok.then((_qok) => {
-          ch.sendToQueue(queue, Buffer.from(message));
-          return ch.close();
-        });
-      }).finally(() => {
-        conn.close();
-      });
-    }).catch(console.warn);
+    try {
+      let conn = await amqp.connect('amqp://' + host);
+      console.info('RabbitMQ connected');
+      let ch = await conn.createChannel();
+      await ch.assertQueue(queue, {durable: true});
+      await ch.sendToQueue(queue, Buffer.from(message));
+      ch.close();
+      conn.close();
+    } catch(error) {
+      console.warn(error);
+    }
   }
 
   async sendToExchange(host, exchange, routingKey, message) {
-    amqp.connect('amqp://' + host).then((conn) => {
-      return conn.createChannel().then((ch) => {
-        var ok = ch.assertExchange(exchange, 'direct', {durable: true});
-        return ok.then(() => {
-          ch.publish(exchange, routingKey, Buffer.from(message));
-          return ch.close();
-        });
-      }).finally(() => {
-        conn.close();
-      });
-    }).catch(console.warn);
+    try {
+      let conn = await amqp.connect('amqp://' + host);
+      console.info('RabbitMQ connected');
+      let ch = await conn.createChannel();
+      await ch.assertExchange(exchange, 'direct', {durable: true});
+      await ch.publish(exchange, routingKey, Buffer.from(message));
+      ch.close();
+      conn.close();
+    } catch(error) {
+      console.warn(error);
+    }
   }
 
   async receiveFromQueue(host, queue) {
-    let that = this;
-    amqp.connect('amqp://' + host).then((conn) => {
+    try {
+      let conn = await amqp.connect('amqp://' + host);
+      console.info('RabbitMQ connected');
       process.once('SIGINT', () => {
         conn.close();
       });
-      return conn.createChannel().then((ch) => {
-        var ok = ch.assertQueue(queue, {durable: true});
-        ok = ok.then((_qok) => {
-          return ch.consume(queue, (msg) => {
-            //console.log(JSON.parse(msg.content));
-            that.app.service('events').create(JSON.parse(msg.content));
-          }, {noAck: true});
-        });
-        return ok.then((_consumeOk) => {
-        });
-      });
-    }).catch((error) => {
+      let ch = await conn.createChannel();
+      await ch.assertQueue(queue, {durable: true});
+      ch.consume(queue,
+        (msg) => {
+          this.app.service('events').create(JSON.parse(msg.content));
+        },
+        {noAck: true}
+      );
+    } catch(error) {
       console.group('rabbitmq');
       console.warn(error);
       console.log('reconnecting ...');
@@ -91,7 +89,7 @@ class Service {
       setTimeout(() => {
         this.receiveFromQueue(host, queue);
       }, 1000);
-    });
+    }
   }
 }
 
