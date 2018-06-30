@@ -1,41 +1,7 @@
-/* eslint-disable no-unused-vars */
 const amqp = require('amqplib');
-
-class Service {
-  constructor(options) {
-    this.options = options || {};
-  }
-
-  setup(app) {
+class AmqpConnector {
+  constructor(app) {
     this.app = app;
-  }
-
-  async find(params) {
-    return [];
-  }
-
-  async get(id, params) {
-    return {};
-  }
-
-  async create(data, params) {
-    if(Array.isArray(data)) {
-      return Promise.all(data.map(current => this.create(current, params)));
-    }
-
-    return data;
-  }
-
-  async update(id, data, params) {
-    return data;
-  }
-
-  async patch(id, data, params) {
-    return data;
-  }
-
-  async remove(id, params) {
-    return { id };
   }
 
   async sendToQueue(host, queue, message) {
@@ -93,8 +59,8 @@ class Service {
   }
 }
 
-module.exports = function (options) {
-  return new Service(options);
+module.exports = function (app) {
+  return new AmqpConnector(app);
 };
 
-module.exports.Service = Service;
+module.exports.AmqpConnector = AmqpConnector;
