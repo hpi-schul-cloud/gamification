@@ -23,7 +23,7 @@ services:
     image: gamification
     volumes:
       - ./:/app
-    command: nodemon npm start
+    command: ./node_modules/nodemon/bin/nodemon.js npm start
     ports:
       - "3030:3030"
     links:

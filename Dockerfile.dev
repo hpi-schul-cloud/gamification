@@ -2,7 +2,6 @@ FROM node:10.4.1
 
 COPY . /app
 WORKDIR /app
-RUN npm install -g nodemon
 RUN npm install
 EXPOSE 3030
-CMD ["nodemon","npm start"]
+CMD ["./node_modules/nodemon/bin/nodemon.js","npm start"]
