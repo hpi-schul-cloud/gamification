@@ -8,5 +8,5 @@
   },
   "rabbitQueue": "my-queue",
   "rabbitExchange": "my-exchange",
-  "rabbitRoutingKey": "testkey"
+  "rabbitRoutingKey": "my-key"
 }
