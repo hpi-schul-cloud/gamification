@@ -1,6 +1,6 @@
 #! /bin/bash
 
-# This loads RabbitMQ's default configuration for users, queres, exchanges 
+# This loads RabbitMQ's default configuration for users, queries, exchanges 
 # and bindings, so it can be used as template for an own configuration.
 # assumes the container to be running already
 

@@ -39,7 +39,7 @@ Getting up and running is as easy as 1, 2, 3.
 
 ## Testing
 
-Set the environment variable to connect to MongoDB: `MONGO_URL=mongodb://127.0.0.1:27017/gamification`. Then simply run `npm test` and all your tests in the `test/` directory will be run.
+Smply run `npm test` and all your tests in the `test/` directory will be run.
 
 ## Scaffolding
 
