@@ -4,4 +4,4 @@ COPY . /app
 WORKDIR /app
 RUN npm install
 EXPOSE 3030
-CMD ["./node_modules/nodemon/bin/nodemon.js","npm start"]
+CMD ["npm","run dev"]
