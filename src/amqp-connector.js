@@ -60,7 +60,6 @@ class AmqpConnector {
       });
       this.channel.consume(queue,
         (msg) => {
-          console.log(msg.content);
           this.app.service('events').create(JSON.parse(msg.content));
         }, {
           noAck: true
