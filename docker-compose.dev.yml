@@ -20,7 +20,7 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile.dev
-    image: gamification
+    image: gamification:dev
     volumes:
       - ./:/app
     command: ./node_modules/nodemon/bin/nodemon.js npm start
