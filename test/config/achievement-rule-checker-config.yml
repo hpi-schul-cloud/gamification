@@ -5,7 +5,7 @@ events:
     EventGiving10XP:
         actions:
             - xp: XP
-              amount: 10 
+              amount: 10
     EventGiving2XPTypes:
         actions:
             - xp: XP
@@ -13,8 +13,23 @@ events:
             - xp: secondXPType
               amount: 10
     EventGrantingAchievement: ~
+    ScopeEvent: ~
+    GlobalEvent: ~
 
 achievements:
+    ScopeAchievement:
+        requirements:
+            - event:
+                name: ScopeEvent
+                amount: 1
+        scope: [user_id, context:course_id]
+    GlobalAchievement:
+        requirements:
+            - event:
+                name: GlobalEvent
+                amount: 1
+        scope: []
+        maxAwarded: 2
     10XPAchievement:
         requirements:
             - xp: XP

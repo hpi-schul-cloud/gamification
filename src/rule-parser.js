@@ -1,5 +1,6 @@
 const yaml = require('js-yaml');
 const fs   = require('fs');
+const getNestedValue = require('./utils').getNestedValue;
 
 class AchievementRule {
   constructor(rule, name) {
@@ -22,15 +23,37 @@ class AchievementRule {
     return true;
   }
 
-  async canBeAwarded(context) {
-    const achievementService = context.app.service('achievements');
-    const awardedSoFar = await achievementService.find({
-      query: {
-        user_id: context.data.user_id,
-        name: this.name
-      }
+  async canBeAwarded(feathersContext) {
+    const achievementService = feathersContext.app.service('achievements');
+    let awardedSoFar;
+    if (this.scope.includes('user_id')) {
+      awardedSoFar = await achievementService.find({
+        query: {
+          user_id: feathersContext.data.user_id,
+          name: this.name
+        }
+      });
+    } else {
+      awardedSoFar = await achievementService.find({
+        query: {
+          name: this.name
+        }
+      });
+    }
+
+    const event = feathersContext.data;
+
+    const awardedAchievement = awardedSoFar.find(awardedAchievement => {
+      return this.scope.every(scopeFieldName => {
+        if (scopeFieldName === 'user_id') {
+          return true;
+        }
+
+        return getNestedValue(event.context, scopeFieldName) === awardedAchievement.scope[scopeFieldName];
+      });
     });
-    const amountSoFar = awardedSoFar.length === 0 ? 0 : awardedSoFar[0].amount;
+
+    const amountSoFar = awardedAchievement === undefined ? 0 : awardedAchievement.amount;
     return amountSoFar < this.maxAwarded;
   }
 }
