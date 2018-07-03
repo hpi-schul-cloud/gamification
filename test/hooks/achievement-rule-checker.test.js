@@ -48,15 +48,15 @@ describe('\'achievement-rule-checker\' hook', () => {
       'context': {
         'user_id': user_id,
         'context': {
-          'course_id': 42,
-        },
-      },
+          'course_id': 42
+        }
+      }
     });
 
     let achievements = await app.service('achievements').find({
       query: {
         user_id: user_id,
-        name: 'ScopeAchievement',
+        name: 'ScopeAchievement'
       }
     });
 
@@ -68,15 +68,15 @@ describe('\'achievement-rule-checker\' hook', () => {
       'context': {
         'user_id': user_id,
         'context': {
-          'course_id': 1337,
-        },
-      },
+          'course_id': 1337
+        }
+      }
     });
 
     achievements = await app.service('achievements').find({
       query: {
         user_id: user_id,
-        name: 'ScopeAchievement',
+        name: 'ScopeAchievement'
       }
     });
 
@@ -88,27 +88,27 @@ describe('\'achievement-rule-checker\' hook', () => {
       'name': 'GlobalEvent',
       'user_id': 'User 1',
       'context': {
-        'user_id': 'User 1',
-      },
+        'user_id': 'User 1'
+      }
     });
     await app.service('events').create({
       'name': 'GlobalEvent',
       'user_id': 'User 1',
       'context': {
-        'user_id': 'User 1',
-      },
+        'user_id': 'User 1'
+      }
     });
     await app.service('events').create({
       'name': 'GlobalEvent',
       'user_id': 'User 2',
       'context': {
-        'user_id': 'User 2',
-      },
+        'user_id': 'User 2'
+      }
     });
 
     let achievements = await app.service('achievements').find({
       query: {
-        name: 'GlobalAchievement',
+        name: 'GlobalAchievement'
       }
     });
 

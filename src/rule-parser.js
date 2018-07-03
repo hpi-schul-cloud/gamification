@@ -30,13 +30,13 @@ class AchievementRule {
       awardedSoFar = await achievementService.find({
         query: {
           user_id: feathersContext.data.user_id,
-          name: this.name,
+          name: this.name
         }
       });
     } else {
       awardedSoFar = await achievementService.find({
         query: {
-          name: this.name,
+          name: this.name
         }
       });
     }
