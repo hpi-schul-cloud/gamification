@@ -29,7 +29,7 @@
     "debug-windows": "node %NODE_DEBUG_OPTION% src/",
     "mocha": "cross-env NODE_ENV=test mocha test/ --recursive --exit --timeout 5000",
     "coverage": "cross-env NODE_ENV=test nyc mocha test/ --recursive --exit --timeout 5000",
-    "dev": "./node_modules/nodemon/bin/nodemon.js npm start"
+    "dev": "nodemon npm start"
   },
   "nodemonConfig": {
     "ignore": ["test/*", "docs/*"]
