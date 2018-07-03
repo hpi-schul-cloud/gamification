@@ -1,3 +1,4 @@
+const logger = require('winston');
 const amqp = require('amqplib');
 class AmqpConnector {
   constructor(host, app) {
@@ -8,15 +9,15 @@ class AmqpConnector {
   async connect() {
     try {
       this.connection = await amqp.connect('amqp://' + this.host);
-      console.info('RabbitMQ connected');
+      logger.info('RabbitMQ connected');
       process.once('SIGINT', () => {
         this.connection.close();
       });
       this.channel = await this.connection.createChannel();
-      console.info('RabbitMQ channel ready');
+      logger.info('RabbitMQ channel ready');
     } catch (error) {
-      console.warn(error);
-      console.log('RabbitMQ connection failed. Reconnecting in 1 s ...');
+      logger.warn(error);
+      logger.log('RabbitMQ connection failed. Reconnecting in 1 s ...');
       setTimeout(() => {
         this.connect();
       }, 1000);
@@ -30,7 +31,7 @@ class AmqpConnector {
       });
       await this.channel.sendToQueue(queue, Buffer.from(message));
     } catch (error) {
-      console.warn(error);
+      logger.warn(error);
     }
   }
 
@@ -41,7 +42,7 @@ class AmqpConnector {
       });
       await this.channel.publish(exchange, routingKey, Buffer.from(message));
     } catch (error) {
-      console.warn(error);
+      logger.warn(error);
     }
   }
 
@@ -58,7 +59,7 @@ class AmqpConnector {
         }
       );
     } catch (error) {
-      console.warn(error);
+      logger.warn(error);
     }
   }
 }
