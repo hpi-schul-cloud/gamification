@@ -8,7 +8,6 @@ class AmqpConnector {
   async connect() {
     try {
       this.connection = await amqp.connect('amqp://' + this.host);
-      console.log(this.connection);
       console.info('RabbitMQ connected');
       process.once('SIGINT', () => {
         this.connection.close();
