@@ -39,7 +39,7 @@ Getting up and running is as easy as 1, 2, 3.
 
 ## Testing
 
-Smply run `npm test` and all your tests in the `test/` directory will be run.
+Simply run `npm test` and all your tests in the `test/` directory will be run.
 
 ## Scaffolding
 
