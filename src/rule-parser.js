@@ -162,7 +162,7 @@ class EventRequirement extends  Requirement {
   conditionFulfilled(condition, matchedEvent) {
     switch(true) {
       case condition['parameter'] !== undefined:
-        return condition['value'] === matchedEvent['context'][condition['parameter']];
+        return condition['value'] === matchedEvent['payload'][condition['parameter']];
       case condition['AnyOf'] !== undefined:
         return this.checkAnyOf(condition['AnyOf'], matchedEvent);
       default:
@@ -188,7 +188,7 @@ class EventRequirement extends  Requirement {
     const matches = await context.app.service('events').find({
       query: {
         user_id: context.data.user_id,
-        name: this.requirement['name'],
+        name: this.requirement['name']
       }
     });
 
