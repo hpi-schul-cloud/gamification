@@ -1,0 +1,22 @@
+version: '3'
+services:
+  mongo:
+    image: mongo:3.6.5
+    volumes:
+      - mongo-data:/data/db
+    expose:
+      - 27017
+  app:
+    build: .
+    image: gamification
+    ports:
+      - "3030:3030"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URL=mongodb://mongo/gamification
+      - RABBITMQ_HOST
+volumes:
+  mongo-data:
+  rabbitmq_log:
+  rabbitmq_data:

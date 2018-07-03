@@ -1,0 +1,4 @@
+{
+    "mongodb": "MONGO_URL",
+    "rabbitmq": "RABBITMQ_HOST"
+}
