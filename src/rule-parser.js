@@ -139,7 +139,7 @@ class EventRequirement extends  Requirement {
   conditionFulfilled(condition, matchedEvent) {
     switch(true) {
       case condition['parameter'] !== undefined:
-        return condition['value'] === matchedEvent['context'][condition['parameter']];
+        return condition['value'] === matchedEvent['payload'][condition['parameter']];
       case condition['AnyOf'] !== undefined:
         return this.checkAnyOf(condition['AnyOf'], matchedEvent);
       default:
