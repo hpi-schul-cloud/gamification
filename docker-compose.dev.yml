@@ -22,7 +22,7 @@ services:
       dockerfile: Dockerfile.dev
     image: gamification:dev
     volumes:
-      - ./config:/app/config
+      - ./:/app
     ports:
       - "3030:3030"
     depends_on:
