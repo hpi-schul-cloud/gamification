@@ -7,20 +7,19 @@ class AmqpConnector {
   }
 
   async connect() {
-    try {
-      this.connection = await amqp.connect('amqp://' + this.host);
-      logger.info('RabbitMQ connected');
-      process.once('SIGINT', () => {
-        this.connection.close();
-      });
-      this.channel = await this.connection.createChannel();
-      logger.info('RabbitMQ channel ready');
-    } catch (error) {
-      logger.warn(error);
-      logger.log('RabbitMQ connection failed. Reconnecting in 1 s ...');
-      setTimeout(() => {
-        this.connect();
-      }, 1000);
+    while(!this.connection) {
+      try {
+        this.connection = await amqp.connect('amqp://' + this.host);
+        logger.info('RabbitMQ connected');
+        process.once('SIGINT', () => {
+          this.connection.close();
+        });
+        this.channel = await this.connection.createChannel();
+        logger.info('RabbitMQ channel ready');
+      } catch (error) {
+        logger.warn(error);
+        logger.log('RabbitMQ connection failed. Reconnecting ...');
+      }
     }
   }
 
@@ -53,6 +52,7 @@ class AmqpConnector {
       });
       this.channel.consume(queue,
         (msg) => {
+          logger.info(msg);
           this.app.service('events').create(JSON.parse(msg.content));
         }, {
           noAck: true
