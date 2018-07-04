@@ -42,9 +42,9 @@
     "bindings": [{
         "source": "openhpi-schulcloud-exchange",
         "vhost": "/",
-        "destination": "my-queue",
+        "destination": "openhpi-schulcloud-queue",
         "destination_type": "queue",
-        "routing_key": "my-key",
+        "routing_key": "openhpi-schulcloud-key",
         "arguments": {}
     }]
 }
