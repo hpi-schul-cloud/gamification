@@ -1,0 +1,27 @@
+XPs:
+
+events:
+  HomeworkSubmitted:
+    actions:
+      - xp: XP
+        amount: 5
+
+achievements:
+  FirstHomeworkSubmission:
+    requirements:
+      - event:
+          name: HomeworkSubmitted
+          amount: 1
+    actions:
+      - xp: XP
+        amount: 10
+    scope: [user, context.assignment_id]
+  FiveHomeworkSubmissions:
+    requirements:
+      - event:
+          name: HomeworkSubmitted
+          amount: 5
+    actions:
+      - xp: XP
+        amount: 10
+    scope: [user, context.assignment_id]
