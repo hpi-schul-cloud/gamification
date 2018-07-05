@@ -52,7 +52,6 @@ class AmqpConnector {
       });
       this.channel.consume(queue,
         (msg) => {
-          logger.info(msg);
           this.app.service('events').create(JSON.parse(msg.content));
         }, {
           noAck: true
