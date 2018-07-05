@@ -149,7 +149,7 @@ describe('\'achievement-rule-checker\' hook', () => {
 
 
   it('gives achievement maxAwarded times', async () => {
-    const achievement_name = 'AchievementCanBeAwadedTwice';
+    const achievement_name = 'AchievementCanBeAwardedTwice';
 
     await app.service('events').create({
       'name': 'EventGiving10XP',
@@ -193,5 +193,60 @@ describe('\'achievement-rule-checker\' hook', () => {
     });
 
     assert.deepEqual(result[0].amount, 2);
+  });
+
+  it('gives maxAwarded achievements at once', async () => {
+    const achievement_name = 'AchievementCanBeAwardedTwiceAtOnce';
+
+    await app.service('events').create({
+      'name': 'EventGiving10XP',
+      'user_id': user_id
+    });
+
+    let result = await app.service('achievements').find({
+      query: {
+        user_id: user_id,
+        name: achievement_name
+      }
+    });
+
+    assert.deepEqual(result[0].amount, 2);
+
+    await app.service('events').create({
+      'name': 'EventGiving10XP',
+      'user_id': user_id
+    });
+
+    result = await app.service('achievements').find({
+      query: {
+        user_id: user_id,
+        name: achievement_name
+      }
+    });
+
+    assert.deepEqual(result[0].amount, 2);
+  });
+
+  it('gives chained achievements', async () => {
+    await app.service('events').create({
+      'name': 'EventGiving10XP',
+      'user_id': user_id
+    });
+
+    let result1 = await app.service('achievements').find({
+      query: {
+        user_id: user_id,
+        name: '10XPAchievement'
+      }
+    });
+    assert.deepEqual(result1[0].amount, 1);
+
+    let result2 = await app.service('achievements').find({
+      query: {
+        user_id: user_id,
+        name: 'ChainedAchievement'
+      }
+    });
+    assert.deepEqual(result2[0].amount, 1);
   });
 });
