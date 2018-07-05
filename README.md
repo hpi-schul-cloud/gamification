@@ -9,6 +9,7 @@
 This project uses [Feathers](http://feathersjs.com). An open source web framework for building modern real-time applications.
 
 ## Development with Docker
+First run `npm install`. Then start the docker environment.
 ```
 docker-compose -f docker-compose.dev.yml up
 ```
