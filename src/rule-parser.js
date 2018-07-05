@@ -42,7 +42,7 @@ class Requirement {
 
   static fromYamlRequirement(requirement) {
     if (requirement['achievement'] !== undefined) {
-      return new AchievementRequirement(requirement);
+      return new AchievementRequirement(requirement['achievement']);
     }
     if (requirement['xp'] !== undefined) {
       return new XPRequirement(requirement);
@@ -117,7 +117,7 @@ class AchievementRequirement extends Requirement {
     const matches = await context.app.service('achievements').find({
       query: {
         user_id: context.data.user_id,
-        name: this.requirement['achievement']
+        name: this.requirement['name']
       }
     });
     if (matches.length === 0) return false;

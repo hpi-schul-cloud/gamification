@@ -5,7 +5,7 @@ events:
     EventGiving10XP:
         actions:
             - xp: XP
-              amount: 10 
+              amount: 10
     EventGiving2XPTypes:
         actions:
             - xp: XP
@@ -17,7 +17,8 @@ events:
 achievements:
     ChainedAchievement:
       requirements:
-        - achievement: 10XPAchievement
+        - achievement:
+            name: 10XPAchievement
     10XPAchievement:
         requirements:
             - xp: XP
@@ -34,7 +35,8 @@ achievements:
               amount: 10
     AchievementRequiringOtherAchievement:
         requirements:
-            - achievement: AchievementBeingRequired
+            - achievement:
+                name: AchievementBeingRequired
     AchievementRequiringEvent:
         requirements:
             - event:

@@ -52,7 +52,8 @@ achievements:
 
     CommunicatorSilver:
         requirements:
-            - achievement: CommunicatorBronze
+            - achievement:
+                name: CommunicatorBronze
             - xp: postXP
               amount: ">= 5"
         replaces: [CommunicatorBronze]
@@ -88,7 +89,7 @@ achievements:
                       value: java
         scope: [user]
 
-    # achievement per comleted course
+    # achievement per completed course
     CourseCompletedAward:
         requirements:
             - event:

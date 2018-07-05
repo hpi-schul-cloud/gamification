@@ -14,8 +14,9 @@ achievements:
     YourAchievement:
         requirements:
             # implicit AND semantic
-            - achievement: YourOtherAchievement
-              amount: 1
+            - achievement:
+                name: YourOtherAchievement
+                amount: 1
             - xp: yourXP
               amount: >= 10
             - event:
