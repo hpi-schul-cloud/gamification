@@ -105,6 +105,23 @@ describe('\'achievement-rule-checker\' hook', () => {
     assert.deepEqual(result[0].amount, 1);
   });
 
+  it('gives AnyOf Conditions Achievement', async () => {
+    await app.service('events').create({
+      'name': 'ParameterEvent',
+      'user_id': user_id,
+      'payload': {'x': 1, 'y': 3}
+    });
+
+    const result = await app.service('achievements').find({
+      query: {
+        user_id: user_id,
+        name: 'AnyOfConditionsAchievement'
+      }
+    });
+
+    assert.deepEqual(result[0].amount, 1);
+  });
+
 
   describe.skip('replaces achievement', async () => {
     const achievement_name = 'AchievementBeingReplaced';

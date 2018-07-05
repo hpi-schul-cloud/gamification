@@ -46,6 +46,16 @@ achievements:
                   amount: 10
                 - xp: secondXPType
                   amount: 10
+    AnyOfConditionsAchievement:
+        requirements:
+            - event:
+                name: ParameterEvent
+                conditions:
+                    - AnyOf:
+                        - parameter: x
+                          value: 1
+                        - parameter: y
+                          value: 2
     AchievementReplacingOther:
         requirements:
             - xp: XP
