@@ -111,4 +111,25 @@ describe('\'User\' service', () => {
     assert.deepEqual(result.user_id, user_id);
     assert.deepEqual(result.level, 2);
   });
+
+  it('throws the correct error when given an invalid type', async () => {
+    app.set('rules', require('../../src/rule-parser')(__dirname + '/../config/invalid_level_config.yml'));
+
+    await app.service('xp').create({
+      name: 'XP',
+      user_id: user_id,
+      amount: 50
+    });
+
+    let hadError = false;
+
+    try {
+      await app.service('user').get(user_id);
+    } catch (error) {
+      hadError = true;
+      assert.deepEqual(error.message, 'Levels Type should be one of "manual", "linear" or "exponential"');
+    }
+
+    assert.isTrue(hadError);
+  });
 });
