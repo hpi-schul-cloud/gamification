@@ -43,11 +43,44 @@ class Service {
       };
     });
 
+    let level = 1;
+
+    if(xp && xp.length) {
+      const values = rules['levels']['values'];
+      const levelXP = xp.find(x => x['name'] === 'XP')['amount'];
+      let initialValue = values[0];
+      let value = initialValue;
+
+      switch(rules['levels']['type']) {
+        case 'manual':
+          for (let value of values) {
+            if (levelXP >= value) {
+              level += 1;
+            }
+          }
+          break;
+        case 'linear':
+          while (levelXP >= value) {
+            level += 1;
+            value += initialValue;
+          }
+          break;
+        case 'exponential':
+          while (levelXP >= value) {
+            level += 1;
+            value *= initialValue;
+          }
+          break;
+        default:
+          throw new Error('Levels Type should be one of "manual", "linear" or "exponential"');
+      }
+    }
+
     return {
       user_id: id,
       achievements: achievements,
       xp: xp,
-      level: 42 // TODO
+      level: level
     };
   }
 }
