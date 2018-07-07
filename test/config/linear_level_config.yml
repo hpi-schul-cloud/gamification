@@ -1,6 +1,6 @@
 levels:
-    type: exponential
-    values: 200
+    type: linear
+    values: [200]
 
 XPs: []
 

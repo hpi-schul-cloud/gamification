@@ -85,7 +85,7 @@ describe('\'User\' service', () => {
   });
 
   it('returns the correct level when using linear levels', async () => {
-    app.set('rules', require('../../src/rule-parser')(__dirname + '/../config/linear_xp_config.yml'));
+    app.set('rules', require('../../src/rule-parser')(__dirname + '/../config/linear_level_config.yml'));
 
     await app.service('xp').create({
       name: 'XP',
@@ -99,7 +99,7 @@ describe('\'User\' service', () => {
   });
 
   it('returns the correct level when using exponential levels', async () => {
-    app.set('rules', require('../../src/rule-parser')(__dirname + '/../config/exponential_xp_config.yml'));
+    app.set('rules', require('../../src/rule-parser')(__dirname + '/../config/exponential_level_config.yml'));
 
     await app.service('xp').create({
       name: 'XP',
@@ -109,7 +109,6 @@ describe('\'User\' service', () => {
 
     const result = await app.service('user').get(user_id);
     assert.deepEqual(result.user_id, user_id);
-    assert.deepEqual(result.level, 3);
-
+    assert.deepEqual(result.level, 2);
   });
 });

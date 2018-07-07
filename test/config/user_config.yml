@@ -1,6 +1,6 @@
 levels:
     type: manual
-    values: 100,200,360,500,900
+    values: [100,200,360,500,900]
 
 XPs: []
 

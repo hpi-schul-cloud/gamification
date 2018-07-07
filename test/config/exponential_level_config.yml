@@ -1,6 +1,6 @@
 levels:
-    type: manual
-    values: 200
+    type: exponential
+    values: [200]
 
 XPs: []
 
