@@ -1,0 +1,9 @@
+levels:
+    type: exponential
+    values: 200
+
+XPs: []
+
+events: []
+
+achievements: []

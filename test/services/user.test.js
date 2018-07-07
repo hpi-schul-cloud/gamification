@@ -70,4 +70,46 @@ describe('\'User\' service', () => {
     assert.include(result.achievements[0], {name: 'TestAchievement'});
     assert.notInclude(result.achievements[0], {name: 'HiddenAchievement'});
   });
+
+
+  it('returns the correct level when using manual levels', async () => {
+    await app.service('xp').create({
+      name: 'XP',
+      user_id: user_id,
+      amount: 300
+    });
+
+    const result = await app.service('user').get(user_id);
+    assert.deepEqual(result.user_id, user_id);
+    assert.deepEqual(result.level, 3);
+  });
+
+  it('returns the correct level when using linear levels', async () => {
+    app.set('rules', require('../../src/rule-parser')(__dirname + '/../config/linear_xp_config.yml'));
+
+    await app.service('xp').create({
+      name: 'XP',
+      user_id: user_id,
+      amount: 650
+    });
+
+    const result = await app.service('user').get(user_id);
+    assert.deepEqual(result.user_id, user_id);
+    assert.deepEqual(result.level, 4);
+  });
+
+  it('returns the correct level when using exponential levels', async () => {
+    app.set('rules', require('../../src/rule-parser')(__dirname + '/../config/exponential_xp_config.yml'));
+
+    await app.service('xp').create({
+      name: 'XP',
+      user_id: user_id,
+      amount: 650
+    });
+
+    const result = await app.service('user').get(user_id);
+    assert.deepEqual(result.user_id, user_id);
+    assert.deepEqual(result.level, 3);
+
+  });
 });
