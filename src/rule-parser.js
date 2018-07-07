@@ -45,7 +45,7 @@ class Requirement {
       return new AchievementRequirement(requirement['achievement']);
     }
     if (requirement['xp'] !== undefined) {
-      return new XPRequirement(requirement);
+      return new XPRequirement(requirement['xp']);
     }
     if (requirement['event'] !== undefined) {
       return new EventRequirement(requirement['event']);
@@ -96,7 +96,7 @@ class XPRequirement extends Requirement {
     const matches = await context.app.service('xp').find({
       query: {
         user_id: context.data.user_id,
-        name: this.requirement['xp']
+        name: this.requirement['name']
       }
     });
     if (matches.length === 0) return false;

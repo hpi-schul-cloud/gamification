@@ -6,8 +6,9 @@ XPs:
 events:
     YourEventName:
         actions:
-            - xp: yourXP
-              amount: 1
+            - xp:
+                name: yourXP
+                amount: 1
     YourEventWithoutAction: ~
 
 achievements:
@@ -17,8 +18,9 @@ achievements:
             - achievement:
                 name: YourOtherAchievement
                 amount: 1
-            - xp: yourXP
-              amount: >= 10
+            - xp:
+                name: yourXP
+                amount: >= 10
             - event:
                 name: YourEventName
                 # amount is implicitly 1
@@ -39,10 +41,12 @@ achievements:
                             - parameter: someOtherParameter
                               value: 100
             - AnyOf:
-                - xp: yourXP
-                  amount: >= 10
-                - xp: XP
-                  amount: >= 10
+                - xp:
+                    name: yourXP
+                    amount: >= 10
+                - xp:
+                    name: XP
+                    amount: >= 10
         replaces: [YourOtherAchievement]
         # maxAwarded is implicitly 1
         maxAwarded: 2
@@ -50,7 +54,8 @@ achievements:
         scope: [context.course_id]
         # actions that are executed when achievement is awarded
         actions:
-            - xp: XP
-              amount: 100
+            - xp:
+                name: XP
+                amount: 100
         # implicitly false
         hidden: true
