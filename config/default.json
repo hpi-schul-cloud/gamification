@@ -8,7 +8,7 @@
   },
   "mongodb": "mongodb://localhost:27017/gamification",
   "rabbitmq": "localhost:5672",
-  "rabbitQueue": "openhpi-schulcloud-queue",
-  "rabbitExchange": "openhpi-schulcloud-exchange",
-  "rabbitRoutingKey": "openhpi-schulcloud-key"
+  "rabbitQueue": "my-queue",
+  "rabbitExchange": "my-exchange",
+  "rabbitRoutingKey": "my-key"
 }

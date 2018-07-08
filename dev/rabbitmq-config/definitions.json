@@ -24,14 +24,14 @@
     }],
     "policies": [],
     "queues": [{
-        "name": "openhpi-schulcloud-queue",
+        "name": "my-queue",
         "vhost": "/",
         "durable": true,
         "auto_delete": false,
         "arguments": {}
     }],
     "exchanges": [{
-        "name": "openhpi-schulcloud-exchange",
+        "name": "my-exchange",
         "vhost": "/",
         "type": "topic",
         "durable": true,
@@ -40,11 +40,11 @@
         "arguments": {}
     }],
     "bindings": [{
-        "source": "openhpi-schulcloud-exchange",
+        "source": "my-exchange",
         "vhost": "/",
-        "destination": "openhpi-schulcloud-queue",
+        "destination": "my-queue",
         "destination_type": "queue",
-        "routing_key": "openhpi-schulcloud-key",
+        "routing_key": "my-key",
         "arguments": {}
     }]
 }
