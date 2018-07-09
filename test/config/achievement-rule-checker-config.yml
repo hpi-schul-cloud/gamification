@@ -96,7 +96,7 @@ achievements:
               amount: 10
         maxAwarded: 2
     AchievementCanBeAwardedTwice:
-            requirements:
-                - event:
-                    name: EventGiving10XP
-            maxAwarded: 2
+        requirements:
+            - event:
+                name: EventGiving10XP
+        maxAwarded: 2
