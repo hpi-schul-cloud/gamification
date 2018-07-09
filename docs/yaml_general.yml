@@ -3,6 +3,17 @@ XPs:
     # general "XP" is predefined
     yourXP
 
+levels:
+    # there are three different ways to define levels:
+    type: manual
+    values: [10,100,1000]
+    # OR
+    type: linear
+    values: [100]
+    # OR
+    type: exponential
+    values: [100]
+
 events:
     YourEventName:
         actions:
