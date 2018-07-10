@@ -30,7 +30,7 @@ describe('\'User\' service', () => {
     assert.ok(service, 'Registered the service');
   });
 
-  it('gives a user give xp and achievements', async () => {
+  it('returns a user\'s xp and achievements', async () => {
     await app.service('xp').create({
       name: 'XP',
       user_id: user_id,
@@ -40,7 +40,8 @@ describe('\'User\' service', () => {
     await app.service('achievements').create({
       name: 'TestAchievement',
       user_id: user_id,
-      amount: 1
+      current_amount: 1,
+      total_amount: 1
     });
 
     const result = await app.service('user').get(user_id);
@@ -51,17 +52,47 @@ describe('\'User\' service', () => {
     assert.include(result.xp[0], {amount: 20});
   });
 
+  it('returns only the current amount of achievements', async () => {
+    await app.service('achievements').create({
+      name: 'TestAchievement',
+      user_id: user_id,
+      current_amount: 5,
+      total_amount: 10
+    });
+
+    const result = await app.service('user').get(user_id);
+
+    assert.deepEqual(result.user_id, user_id);
+    assert.include(result.achievements[0], {amount: 5});
+  });
+
+  it('does not return achievements where current_amount equals 0', async () => {
+    await app.service('achievements').create({
+      name: 'TestAchievement',
+      user_id: user_id,
+      current_amount: 0,
+      total_amount: 10
+    });
+
+    const result = await app.service('user').get(user_id);
+
+    assert.deepEqual(result.user_id, user_id);
+    assert.lengthOf(result.achievements, 0);
+  });
+
   it('does not return hidden achievements', async () => {
     await app.service('achievements').create({
       name: 'HiddenAchievement',
       user_id: user_id,
-      amount: 1
+      current_amount: 1,
+      total_amount: 1
     });
 
     await app.service('achievements').create({
       name: 'TestAchievement',
       user_id: user_id,
-      amount: 1
+      current_amount: 1,
+      total_amount: 1
     });
 
     const result = await app.service('user').get(user_id);

@@ -26,9 +26,17 @@ module.exports = function (options = {}) {
           });
 
           if (uniqueCombination.length > 0) {
-            await achievementService.patch(uniqueCombination[0]._id, {amount: uniqueCombination[0].amount + 1});
+            await achievementService.patch(uniqueCombination[0]._id, {
+              current_amount: uniqueCombination[0].current_amount + 1,
+              total_amount: uniqueCombination[0].total_amount + 1
+            });
           } else {
-            await achievementService.create({user_id: context.data.user_id, name: achievementRule.name, amount: 1});
+            await achievementService.create({
+              user_id: context.data.user_id,
+              name: achievementRule.name,
+              current_amount: 1,
+              total_amount: 1
+            });
           }
 
           for (const replaceName of achievementRule.replaces) {
@@ -39,9 +47,10 @@ module.exports = function (options = {}) {
               }
             });
 
-            /* istanbul ignore else */
             if (replacedAchievement.length !== 0) {
-              await context.app.service('achievements').remove(replacedAchievement[0]._id);
+              await achievementService.patch(replacedAchievement[0]._id, {
+                current_amount: 0
+              });
             }
           }
         }

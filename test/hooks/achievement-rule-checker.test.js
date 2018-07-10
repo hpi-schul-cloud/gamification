@@ -1,4 +1,4 @@
-const assert = require('assert');
+const assert = require('chai').assert;
 const feathers = require('@feathersjs/feathers');
 const services = require('../../src/services');
 const configuration = require('@feathersjs/configuration');
@@ -38,7 +38,7 @@ describe('\'achievement-rule-checker\' hook', () => {
       }
     });
 
-    assert.deepEqual(result[0].amount, 1);
+    assert.deepEqual(result[0].current_amount, 1);
   });
 
   it('gives an achievement after other achievement', async () => {
@@ -54,7 +54,7 @@ describe('\'achievement-rule-checker\' hook', () => {
       }
     });
 
-    assert.deepEqual(result[0].amount, 1);
+    assert.deepEqual(result[0].current_amount, 1);
   });
 
   it('gives achievement requiring 2 Types of XP', async () => {
@@ -70,7 +70,7 @@ describe('\'achievement-rule-checker\' hook', () => {
       }
     });
 
-    assert.deepEqual(result[0].amount, 1);
+    assert.deepEqual(result[0].current_amount, 1);
   });
 
   it('gives achievement requiring event', async () => {
@@ -86,7 +86,7 @@ describe('\'achievement-rule-checker\' hook', () => {
       }
     });
 
-    assert.deepEqual(result[0].amount, 1);
+    assert.deepEqual(result[0].current_amount, 1);
   });
 
   it('gives AnyOf Achievement', async () => {
@@ -102,15 +102,19 @@ describe('\'achievement-rule-checker\' hook', () => {
       }
     });
 
-    assert.deepEqual(result[0].amount, 1);
+    assert.deepEqual(result[0].current_amount, 1);
   });
 
 
-  describe.skip('replaces achievement', async () => {
+  it('replaces an achievement', async () => {
     const achievement_name = 'AchievementBeingReplaced';
 
     await app.service('events').create({
-      'name': 'EventGiving10XP',
+      'name': 'EventGrantingAchievement',
+      'user_id': user_id
+    });
+    await app.service('events').create({
+      'name': 'EventGrantingAchievement',
       'user_id': user_id
     });
 
@@ -121,7 +125,8 @@ describe('\'achievement-rule-checker\' hook', () => {
       }
     });
 
-    assert.deepEqual(result[0].amount, 1);
+    assert.deepEqual(result[0].current_amount, 2);
+    assert.deepEqual(result[0].total_amount, 2);
 
     await app.service('events').create({
       'name': 'EventGiving10XP',
@@ -135,7 +140,8 @@ describe('\'achievement-rule-checker\' hook', () => {
       }
     });
 
-    assert.deepEqual(result[0].amount, 1);
+    assert.deepEqual(result[0].current_amount, 1);
+    assert.deepEqual(result[0].total_amount, 1);
 
     result = await app.service('achievements').find({
       query: {
@@ -144,11 +150,12 @@ describe('\'achievement-rule-checker\' hook', () => {
       }
     });
 
-    assert.deepEqual(result, []);
+    assert.lengthOf(result, 1);
+    assert.deepInclude(result[0], {name: achievement_name, current_amount: 0, total_amount: 2});
   });
 
 
-  it('gives achievement maxAwarded times', async () => {
+  it('gives achievement maxAwardedTotal times', async () => {
     const achievement_name = 'AchievementCanBeAwardedTwice';
 
     await app.service('events').create({
@@ -163,7 +170,8 @@ describe('\'achievement-rule-checker\' hook', () => {
       }
     });
 
-    assert.deepEqual(result[0].amount, 1);
+    assert.deepEqual(result[0].current_amount, 1);
+    assert.deepEqual(result[0].total_amount, 1);
 
     await app.service('events').create({
       'name': 'EventGiving10XP',
@@ -177,7 +185,8 @@ describe('\'achievement-rule-checker\' hook', () => {
       }
     });
 
-    assert.deepEqual(result[0].amount, 2);
+    assert.deepEqual(result[0].current_amount, 2);
+    assert.deepEqual(result[0].total_amount, 2);
 
 
     await app.service('events').create({
@@ -192,10 +201,11 @@ describe('\'achievement-rule-checker\' hook', () => {
       }
     });
 
-    assert.deepEqual(result[0].amount, 2);
+    assert.deepEqual(result[0].current_amount, 2);
+    assert.deepEqual(result[0].total_amount, 2);
   });
 
-  it('gives maxAwarded achievements at once', async () => {
+  it('gives maxAwardedTotal achievements at once', async () => {
     const achievement_name = 'AchievementCanBeAwardedTwiceAtOnce';
 
     await app.service('events').create({
@@ -210,7 +220,8 @@ describe('\'achievement-rule-checker\' hook', () => {
       }
     });
 
-    assert.deepEqual(result[0].amount, 2);
+    assert.deepEqual(result[0].current_amount, 2);
+    assert.deepEqual(result[0].total_amount, 2);
 
     await app.service('events').create({
       'name': 'EventGiving10XP',
@@ -224,7 +235,8 @@ describe('\'achievement-rule-checker\' hook', () => {
       }
     });
 
-    assert.deepEqual(result[0].amount, 2);
+    assert.deepEqual(result[0].current_amount, 2);
+    assert.deepEqual(result[0].total_amount, 2);
   });
 
   it('gives chained achievements', async () => {
@@ -239,7 +251,7 @@ describe('\'achievement-rule-checker\' hook', () => {
         name: '10XPAchievement'
       }
     });
-    assert.deepEqual(result1[0].amount, 1);
+    assert.deepEqual(result1[0].current_amount, 1);
 
     let result2 = await app.service('achievements').find({
       query: {
@@ -247,6 +259,6 @@ describe('\'achievement-rule-checker\' hook', () => {
         name: 'ChainedAchievement'
       }
     });
-    assert.deepEqual(result2[0].amount, 1);
+    assert.deepEqual(result2[0].current_amount, 1);
   });
 });

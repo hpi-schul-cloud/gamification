@@ -5,7 +5,7 @@ events:
     EventGiving10XP:
         actions:
             - xp: XP
-              amount: 10 
+              amount: 10
     EventGiving2XPTypes:
         actions:
             - xp: XP
@@ -49,19 +49,20 @@ achievements:
     AchievementReplacingOther:
         requirements:
             - xp: XP
-              amount: 20
+              amount: 10
         replaces: [AchievementBeingReplaced]
     AchievementBeingReplaced:
         requirements:
-            - xp: XP
-              amount: 10
+            - event:
+                name: EventGrantingAchievement
+        maxAwardedTotal: 2
     AchievementCanBeAwardedTwiceAtOnce:
         requirements:
             - xp: XP
               amount: 10
-        maxAwarded: 2
+        maxAwardedTotal: 2
     AchievementCanBeAwardedTwice:
-            requirements:
-                - event:
-                    name: EventGiving10XP
-            maxAwarded: 2
+        requirements:
+            - event:
+                name: EventGiving10XP
+        maxAwardedTotal: 2

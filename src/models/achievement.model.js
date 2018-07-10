@@ -13,7 +13,8 @@ module.exports = function (app) {
   const achievement = new Schema({
     user_id: {type: String, required: true},
     name: {type: String, required: true},
-    amount: {type: Number, required: true},
+    current_amount: {type: Number, required: true},
+    total_amount: {type: Number, required: true},
     scope: {type: Map, required: false, default: null}
   });
   achievement.index({ user_id: 1, name: 1 }, {unique: true});
