@@ -7,8 +7,9 @@
   "keywords": [
     "feathers"
   ],
+  "license": "MIT",
   "author": {
-    "name": "frederike-ramin",
+    "name": "Frederike Ramin",
     "email": "frederike.ramin@student.hpi.de"
   },
   "contributors": [],

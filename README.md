@@ -1,6 +1,7 @@
-[![Build Status](https://travis-ci.com/frederike-ramin/gamification.svg?branch=master)](https://travis-ci.com/frederike-ramin/gamification)
-[![Coverage Status](https://coveralls.io/repos/github/frederike-ramin/gamification/badge.svg?branch=coveralls)](https://coveralls.io/github/frederike-ramin/gamification?branch=coveralls)
-# gamification
+[![Build Status](https://travis-ci.com/schul-cloud/gamification.svg?branch=master)](https://travis-ci.com/schul-cloud/gamification)
+[![Coverage Status](https://coveralls.io/repos/github/schul-cloud/gamification/badge.svg?branch=coveralls)](https://coveralls.io/github/schul-cloud/gamification?branch=coveralls)
+
+# Gamification
 
 > A reusable microservice for gamification.
 
@@ -8,39 +9,44 @@
 
 This project uses [Feathers](http://feathersjs.com). An open source web framework for building modern real-time applications.
 
-## Development with Docker
-First run `npm install`. Then start the docker environment.
-```
-docker-compose -f docker-compose.dev.yml up
-```
-This starts the containers for the app, MongoDB and RabbitMQ. If necessary, the app's container is built automatically in advance.
-The app is then available at http://localhost:3030/.
 
-### RabbitMQ: Sending events manually
-The RabbitMQ management interface is available at http://localhost:15672. In development mode, use Username `guest` and Password `guest` to login.
+## Local Development
 
-You can send events manually in the *Exchanges* section. Select the exchange and then publish your message at *Publish message*. Don't forget to insert the *routing key*.
-
-## Getting Started
-
-Getting up and running is as easy as 1, 2, 3.
-
-1. Make sure you have [NodeJS](https://nodejs.org/) and [npm](https://www.npmjs.com/) installed.
-2. Install your dependencies
+1. Make sure you have [NodeJS](https://nodejs.org/) >= 8.0.0, [npm](https://www.npmjs.com/) >= 6.1.0 and MongoDB installed.
+2. If you don't have a local RabbitMQ installation, temporarily remove the `AmqpConnector.connect()` call from `src/index.js`.
+3. Install npm dependencies
 
     ```
     cd path/to/gamification; npm install
     ```
 
-3. Start your app
+4. Start the app
 
     ```
-    npm start
+    npm dev
     ```
+
+
+## Development with Docker
+
+First run `npm install`. Then start the docker environment.
+
+```
+docker-compose -f docker-compose.dev.yml up
+```
+
+This starts the containers for the app, MongoDB and RabbitMQ.
+The app is then available at http://localhost:3030/.
+
+### RabbitMQ: Sending events manually
+
+The RabbitMQ management interface is available at http://localhost:15672. In development mode, use Username `guest` and Password `guest` to login.
+
+You can send events manually in the *Exchanges* section. Select the exchange and then publish your message at *Publish message*. Don't forget to insert the *routing key*.
 
 ## Testing
 
-Simply run `npm test` and all your tests in the `test/` directory will be run.
+Run `npm test` to run all tests. Use `npm coverage` to run tests and generate coverage.
 
 ## Scaffolding
 
@@ -55,18 +61,9 @@ $ feathers generate model                 # Generate a new Model
 $ feathers help                           # Show all commands
 ```
 
-## Help
-
-For more information on all the things you can do with Feathers visit [docs.feathersjs.com](http://docs.feathersjs.com).
-
-## Changelog
-
-__0.1.0__
-
-- Initial release
-
 ## License
 
-Copyright (c) 2018
+Copyright (c) 2018 Kim-Pascal Borchart, Christian Flach, Corinna Jaschek,
+Sebastian Kliem, Mandy Klingbeil, Marcus Konrad, Frederike Ramin.
 
 Licensed under the [MIT license](LICENSE).
