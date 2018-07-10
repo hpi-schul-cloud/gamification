@@ -28,9 +28,9 @@ achievements:
             - xp: XP
               amount: "== 9"
     EqualAchievementSucceeding:
-            requirements:
-                - xp: XP
-                  amount: "== 10"
+        requirements:
+            - xp: XP
+              amount: "== 10"
     NotEqualAchievement:
         requirements:
             - xp: XP
