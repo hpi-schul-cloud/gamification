@@ -13,9 +13,9 @@ class AchievementRule {
     this.hidden = rule['hidden'] === undefined ? false : rule['hidden'];
   }
 
-  async isFulfilled(context) {
+  async isFulfilled(context, isFirstCycle) {
     for (const requirement of this.requirements) {
-      if (!await requirement.isFulfilled(context)) {
+      if (!await requirement.isFulfilled(context, isFirstCycle)) {
         return false;
       }
     }
@@ -139,7 +139,7 @@ class EventRequirement extends  Requirement {
   conditionFulfilled(condition, matchedEvent) {
     switch(true) {
       case condition['parameter'] !== undefined:
-        return condition['value'] === matchedEvent['context'][condition['parameter']];
+        return condition['value'] === matchedEvent['payload'][condition['parameter']];
       case condition['AnyOf'] !== undefined:
         return this.checkAnyOf(condition['AnyOf'], matchedEvent);
       default:
@@ -161,7 +161,11 @@ class EventRequirement extends  Requirement {
     });
   }
 
-  async isFulfilled(context) {
+  async isFulfilled(context, isFirstCycle) {
+    // event requirements should be only checked in first achievement cycle
+    if (!isFirstCycle) {
+      return false;
+    }
     const matches = await context.app.service('events').find({
       query: {
         user_id: context.data.user_id,
@@ -183,9 +187,9 @@ class AnyOfRequirement extends Requirement {
     this.innerRequirements = innerRequirements.map(requirement => Requirement.fromYamlRequirement(requirement));
   }
 
-  async isFulfilled(context) {
+  async isFulfilled(context, isFirstCycle) {
     for (const requirement of this.innerRequirements) {
-      if(await requirement.isFulfilled(context)) return true;
+      if(await requirement.isFulfilled(context, isFirstCycle)) return true;
     }
     return false;
   }
