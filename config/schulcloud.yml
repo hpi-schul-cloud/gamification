@@ -2,27 +2,18 @@ XPs:
 
 events:
   Registered: ~
-  NewsRead: ~
-  AvatarEdited:
+  NewsRead:
     actions:
       - xp: XP
         amount: 1
-  StudentGroupCreated:
-    actions:
-      - xp: XP
-        amount: 2
-  TopicCreated:
-    actions:
-      - xp: XP
-        amount: 2
-  MaterialShared:
-    actions:
-      - xp: XP
-        amount: 10
+  AvatarEdited: ~
+  StudentGroupCreated: ~
+  TopicCreated: ~
+  MaterialShared: ~
   MaterialSearched:
     actions:
       - xp: XP
-        amount: 10
+        amount: 5
   HomeWorkSubmitted:
     actions:
       - xp: XP
