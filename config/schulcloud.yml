@@ -42,12 +42,12 @@ events:
 
 achievements:
   # TODO How to implement?
-  ConstantVisitor: ~
+  #ConstantVisitor: ~
   Registered:
     requirements:
       - event:
-        name: Registered
-        amount: 1
+          name: Registered
+          amount: 1
     actions:
       - xp: XP
         amount: 10
@@ -55,38 +55,41 @@ achievements:
   FirstNewsRead:
     requirements:
       - event:
-        name: NewsRead
-        amount: 1
-      actions:
-        - xp: XP
-          amount: 5
+          name: NewsRead
+          amount: 1
+    actions:
+      - xp: XP
+        amount: 5
     scope: [user]
   AvatarCreativity1:
     requirements:
       - event:
-        name: AvatarEdited
-        amount: 1
+          name: AvatarEdited
+          amount: 1
+    scope: [user]
   AvatarCreativity10:
     requirements:
       - event:
-        name: AvatarEdited
-        amount: 10
+          name: AvatarEdited
+          amount: 10
     actions:
       - xp: XP
         amount: 5
+    scope: [user]
   AvatarCreativity25:
     requirements:
       - event:
-        name: AvatarEdited
-        amount: 25
+          name: AvatarEdited
+          amount: 25
     actions:
       - xp: XP
         amount: 15
+    scope: [user]
   TeamPlayer:
     requrements:
       - event:
-        name: StudentGroupCreated
-        amount: 1
+          name: StudentGroupCreated
+          amount: 1
     actions:
       - xp: XP
         amount: 2
@@ -94,8 +97,8 @@ achievements:
   TeamPlayer5:
     requrements:
       - event:
-        name: StudentGroupCreated
-        amount: 5
+          name: StudentGroupCreated
+          amount: 5
     actions:
       - xp: XP
         amount: 10
@@ -103,8 +106,8 @@ achievements:
   TeamPlayer10:
     requrements:
       - event:
-        name: StudentGroupCreated
-        amount: 10
+          name: StudentGroupCreated
+          amount: 10
     actions:
       - xp: XP
         amount: 20
@@ -112,8 +115,8 @@ achievements:
   TopicCreator:
     requirements:
       - event:
-        name: TopicCreated
-        amonut: 1
+          name: TopicCreated
+          amonut: 1
     actions:
       - xp: XP
         amount: 5
@@ -121,8 +124,8 @@ achievements:
   TopicCreator5:
     requirements:
       - event:
-        name: TopicCreated
-        amonut: 5
+          name: TopicCreated
+          amonut: 5
     actions:
       - xp: XP
         amount: 10
@@ -130,8 +133,8 @@ achievements:
   TopicCreator10:
     requirements:
       - event:
-        name: TopicCreated
-        amonut: 10
+          name: TopicCreated
+          amonut: 10
     actions:
       - xp: XP
         amount: 20
@@ -139,86 +142,62 @@ achievements:
   Sharer:
     requirements:
       - event:
-        name: MaterialShared
-        amount: 1
+          name: MaterialShared
+          amount: 1
     actions: 
       - xp: XP
         amount: 15
   Sharer5:
     requirements:
       - event:
-        name: MaterialShared
-        amount: 5
+          name: MaterialShared
+          amount: 5
     actions: 
       - xp: XP
         amount: 25
   Sharer10:
     requirements:
       - event:
-        name: MaterialShared
-        amount: 10
-    actions: 
-      - xp: XP
-        amount: 35
-  Sharer:
-    requirements:
-      - event:
-        name: MaterialShared
-        amount: 1
-    actions: 
-      - xp: XP
-        amount: 15
-  Sharer5:
-    requirements:
-      - event:
-        name: MaterialShared
-        amount: 5
-    actions: 
-      - xp: XP
-        amount: 25
-  Sharer10:
-    requirements:
-      - event:
-        name: MaterialShared
-        amount: 10
+          name: MaterialShared
+          amount: 10
     actions: 
       - xp: XP
         amount: 35
   Explorer:
     requirements:
       - event:
-        name: MaterialSearched
-        amount: 1
+          name: MaterialSearched
+          amount: 1
     actions: 
       - xp: XP
         amount: 15
   Explorer5:
     requirements:
       - event:
-        name: MaterialSearched
-        amount: 5
+          name: MaterialSearched
+          amount: 5
     actions: 
       - xp: XP
         amount: 25
   Explorer10:
     requirements:
       - event:
-        name: MaterialSearched
-        amount: 10
+          name: MaterialSearched
+          amount: 10
     actions: 
       - xp: XP
         amount: 35
   SchulCloudExpert:
     requirements:
       - event:
-        name: FunctionXUsed
-        amount: 1
+          name: FunctionXUsed
+          amount: 1
       - event:
-        name: FunctionYUsed
-        amount: 1
+          name: FunctionYUsed
+          amount: 1
       - event:
-        name: FunctionZUsed
-        amount: 1
+          name: FunctionZUsed
+          amount: 1
     actions:
       - xp: XP
         amount: 40
@@ -228,8 +207,8 @@ achievements:
   HomeworkSubmissionFirst:
     requirements:
       - event:
-        name: HomeworkSubmitted
-        amount: 1
+          name: HomeworkSubmitted
+          amount: 1
     actions:
       - xp: XP
         amount: 10
