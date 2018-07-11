@@ -43,8 +43,11 @@ achievements:
                 - xp: XP
                   amount: >= 10
         replaces: [YourOtherAchievement]
-        # maxAwarded is implicitly 1
+        # if both maxAwarded and maxAwardedTotal are not set, they default to 1.
+        # if only maxAwarded is set, maxAwardedTotal defaults to +Infinity.
+        # if only maxAwardedTotal is set, maxAwarded defaults to maxAwardedTotal.
         maxAwarded: 2
+        maxAwardedTotal: 5
         # implicitly user
         scope: [context.course_id]
         # actions that are executed when achievement is awarded

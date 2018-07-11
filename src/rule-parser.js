@@ -7,8 +7,26 @@ class AchievementRule {
     const requirements = rule['requirements'] === undefined ? [] : rule['requirements'];
     this.requirements = requirements.map(requirement => Requirement.fromYamlRequirement(requirement));
     this.replaces = rule['replaces'] === undefined ? [] : rule['replaces'] ;
-    this.maxAwardedTotal = rule['maxAwardedTotal'] === undefined ? 1 : rule['maxAwardedTotal'];
-    this.maxAwarded = rule['maxAwarded'] === undefined ? this.maxAwardedTotal : rule['maxAwarded'];
+
+    let maxAwarded = rule['maxAwarded'];
+    let maxAwardedTotal = rule['maxAwardedTotal'];
+    if (maxAwarded === undefined && maxAwardedTotal === undefined) {
+      // By default, an achievement can only be awarded once, ever.
+      maxAwarded = maxAwardedTotal = 1;
+    } else if (maxAwarded === undefined && maxAwardedTotal !== undefined) {
+      // If only maxAwardedTotal is set, we can also safely set maxAwarded to
+      // the same value.
+      maxAwarded = maxAwardedTotal;
+    } else if (maxAwarded !== undefined && maxAwardedTotal === undefined) {
+      // In case only maxAwarded is set, we need to set maxAwardedTotal to +Infinity.
+      maxAwardedTotal = Number.POSITIVE_INFINITY;
+    }
+    if (maxAwarded > maxAwardedTotal) {
+      throw new Error(`The achievement "${this.name}" has maxAwarded > maxAwardedTotal (${this.maxAwarded} > ${this.maxAwardedTotal}).`);
+    }
+    this.maxAwarded = maxAwarded;
+    this.maxAwardedTotal = maxAwardedTotal;
+
     this.scope = rule['scope'] === undefined ? ['user_id'] : rule['scope'];
     this.actions = rule['actions'] === undefined ? [] : rule['actions'];
     this.hidden = rule['hidden'] === undefined ? false : rule['hidden'];
@@ -213,3 +231,5 @@ module.exports = function (config_path) {
 
   return rules;
 };
+
+module.exports.AchievementRule = AchievementRule;

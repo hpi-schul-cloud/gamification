@@ -154,89 +154,93 @@ describe('\'achievement-rule-checker\' hook', () => {
     assert.deepInclude(result[0], {name: achievement_name, current_amount: 0, total_amount: 2});
   });
 
+  [
+    'MaxAwarded',
+    'MaxAwardedTotal'
+  ].forEach(awardedType => {
+    it(`gives achievement ${awardedType} times`, async () => {
+      const achievementName = `AchievementCanBe${awardedType}Twice`;
 
-  it('gives achievement maxAwardedTotal times', async () => {
-    const achievement_name = 'AchievementCanBeAwardedTwice';
+      await app.service('events').create({
+        'name': 'EventGiving10XP',
+        'user_id': user_id
+      });
 
-    await app.service('events').create({
-      'name': 'EventGiving10XP',
-      'user_id': user_id
+      let result = await app.service('achievements').find({
+        query: {
+          user_id: user_id,
+          name: achievementName
+        }
+      });
+
+      assert.deepEqual(result[0].current_amount, 1);
+      assert.deepEqual(result[0].total_amount, 1);
+
+      await app.service('events').create({
+        'name': 'EventGiving10XP',
+        'user_id': user_id
+      });
+
+      result = await app.service('achievements').find({
+        query: {
+          user_id: user_id,
+          name: achievementName
+        }
+      });
+
+      assert.deepEqual(result[0].current_amount, 2);
+      assert.deepEqual(result[0].total_amount, 2);
+
+
+      await app.service('events').create({
+        'name': 'EventGiving10XP',
+        'user_id': user_id
+      });
+
+      result = await app.service('achievements').find({
+        query: {
+          user_id: user_id,
+          name: achievementName
+        }
+      });
+
+      assert.deepEqual(result[0].current_amount, 2);
+      assert.deepEqual(result[0].total_amount, 2);
     });
 
-    let result = await app.service('achievements').find({
-      query: {
-        user_id: user_id,
-        name: achievement_name
-      }
+    it(`gives achievement ${awardedType} times at once`, async () => {
+      const achievementName = `AchievementCanBe${awardedType}TwiceAtOnce`;
+
+      await app.service('events').create({
+        'name': 'EventGiving10XP',
+        'user_id': user_id
+      });
+
+      let result = await app.service('achievements').find({
+        query: {
+          user_id: user_id,
+          name: achievementName
+        }
+      });
+
+      assert.deepEqual(result[0].current_amount, 2);
+      assert.deepEqual(result[0].total_amount, 2);
+
+      await app.service('events').create({
+        'name': 'EventGiving10XP',
+        'user_id': user_id
+      });
+
+      result = await app.service('achievements').find({
+        query: {
+          user_id: user_id,
+          name: achievementName
+        }
+      });
+
+      assert.deepEqual(result[0].current_amount, 2);
+      assert.deepEqual(result[0].total_amount, 2);
     });
-
-    assert.deepEqual(result[0].current_amount, 1);
-    assert.deepEqual(result[0].total_amount, 1);
-
-    await app.service('events').create({
-      'name': 'EventGiving10XP',
-      'user_id': user_id
-    });
-
-    result = await app.service('achievements').find({
-      query: {
-        user_id: user_id,
-        name: achievement_name
-      }
-    });
-
-    assert.deepEqual(result[0].current_amount, 2);
-    assert.deepEqual(result[0].total_amount, 2);
-
-
-    await app.service('events').create({
-      'name': 'EventGiving10XP',
-      'user_id': user_id
-    });
-
-    result = await app.service('achievements').find({
-      query: {
-        user_id: user_id,
-        name: achievement_name
-      }
-    });
-
-    assert.deepEqual(result[0].current_amount, 2);
-    assert.deepEqual(result[0].total_amount, 2);
-  });
-
-  it('gives maxAwardedTotal achievements at once', async () => {
-    const achievement_name = 'AchievementCanBeAwardedTwiceAtOnce';
-
-    await app.service('events').create({
-      'name': 'EventGiving10XP',
-      'user_id': user_id
-    });
-
-    let result = await app.service('achievements').find({
-      query: {
-        user_id: user_id,
-        name: achievement_name
-      }
-    });
-
-    assert.deepEqual(result[0].current_amount, 2);
-    assert.deepEqual(result[0].total_amount, 2);
-
-    await app.service('events').create({
-      'name': 'EventGiving10XP',
-      'user_id': user_id
-    });
-
-    result = await app.service('achievements').find({
-      query: {
-        user_id: user_id,
-        name: achievement_name
-      }
-    });
-
-    assert.deepEqual(result[0].current_amount, 2);
-    assert.deepEqual(result[0].total_amount, 2);
   });
 
   it('gives chained achievements', async () => {

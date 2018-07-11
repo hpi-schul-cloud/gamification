@@ -56,12 +56,24 @@ achievements:
             - event:
                 name: EventGrantingAchievement
         maxAwardedTotal: 2
-    AchievementCanBeAwardedTwiceAtOnce:
+
+    AchievementCanBeMaxAwardedTwiceAtOnce:
+        requirements:
+            - xp: XP
+              amount: 10
+        maxAwarded: 2
+    AchievementCanBeMaxAwardedTotalTwiceAtOnce:
         requirements:
             - xp: XP
               amount: 10
         maxAwardedTotal: 2
-    AchievementCanBeAwardedTwice:
+
+    AchievementCanBeMaxAwardedTwice:
+        requirements:
+            - event:
+                name: EventGiving10XP
+        maxAwarded: 2
+    AchievementCanBeMaxAwardedTotalTwice:
         requirements:
             - event:
                 name: EventGiving10XP
