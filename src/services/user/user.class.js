@@ -45,30 +45,30 @@ class Service {
 
     let level = 1;
 
-    if(xp && xp.length) {
-      const values = rules['levels']['values'];
-      const levelXP = xp.find(x => x['name'] === 'XP')['amount'];
-      let initialValue = values[0];
-      let value = initialValue;
+    if(xp.length) {
+      const currentXP = xp.find(x => x['name'] === 'XP')['amount'];
+      let value = 0;
 
       switch(rules['levels']['type']) {
         case 'manual':
-          for (let value of values) {
-            if (levelXP >= value) {
+          for (let step of rules['levels']['steps']) {
+            if (currentXP >= step) {
               level += 1;
             }
           }
           break;
         case 'linear':
-          while (levelXP >= value) {
+          value = rules['levels']['interval'];
+          while (currentXP >= value) {
             level += 1;
-            value += initialValue;
+            value += rules['levels']['interval'];
           }
           break;
         case 'exponential':
-          while (levelXP >= value) {
+          value = rules['levels']['starting_value'];
+          while (currentXP >= value) {
             level += 1;
-            value *= initialValue;
+            value += ((level - 1) * rules['levels']['starting_value']);
           }
           break;
         default:

@@ -1,6 +1,6 @@
 levels:
     type: linear
-    values: [200]
+    interval: 100
 
 XPs: []
 

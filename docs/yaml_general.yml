@@ -6,13 +6,13 @@ XPs:
 levels:
     # there are three different ways to define levels:
     type: manual
-    values: [10,100,1000]
+    steps: [10,100,1000] # levels at 0, 10, 100, 1000
     # OR
     type: linear
-    values: [100]
+    interval: 100 # levels at 0, 100, 200, 300 ...
     # OR
     type: exponential
-    values: [100]
+    starting_value: 100 # levels at 0, 100, 200, 400 ...
 
 events:
     YourEventName:

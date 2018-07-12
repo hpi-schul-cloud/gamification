@@ -1,6 +1,6 @@
 levels:
     type: invalid
-    values: [200]
+    steps: [200]
 
 XPs: []
 

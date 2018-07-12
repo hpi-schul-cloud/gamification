@@ -1,6 +1,6 @@
 levels:
     type: exponential
-    values: [200]
+    starting_value: 100
 
 XPs: []
 

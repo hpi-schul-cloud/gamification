@@ -90,12 +90,12 @@ describe('\'User\' service', () => {
     await app.service('xp').create({
       name: 'XP',
       user_id: user_id,
-      amount: 650
+      amount: 250
     });
 
     const result = await app.service('user').get(user_id);
     assert.deepEqual(result.user_id, user_id);
-    assert.deepEqual(result.level, 4);
+    assert.deepEqual(result.level, 3);
   });
 
   it('returns the correct level when using exponential levels', async () => {
@@ -107,9 +107,20 @@ describe('\'User\' service', () => {
       amount: 650
     });
 
-    const result = await app.service('user').get(user_id);
+    let result = await app.service('user').get(user_id);
     assert.deepEqual(result.user_id, user_id);
-    assert.deepEqual(result.level, 2);
+    assert.deepEqual(result.level, 4);
+
+    const other_user = 'OtherTestUser';
+    await app.service('xp').create({
+      name: 'XP',
+      user_id: other_user,
+      amount: 800
+    });
+
+    result = await app.service('user').get(other_user);
+    assert.deepEqual(result.user_id, other_user);
+    assert.deepEqual(result.level, 5);
   });
 
   it('throws the correct error when given an invalid type', async () => {
@@ -121,15 +132,11 @@ describe('\'User\' service', () => {
       amount: 50
     });
 
-    let hadError = false;
-
     try {
       await app.service('user').get(user_id);
+      assert.fail();
     } catch (error) {
-      hadError = true;
       assert.deepEqual(error.message, 'Levels Type should be one of "manual", "linear" or "exponential"');
     }
-
-    assert.isTrue(hadError);
   });
 });

@@ -2,7 +2,7 @@
 
 levels:
     type: manual
-    vaules: [100,250,400,750,1100]
+    steps: [100,250,400,750,1100]
 
 XPs:
     # XP is predefined
