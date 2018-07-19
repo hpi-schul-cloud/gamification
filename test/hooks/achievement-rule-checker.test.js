@@ -105,6 +105,23 @@ describe('\'achievement-rule-checker\' hook', () => {
     assert.deepEqual(result[0].amount, 1);
   });
 
+  it('gives AnyOf Conditions Achievement', async () => {
+    await app.service('events').create({
+      'name': 'ParameterEvent',
+      'user_id': user_id,
+      'payload': {'x': 1, 'y': 3}
+    });
+
+    const result = await app.service('achievements').find({
+      query: {
+        user_id: user_id,
+        name: 'AnyOfConditionsAchievement'
+      }
+    });
+
+    assert.deepEqual(result[0].amount, 1);
+  });
+
 
   describe.skip('replaces achievement', async () => {
     const achievement_name = 'AchievementBeingReplaced';
@@ -248,5 +265,107 @@ describe('\'achievement-rule-checker\' hook', () => {
       }
     });
     assert.deepEqual(result2[0].amount, 1);
+  });
+
+  it('Gives achievement with logical amount >', async () => {
+    await app.service('events').create({
+      'name': 'EventGiving10XP',
+      'user_id': user_id
+    });
+
+    let moreResult1 = await app.service('achievements').find({
+      query: {
+        user_id: user_id,
+        name: 'MoreAchievement'
+      }
+    });
+    assert.deepEqual(moreResult1.length, 0);
+
+    await app.service('events').create({
+      'name': 'EventGiving10XP',
+      'user_id': user_id
+    });
+
+    let moreResult2 = await app.service('achievements').find({
+      query: {
+        user_id: user_id,
+        name: 'MoreAchievement'
+      }
+    });
+    assert.deepEqual(moreResult2[0].amount, 1);
+  });
+
+  it('Gives achievement with logical amount ==', async () => {
+    await app.service('events').create({
+      'name': 'EventGiving10XP',
+      'user_id': user_id
+    });
+
+    let result1 = await app.service('achievements').find({
+      query: {
+        user_id: user_id,
+        name: 'EqualAchievementFailing'
+      }
+    });
+    assert.deepEqual(result1.length, 0);
+
+    let result2 = await app.service('achievements').find({
+      query: {
+        user_id: user_id,
+        name: 'EqualAchievementSucceeding'
+      }
+    });
+    assert.deepEqual(result2[0].amount, 1);
+  });
+
+  it('Gives achievement with logical amount !=', async () => {
+    await app.service('events').create({
+      'name': 'EventGiving10XP',
+      'user_id': user_id
+    });
+
+    let result1 = await app.service('achievements').find({
+      query: {
+        user_id: user_id,
+        name: 'NotEqualAchievement'
+      }
+    });
+    assert.deepEqual(result1.length, 0);
+
+    await app.service('events').create({
+      'name': 'EventGiving10XP',
+      'user_id': user_id
+    });
+
+    let result2 = await app.service('achievements').find({
+      query: {
+        user_id: user_id,
+        name: 'NotEqualAchievement'
+      }
+    });
+    assert.deepEqual(result2[0].amount, 1);
+  });
+
+  it('Gives achievement with logical amount </<=', async () => {
+    await app.service('events').create({
+      'name': 'EventGiving10XP',
+      'user_id': user_id
+    });
+
+    let result1 = await app.service('achievements').find({
+      query: {
+        user_id: user_id,
+        name: 'LessAchievement'
+      }
+    });
+    assert.deepEqual(result1.length, 0);
+
+    let result2 = await app.service('achievements').find({
+      query: {
+        user_id: user_id,
+        name: 'UnderAchieverAchievement'
+      }
+    });
+    assert.deepEqual(result2.length, 1);
   });
 });

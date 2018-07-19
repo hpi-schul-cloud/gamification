@@ -7,19 +7,23 @@ XPs:
 events:
     ForumPost:
         actions:
-            - xp: postXP
-              amount: 1
-            - xp: XP
-              amount: 10
+            - xp:
+                name: postXP
+                amount: 1
+            - xp:
+                name: XP
+                amount: 10
     QuestionAsked:
         actions:
-            - xp: XP
-              amount: 2
+            - xp:
+                name: XP
+                amount: 2
     VoluntarySelfTestTaken: ~
     CourseCompleted:
         actions:
-            - xp: XP
-              amount: 20
+            - xp:
+                name: XP
+                amount: 20
     VideoClicked: ~
     SelfAssigmentStarted: ~
     SelfTestStarted: ~
@@ -43,18 +47,22 @@ achievements:
 
     CommunicatorBronze:
         requirements:
-            - xp: postXP
-              amount: 2
+            - xp:
+                name: postXP
+                amount: 2
         actions:
-            - xp: XP
-              amount: 23
+            - xp:
+                name: XP
+                amount: 23
         hidden: true
 
     CommunicatorSilver:
         requirements:
-            - achievement: CommunicatorBronze
-            - xp: postXP
-              amount: ">= 5"
+            - achievement:
+                name: CommunicatorBronze
+            - xp:
+                name: postXP
+                amount: ">= 5"
         replaces: [CommunicatorBronze]
 
     ComCom:
@@ -75,8 +83,9 @@ achievements:
         # could be e.g. per user and course, could be renamed to "per"
         scope: [user]
         actions:
-            - xp: XP
-              amount: 2
+            - xp:
+                name: XP
+                amount: 2
 
     JavaPro:
         requirements:
@@ -88,7 +97,7 @@ achievements:
                       value: java
         scope: [user]
 
-    # achievement per comleted course
+    # achievement per completed course
     CourseCompletedAward:
         requirements:
             - event:
@@ -111,15 +120,16 @@ achievements:
         hidden: true
         scope: [user, context.course_id, context.course_week]
         actions:
-            - xp: XP
-              amount: 10
-              requirements:
-                - achievement:
-                    name: ContinousAttendance
-                    conditions:
-                        - parameter: context.user_id
-                          value: user_id
-                        - parameter: context.course_week
-                          value: course_week -1
-                        - parameter: context.course_id
-                          value: course_id
+            - xp:
+                name: XP
+                amount: 10
+                requirements:
+                  - achievement:
+                      name: ContinousAttendance
+                      conditions:
+                          - parameter: context.user_id
+                            value: user_id
+                          - parameter: context.course_week
+                            value: course_week -1
+                          - parameter: context.course_id
+                            value: course_id
