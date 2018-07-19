@@ -4,62 +4,77 @@ XPS:
 events:
     EventGiving10XP:
         actions:
-            - xp: XP
-              amount: 10
+            - xp:
+                name: XP
+                amount: 10
     EventGiving2XPTypes:
         actions:
-            - xp: XP
-              amount: 10
-            - xp: secondXPType
-              amount: 10
+            - xp:
+                name: XP
+                amount: 10
+            - xp:
+                name: secondXPType
+                amount: 10
     EventGrantingAchievement: ~
     ParameterEvent: ~
 
 achievements:
     ChainedAchievement:
       requirements:
-        - achievement: 10XPAchievement
+        - achievement:
+            name: 10XPAchievement
     10XPAchievement:
         requirements:
-            - xp: XP
-              amount: 10
+            - xp:
+                name: XP
+                amount: 10
     EqualAchievementFailing:
         requirements:
-            - xp: XP
-              amount: "== 9"
+            - xp:
+                name: XP
+                amount: "== 9"
     EqualAchievementSucceeding:
         requirements:
-            - xp: XP
-              amount: "== 10"
+            - xp:
+                name: XP
+                amount: "== 10"
     NotEqualAchievement:
         requirements:
-            - xp: XP
-              amount: "!= 10"
+            - xp:
+                name: XP
+                amount: "!= 10"
     UnderAchieverAchievement:
         requirements:
-            - xp: XP
-              amount: "<= 10"
+            - xp:
+                name: XP
+                amount: "<= 10"
     LessAchievement:
         requirements:
-            - xp: XP
-              amount: "< 10"
+            - xp:
+                name: XP
+                amount: "< 10"
     MoreAchievement:
         requirements:
-            - xp: XP
-              amount: "> 10"
+            - xp:
+                name: XP
+                amount: "> 10"
     AchievementRequiring2XPTypes:
         requirements:
-            - xp: XP
-              amount: 10
-            - xp: secondXPType
-              amount: 10
+            - xp:
+                name: XP
+                amount: 10
+            - xp:
+                name: secondXPType
+                amount: 10
     AchievementBeingRequired:
         requirements:
-            - xp: XP
-              amount: 10
+            - xp:
+                name: XP
+                amount: 10
     AchievementRequiringOtherAchievement:
         requirements:
-            - achievement: AchievementBeingRequired
+            - achievement:
+                name: AchievementBeingRequired
     AchievementRequiringEvent:
         requirements:
             - event:
@@ -67,10 +82,12 @@ achievements:
     AnyOfAchievement:
         requirements:
             - AnyOf:
-                - xp: XP
-                  amount: 10
-                - xp: secondXPType
-                  amount: 10
+                - xp:
+                    name: XP
+                    amount: 10
+                - xp:
+                    name: secondXPType
+                    amount: 10
     AnyOfConditionsAchievement:
         requirements:
             - event:
@@ -83,17 +100,20 @@ achievements:
                           value: 2
     AchievementReplacingOther:
         requirements:
-            - xp: XP
-              amount: 20
+            - xp:
+                name: XP
+                amount: 20
         replaces: [AchievementBeingReplaced]
     AchievementBeingReplaced:
         requirements:
-            - xp: XP
-              amount: 10
+            - xp:
+                name: XP
+                amount: 10
     AchievementCanBeAwardedTwiceAtOnce:
         requirements:
-            - xp: XP
-              amount: 10
+            - xp:
+                name: XP
+                amount: 10
         maxAwarded: 2
     AchievementCanBeAwardedTwice:
         requirements:

@@ -4,17 +4,21 @@ XPs:
 events:
     EventGiving10XP:
         actions:
-            - xp: XP
-              amount: 10 
+            - xp:
+                name: XP
+                amount: 10
     EventGiving25NonStandardXP:
         actions:
-            - xp: nonStandardXP
-              amount: 25
+            - xp:
+                name: nonStandardXP
+                amount: 25
     EventGivingMultipleKindsOfXP:
         actions:
-            - xp: XP
-              amount: 20
-            - xp: nonStandardXP
-              amount: 30
+            - xp:
+                name: XP
+                amount: 20
+            - xp:
+                name: nonStandardXP
+                amount: 30
 
 achievements: []
