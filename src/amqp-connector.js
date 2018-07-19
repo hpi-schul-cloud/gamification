@@ -20,7 +20,9 @@ class AmqpConnector {
         logger.warn(error);
         logger.log('RabbitMQ connection failed. Reconnecting in 1 second ...');
         var waitTill = new Date(new Date().getTime() + 1000);
-        while(waitTill > new Date()){}
+        while(waitTill > new Date()){
+          // busy waiting
+        }
       }
     }
   }
