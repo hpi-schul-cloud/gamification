@@ -16,6 +16,7 @@ events:
                 name: secondXPType
                 amount: 10
     EventGrantingAchievement: ~
+    ParameterEvent: ~
 
 achievements:
     ChainedAchievement:
@@ -27,6 +28,36 @@ achievements:
             - xp:
                 name: XP
                 amount: 10
+    EqualAchievementFailing:
+        requirements:
+            - xp:
+                name: XP
+                amount: "== 9"
+    EqualAchievementSucceeding:
+        requirements:
+            - xp:
+                name: XP
+                amount: "== 10"
+    NotEqualAchievement:
+        requirements:
+            - xp:
+                name: XP
+                amount: "!= 10"
+    UnderAchieverAchievement:
+        requirements:
+            - xp:
+                name: XP
+                amount: "<= 10"
+    LessAchievement:
+        requirements:
+            - xp:
+                name: XP
+                amount: "< 10"
+    MoreAchievement:
+        requirements:
+            - xp:
+                name: XP
+                amount: "> 10"
     AchievementRequiring2XPTypes:
         requirements:
             - xp:
@@ -57,6 +88,16 @@ achievements:
                 - xp:
                     name: secondXPType
                     amount: 10
+    AnyOfConditionsAchievement:
+        requirements:
+            - event:
+                name: ParameterEvent
+                conditions:
+                    - AnyOf:
+                        - parameter: x
+                          value: 1
+                        - parameter: y
+                          value: 2
     AchievementReplacingOther:
         requirements:
             - xp:
@@ -75,7 +116,7 @@ achievements:
                 amount: 10
         maxAwarded: 2
     AchievementCanBeAwardedTwice:
-            requirements:
-                - event:
-                    name: EventGiving10XP
-            maxAwarded: 2
+        requirements:
+            - event:
+                name: EventGiving10XP
+        maxAwarded: 2
