@@ -5,7 +5,7 @@ events:
     EventGiving10XP:
         actions:
             - xp: XP
-              amount: 10 
+              amount: 10
     EventGiving2XPTypes:
         actions:
             - xp: XP
@@ -13,6 +13,7 @@ events:
             - xp: secondXPType
               amount: 10
     EventGrantingAchievement: ~
+    ParameterEvent: ~
 
 achievements:
     ChainedAchievement:
@@ -22,6 +23,30 @@ achievements:
         requirements:
             - xp: XP
               amount: 10
+    EqualAchievementFailing:
+        requirements:
+            - xp: XP
+              amount: "== 9"
+    EqualAchievementSucceeding:
+        requirements:
+            - xp: XP
+              amount: "== 10"
+    NotEqualAchievement:
+        requirements:
+            - xp: XP
+              amount: "!= 10"
+    UnderAchieverAchievement:
+        requirements:
+            - xp: XP
+              amount: "<= 10"
+    LessAchievement:
+        requirements:
+            - xp: XP
+              amount: "< 10"
+    MoreAchievement:
+        requirements:
+            - xp: XP
+              amount: "> 10"
     AchievementRequiring2XPTypes:
         requirements:
             - xp: XP
@@ -46,6 +71,16 @@ achievements:
                   amount: 10
                 - xp: secondXPType
                   amount: 10
+    AnyOfConditionsAchievement:
+        requirements:
+            - event:
+                name: ParameterEvent
+                conditions:
+                    - AnyOf:
+                        - parameter: x
+                          value: 1
+                        - parameter: y
+                          value: 2
     AchievementReplacingOther:
         requirements:
             - xp: XP
@@ -61,7 +96,7 @@ achievements:
               amount: 10
         maxAwarded: 2
     AchievementCanBeAwardedTwice:
-            requirements:
-                - event:
-                    name: EventGiving10XP
-            maxAwarded: 2
+        requirements:
+            - event:
+                name: EventGiving10XP
+        maxAwarded: 2
