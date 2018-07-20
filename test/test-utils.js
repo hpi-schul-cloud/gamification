@@ -8,6 +8,14 @@ module.exports = {
     });
   },
 
+  async createEventWithPayload(app, user_id, event_name, payload) {
+    await app.service('events').create({
+      'name': event_name,
+      'user_id': user_id,
+      'payload': payload
+    });
+  },
+
   async assertAchievement(app, user_id, achievement_name, amount) {
     const result = await app.service('achievements').find({
       query: {
@@ -17,7 +25,7 @@ module.exports = {
     });
 
     if (amount === 0) {
-      assert.deepEqual(result.length === 0);
+      assert.deepEqual(result.length, 0);
     } else {
       assert.deepEqual(result[0].amount, amount);
     }
