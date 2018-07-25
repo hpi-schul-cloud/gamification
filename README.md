@@ -31,27 +31,9 @@ The configuration files are mounted from `dev/rabbitmq-config`.
 
 Run `npm install`.
 
-Additionally you need to have mongoDB and RabbitMQ running. Configure their URLs in `config/default.json`.
+Additionally you need to have mongoDB and RabbitMQ running. Configure them in `config/default.json`. This service receives incoming events from *queues*. 
 
 Start your app: `npm run dev`.
-
-
-## Getting Started
-
-Getting up and running is as easy as 1, 2, 3.
-
-1. Make sure you have [NodeJS](https://nodejs.org/) and [npm](https://www.npmjs.com/) installed.
-2. Install your dependencies
-
-    ```
-    cd path/to/gamification; npm install
-    ```
-
-3. Start your app
-
-    ```
-    npm start
-    ```
 
 ## Testing
 
@@ -69,6 +51,16 @@ $ feathers generate hook                  # Generate a new Hook
 $ feathers generate model                 # Generate a new Model
 $ feathers help                           # Show all commands
 ```
+
+## Usage in Production
+
+First, configure the service. (`config/` directory)  
+*production.json* needs to contain all information like host, port and mongoDB as well as RabbitMQ related information. *default.json* is an example.  
+*gamification.yml* contains all events to listen to and the achievements users are able to get.
+
+Then, configure your Docker setup (`docker-compose.yml`). Set the port the service should be available on. The format is `YOUR_PORT:3030`.
+
+To start the app together with mongoDB run `docker-compose up`.
 
 ## Help
 
