@@ -2,13 +2,16 @@
 [![Coverage Status](https://coveralls.io/repos/github/schul-cloud/gamification/badge.svg)](https://coveralls.io/github/schul-cloud/gamification)
 # gamification
 
-> A reusable microservice for gamification.
+The service is built using [Feathers](https://feathersjs.com). It depends on  [mongoDB](https://www.mongodb.com/) and [RabbitMQ](https://www.rabbitmq.com/). 
 
-## About
+## Development
 
-This project uses [Feathers](http://feathersjs.com). An open source web framework for building modern real-time applications.
+There are two ways of setting up your local development environment: using Docker or setting up everything manually.
 
-## Development with Docker
+We use [nodemon](https://nodemon.io/) to automatically restart the service on changes.
+
+### Docker
+
 First run `npm install`. Then start the docker environment.
 ```
 docker-compose -f docker-compose.dev.yml up
@@ -16,10 +19,22 @@ docker-compose -f docker-compose.dev.yml up
 This starts the containers for the app, MongoDB and RabbitMQ. If necessary, the app's container is built automatically in advance.
 The app is then available at http://localhost:3030/.
 
-### RabbitMQ: Sending events manually
+##### RabbitMQ: Sending Events manually
+
 The RabbitMQ management interface is available at http://localhost:15672. In development mode, use Username `guest` and Password `guest` to login.
 
 You can send events manually in the *Exchanges* section. Select the exchange and then publish your message at *Publish message*. Don't forget to insert the *routing key*.
+
+The configuration files are mounted from `dev/rabbitmq-config`.
+
+### Manual setup
+
+Run `npm install`.
+
+Additionally you need to have mongoDB and RabbitMQ running. Configure their URLs in `config/default.json`.
+
+Start your app: `npm run dev`.
+
 
 ## Getting Started
 
