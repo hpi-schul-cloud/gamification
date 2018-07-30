@@ -1,7 +1,7 @@
-const assert = require('assert');
 const configuration = require('@feathersjs/configuration');
 const feathers = require('@feathersjs/feathers');
 const services = require('../../src/services');
+const utils = require('../test-utils');
 
 async function cleanDatabase(app) {
   await require('../../src/models/achievement.model.js')(app).remove({});
@@ -25,89 +25,37 @@ describe('\'xp rule checker\' hook', () => {
 
   });
 
-  it('gives standard XP afer an event', async () => {
-
+  it('gives standard XP after an event', async () => {
     const eventName = 'EventGiving10XP';
 
-    await app.service('events').create({
-      'name': eventName,
-      'user_id': user_id
-    });
+    await utils.createEvent(app, user_id, eventName);
 
-    const result = await app.service('xp').find({
-      query: {
-        user_id: user_id,
-        name: 'XP'
-      }
-    });
-
-    assert.deepEqual(result[0].amount, 10);
+    await utils.assertXP(app, user_id, 'XP', 10);
   });
 
   it('gives non standard XP after an event', async () => {
-
     const eventName = 'EventGiving25NonStandardXP';
 
-    await app.service('events').create({
-      'name': eventName,
-      'user_id': user_id
-    });
+    await utils.createEvent(app, user_id, eventName);
 
-    const result = await app.service('xp').find({
-      query: {
-        user_id: user_id,
-        name: 'nonStandardXP'
-      }
-    });
-
-    assert.deepEqual(result[0].amount, 25);
+    await utils.assertXP(app, user_id, 'nonStandardXP', 25);
   });
 
   it('gives non standard XP after an event', async () => {
-
     const eventName = 'EventGivingMultipleKindsOfXP';
 
-    await app.service('events').create({
-      'name': eventName,
-      'user_id': user_id
-    });
+    await utils.createEvent(app, user_id, eventName);
 
-    const result1 = await app.service('xp').find({
-      query: {
-        user_id: user_id,
-        name: 'XP'
-      }
-    });
-
-    const result2 = await app.service('xp').find({
-      query: {
-        user_id: user_id,
-        name: 'nonStandardXP'
-      }
-    });
-
-    assert.deepEqual(result1[0].amount, 20);
-    assert.deepEqual(result2[0].amount, 30);
+    await utils.assertXP(app, user_id, 'XP', 20);
+    await utils.assertXP(app, user_id, 'nonStandardXP', 30);
   });
 
   it('updates XP after an event', async () => {
-
     const eventName = 'EventGiving10XP';
 
-    for (let i = 0; i < 2; i ++) {
-      await app.service('events').create({
-        'name': eventName,
-        'user_id': user_id
-      });
-    }
+    await utils.createEvent(app, user_id, eventName);
+    await utils.createEvent(app, user_id, eventName);
 
-    const result = await app.service('xp').find({
-      query: {
-        user_id: user_id,
-        name: 'XP'
-      }
-    });
-
-    assert.deepEqual(result[0].amount, 20);
+    await utils.assertXP(app, user_id, 'XP', 20);
   });
 });
