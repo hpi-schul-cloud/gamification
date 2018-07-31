@@ -1,5 +1,9 @@
 # define context fields?
 
+levels:
+    type: manual
+    steps: [100,250,400,750,1100]
+
 XPs:
     # XP is predefined
     - postXP
