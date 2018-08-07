@@ -18,14 +18,14 @@ module.exports = function (options = {}) {
         const uniqueCombination = await xpService.find({
           query: {
             user_id: context.data.user_id,
-            name: action['xp']
+            name: action['xp']['name']
           }
         });
 
         if (uniqueCombination.length > 0) {
-          await xpService.patch(uniqueCombination[0]._id, {amount: uniqueCombination[0].amount + action['amount']});
+          await xpService.patch(uniqueCombination[0]._id, {amount: uniqueCombination[0].amount + action['xp']['amount']});
         } else {
-          await xpService.create({user_id: context.data.user_id, name: action['xp'], amount: action['amount']});
+          await xpService.create({user_id: context.data.user_id, name: action['xp']['name'], amount: action['xp']['amount']});
         }
       }
     }

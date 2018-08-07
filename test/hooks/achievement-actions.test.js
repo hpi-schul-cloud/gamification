@@ -1,7 +1,7 @@
-const assert = require('assert');
 const feathers = require('@feathersjs/feathers');
 const configuration = require('@feathersjs/configuration');
 const services = require('../../src/services');
+const utils = require('../test-utils');
 
 async function cleanDatabase(app) {
   await require('../../src/models/achievement.model.js')(app).remove({});
@@ -25,27 +25,15 @@ describe('\'achievement-actions\' hook', () => {
 
   });
 
-  it('gives XP afer an achievement', async () => {
-
+  it('gives XP after an achievement', async () => {
     const eventName = 'EventGiving10XP';
 
-    await app.service('events').create({
-      'name': eventName,
-      'user_id': user_id
-    });
+    await utils.createEvent(app, user_id, eventName);
 
-    const result = await app.service('xp').find({
-      query: {
-        user_id: user_id,
-        name: 'achievementActionXP'
-      }
-    });
-
-    assert.deepEqual(result[0].amount, 1);
+    await utils.assertXP(app, user_id, 'achievementActionXP', 1);
   });
 
-  it('updates XP afer an achievement', async () => {
-
+  it('updates XP after an achievement', async () => {
     const eventName = 'EventGiving10XP';
 
     await app.service('xp').create({
@@ -54,18 +42,7 @@ describe('\'achievement-actions\' hook', () => {
       'amount': 1
     });
 
-    await app.service('events').create({
-      'name': eventName,
-      'user_id': user_id
-    });
-
-    const result = await app.service('xp').find({
-      query: {
-        user_id: user_id,
-        name: 'achievementActionXP'
-      }
-    });
-
-    assert.deepEqual(result[0].amount, 2);
+    await utils.createEvent(app, user_id, eventName);
+    await utils.assertXP(app, user_id, 'achievementActionXP', 2);
   });
 });

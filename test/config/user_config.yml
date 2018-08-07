@@ -1,3 +1,7 @@
+levels:
+    type: manual
+    steps: [100,200,360,500,900]
+
 XPs: []
 
 events: []
@@ -6,11 +10,13 @@ achievements:
     TestAchievement:
         #add this so rule parsing works
         requirements:
-            - xp: XP
-              amount: 0
+            - xp:
+                name: XP
+                amount: 0
     HiddenAchievement:
         #add this so rule parsing works
         requirements:
-            - xp: XP
-              amount: 0
+            - xp:
+                name: XP
+                amount: 0
         hidden: true

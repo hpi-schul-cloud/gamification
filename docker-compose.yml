@@ -16,7 +16,7 @@ services:
     environment:
       - MONGO_URL=mongodb://mongo/gamification
       - RABBITMQ_HOST
+    volumes:
+      - ./config:/app/config
 volumes:
   mongo-data:
-  rabbitmq_log:
-  rabbitmq_data:

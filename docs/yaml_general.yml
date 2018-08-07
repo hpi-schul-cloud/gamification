@@ -3,21 +3,35 @@ XPs:
     # general "XP" is predefined
     yourXP
 
+levels:
+    # there are three different ways to define levels:
+    type: manual
+    steps: [10,100,1000] # levels at 0, 10, 100, 1000
+    # OR
+    type: linear
+    interval: 100 # levels at 0, 100, 200, 300 ...
+    # OR
+    type: exponential
+    starting_value: 100 # levels at 0, 100, 200, 400 ...
+
 events:
     YourEventName:
         actions:
-            - xp: yourXP
-              amount: 1
+            - xp:
+                name: yourXP
+                amount: 1
     YourEventWithoutAction: ~
 
 achievements:
     YourAchievement:
         requirements:
             # implicit AND semantic
-            - achievement: YourOtherAchievement
-              amount: 1
-            - xp: yourXP
-              amount: >= 10
+            - achievement:
+                name: YourOtherAchievement
+                amount: 1
+            - xp:
+                name: yourXP
+                amount: >= 10
             - event:
                 name: YourEventName
                 # amount is implicitly 1
@@ -38,10 +52,12 @@ achievements:
                             - parameter: someOtherParameter
                               value: 100
             - AnyOf:
-                - xp: yourXP
-                  amount: >= 10
-                - xp: XP
-                  amount: >= 10
+                - xp:
+                    name: yourXP
+                    amount: >= 10
+                - xp:
+                    name: XP
+                    amount: >= 10
         replaces: [YourOtherAchievement]
         # if both maxAwarded and maxAwardedTotal are not set, they default to 1.
         # if only maxAwarded is set, maxAwardedTotal defaults to +Infinity.
@@ -52,7 +68,8 @@ achievements:
         scope: [context.course_id]
         # actions that are executed when achievement is awarded
         actions:
-            - xp: XP
-              amount: 100
+            - xp:
+                name: XP
+                amount: 100
         # implicitly false
         hidden: true
