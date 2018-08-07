@@ -8,6 +8,8 @@
 
 This project uses [Feathers](http://feathersjs.com). An open source web framework for building modern real-time applications.
 
+The REST API is documented using Swagger, available at `http://localhost:3030/docs`.
+
 ## Development with Docker
 First run `npm install`. Then start the docker environment.
 ```

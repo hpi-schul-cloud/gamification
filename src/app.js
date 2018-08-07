@@ -1,9 +1,13 @@
+const fs = require('fs');
 const path = require('path');
 const favicon = require('serve-favicon');
 const compress = require('compression');
 const helmet = require('helmet');
 const cors = require('cors');
 const logger = require('winston');
+
+const swaggerUi = require('swagger-ui-express');
+const yaml = require('js-yaml');
 
 const feathers = require('@feathersjs/feathers');
 const configuration = require('@feathersjs/configuration');
@@ -28,6 +32,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(favicon(path.join(app.get('public'), 'favicon.ico')));
 // Host the public folder
 app.use('/', express.static(app.get('public')));
+// Host Swagger docs
+const swaggerDocument = yaml.safeLoad(fs.readFileSync(path.join(__dirname, '..', 'docs', 'swagger.yml'), 'utf8'));
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Set up Plugins and providers
 app.configure(express.rest());
@@ -48,6 +55,6 @@ app.use(express.errorHandler({ logger }));
 
 app.hooks(appHooks);
 
-app.set('rules', require('./rule-parser')(__dirname + '/../config/gamification.yml'));
+app.set('rules', require('./rule-parser')(path.join(__dirname, '..', 'config', 'gamification.yml')));
 
 module.exports = app;

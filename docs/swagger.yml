@@ -1,0 +1,238 @@
+# Available at the /docs endpoint.
+paths:
+  /achievements:
+    get:
+      parameters:
+        - description: Number of results to return
+          in: query
+          name: $limit
+          type: integer
+        - description: Number of results to skip
+          in: query
+          name: $skip
+          type: integer
+        - description: Property to sort results
+          in: query
+          name: $sort
+          type: string
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/achievements_list'
+        '401':
+          description: not authenticated
+        '500':
+          description: general error
+      description: Retrieves a list of all resources from the service.
+      summary: ''
+      tags:
+        - achievements
+  /xp:
+    get:
+      parameters:
+        - description: Number of results to return
+          in: query
+          name: $limit
+          type: integer
+        - description: Number of results to skip
+          in: query
+          name: $skip
+          type: integer
+        - description: Property to sort results
+          in: query
+          name: $sort
+          type: string
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/xp_list'
+        '500':
+          description: general error
+      description: Retrieves a list of all resources from the service.
+      summary: ''
+      tags:
+        - xp
+  /events:
+    get:
+      parameters:
+        - description: Number of results to return
+          in: query
+          name: $limit
+          type: integer
+        - description: Number of results to skip
+          in: query
+          name: $skip
+          type: integer
+        - description: Property to sort results
+          in: query
+          name: $sort
+          type: string
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/events_list'
+        '500':
+          description: general error
+      description: Retrieves a list of all resources from the service.
+      summary: ''
+      tags:
+       - events
+    post:
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            properties:
+              user_id:
+                type: string
+              name:
+                type: string
+              payload:
+                type: object
+            required:
+            - user_id
+            - name
+      responses:
+        '201':
+          description: created
+        '500':
+          description: general error
+      description: Creates a new resource with data.
+      summary: ''
+      tags:
+        - events
+  '/user/{id}':
+    get:
+      description: 'Get achievements, xp and level for a single user by their id. If the user doesn''t exist in the gamification service, a default object with no achievements, 0 xp, and level 0 will be returned.'
+      parameters:
+        - description: ID of user to return
+          in: path
+          required: true
+          name: id
+          type: string
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/user'
+        '500':
+          description: general error
+      summary: ''
+      tags:
+        - user
+definitions:
+  achievements:
+    title: achievement
+    properties:
+      user_id:
+        type: string
+      name:
+        type: string
+      amount:
+        type: number
+      scope:
+        type: object
+      _id:
+        type: string
+      __v:
+        type: number
+    required:
+      - user_id
+      - name
+      - amount
+  achievements_list:
+    type: array
+    items:
+      $ref: '#/definitions/achievements'
+  xp:
+    title: xp
+    properties:
+      user_id:
+        type: string
+      name:
+        type: string
+      amount:
+        type: number
+      _id:
+        type: string
+      __v:
+        type: number
+    required:
+      - user_id
+      - name
+      - amount
+  xp_list:
+    type: array
+    items:
+      $ref: '#/definitions/xp'
+  events:
+    title: event
+    properties:
+      user_id:
+        type: string
+      name:
+        type: string
+      payload:
+        type: object
+      _id:
+        type: string
+      __v:
+        type: number
+    required:
+      - user_id
+      - name
+  events_list:
+    type: array
+    items:
+      $ref: '#/definitions/events'
+  user:
+    title: User
+    properties:
+      user_id:
+        type: string
+      achievements:
+        type: array
+        items:
+          type: object
+          properties:
+            name:
+              type: string
+            amount:
+              type: number
+            scope:
+              type: object
+              # nullable: true
+      xp:
+        type: number
+      level:
+        type: number
+    required:
+      - user_id
+      - achievements
+      - xp
+      - level
+swagger: '2.0'
+schemes:
+  - http
+tags:
+  - name: user
+    description: Retrieve gamification data for a user.
+  - name: events
+    description: Endpoint handling incoming events. You usually should not use this endpoint directly and instead rely on the RabbitMQ integration to deliver events. The RabbitMQ integration will call this endpoint internally.
+  - name: achievements
+    description: Endpoint returning a list of all granted achievements. You usually should not use this endpoint directly and instead rely on the /user endpoint for retrieving granted achievements by user.
+  - name: xp
+    description: Endpoint returning a list of all granted XP. You usually should not use this endpoint directly and instead rely on the /user endpoint for retrieving granted XP.
+basePath: /
+consumes:
+  - application/json
+produces:
+  - application/json
+info:
+  title: Gamification Service
+  description: A reusable microservice for gamification.
+  version: 0.0.0
