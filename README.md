@@ -6,11 +6,11 @@
 
 > A reusable microservice for gamification.
 
-This project provides a microservice to manage gamification for your 
-application. It does not provide any graphics or pre-defined content, but 
-only a backend REST api. At its core, the service listens to events sent 
-either via HTTP POST calls or retrieved from RabbitMQ. Then, a list of 
-user-defined achievement rules is tested against the newly received event. 
+This project provides a microservice to manage gamification for your
+application. It does not provide any graphics or pre-defined content, but
+only a backend REST API. At its core, the service listens to events sent
+either via HTTP POST calls or retrieved from RabbitMQ. Then, a list of
+user-defined achievement rules is tested against the newly received event.
 Should an achievement rule be evaluated to true, a new achievement is granted
 to the user.
 
@@ -18,56 +18,56 @@ to the user.
 
 ### User
 
-All gamification data is always associated with a user. Users are identified 
+All gamification data is always associated with a user. Users are identified
 by a unique string we commonly call `user_id`. Each user has
 
 - a *level*
 - many granted *achievement*s
 - xp in multiple *xp-pools*
 
-Please note that there is no explicit user table. User data is distributed 
+Please note that there is no explicit user table. User data is distributed
 over multiple other tables and aggregated on demand.
 
 ### Achievement
 
 Achievements are the core object of the gamification service. Users strive to
-collect achievements. Achievements can be thought of as badges, belts, and 
+collect achievements. Achievements can be thought of as badges, belts, and
 whatever other visualizations you can think of. To the gamification service,
-however, these are all the same: achievements. Achievements usually define one 
+however, these are all the same: achievements. Achievements usually define one
 or multiple requirements to be granted, for example:
 
 - the user reached 10 XP
 - the user achieved the FooAchievement
-- a FooEvent is received
+- a FooEvent is received and the user has less than 42 XP
 
 The same achievement can be granted multiple times to the same user, if desired.
-Achievements can also be revoked after being granted. This can be used to 
-replace an easy to acquire FooSilver achievement with a harder to get FooGold 
+Achievements can also be revoked after being granted. This can be used to
+replace an easy to acquire FooSilver achievement with a harder to get FooGold
 achievement.
-Some achievements may be granted again even after being revoked, others may 
+Some achievements may be granted again even after being revoked, others may
 not be granted again after being revoked.
-The behaviour can be configured using the `maxAwarded` and `maxAwardedTotal` 
+The behaviour can be configured using the `maxAwarded` and `maxAwardedTotal`
 configuration options.
 
 ### XP-Pool
 
 The application may define multiple xp-pools. The default pool is called "XP"
 and always defined. Each user has a number of xp in each xp-pool. A new user has
-0 xp in all xp-pools. XP may be incremented as well as decremented, but should 
+0 xp in all xp-pools. XP may be incremented as well as decremented, but should
 never go below 0. The different xp-pools may be used for purposes such as
 
 - counting some form of e*xp*erience, as is commonly done in games
 - representing some form of a currency the user can spend and earn
-- counting the number of times something happened, i.e. a specific event was 
-  received. This counter can then be used in more complex achievement 
+- counting the number of times something happened, i.e. a specific event was
+  received. This counter can then be used in more complex achievement
   requirements.
 
 ### Level
 
-Each user has a level. The user starts at level 1 and can never go below that. 
-The level is strictly tied to the user's main xp "XP". The required xp for each 
-level can be configured to either be linearly increasing, exponentially 
-increasing,  or completely custom-defined. The level is not stored anywhere but 
+Each user has a level. The user starts at level 1 and can never go below that.
+The level is strictly tied to the user's main xp "XP". The required xp for each
+level can be configured to either be linearly increasing, exponentially
+increasing, or completely custom-defined. The level is not stored anywhere but
 always calculated on the fly. If the user, for whatever reason, looses xp, their
 level may also decrease.
 
@@ -94,36 +94,34 @@ achievement rules for your application as you see fit. Once an achievement or xp
 are granted, these are persisted to MongoDB. It is planned to also send an event
 back to RabbitMQ when an achievement or xp are granted.
 
-The gamification service also provides a (mostly) readonly REST api, which can
-be used to ask for a user's achievements, xp and level. In the future, the api
-may also support more advanced use-cases like leaderboards. The api is
+The gamification service also provides a (mostly) read-only REST API, which can
+be used to ask for a user's achievements, xp and level. In the future, the API
+may also support more advanced use-cases like leaderboards. The API is
 documented at `http://localhost:3030/docs`.
 
 ## Gamification Configuration
 
-The gamification rules must be configured within the `config/gamification.yml` 
+The gamification rules must be configured within the `config/gamification.yml`
 file. This file is parsed on application start and must be adjusted to your
 gamification use-case. The most basic configuration looks like this:
 
 ```yml
 XPs: []
-levels: 
+levels:
   type: linear
   interval: 100
 events: {}
 achievements: {}
 ```
 
-Detailed configuration options follow. Please note that there currently is no 
-validation logic in place to check for errors. The application will likely 
+Detailed configuration options follow. Please note that there currently is no
+validation logic in place to check for errors. The application will likely
 crash if you make an error in your configuration!
 
 ### XP-Pools
 
 Define the different xp-pools there are within your application.
 The "XP" xp-pool is always defined.
-
-Note: This section is not yet used anywhere within the gamification service.
 
 ```yml
 XPs:
@@ -132,11 +130,17 @@ XPs:
   - myXP
 ```
 
+Note: The xp-pool names defined here are not currently validated by the
+configuration parser, i.e. not specifying the available xp-pools or specifying
+additional xp-pools does not raise an error currently. It is, however, planned
+to validate the configuration more thoroughly, which would then raise an error
+if you use an xp-pool not defined here.
+
 ### Levels
 
 Define when to increase a user's level based on their XP. The level is
 always purely based on the user's current XP. Each user, regardless of this
-configuration, always starts at level 0. That means that the first
+configuration, always starts at level 1. That means that the first
 configuration value specifies when the user reaches level 2, not level 1.
 There are three ways to configure levels:
 
@@ -166,7 +170,7 @@ immediate actions to take when receiving the event.
 You can use the `actions` array to specify actions to be executed as soon as the
 event is received. See the "Achievement Rule `actions`" section further down for
 more information.
-  
+
 ```yml
 events:
   # In its simplest form, an event name
@@ -280,7 +284,7 @@ behaviour:
   name: YourEventName
   amount: >= 10
   conditions:
-    # Conditions can have two types: `parameter` and `AnyOf`. As with 
+    # Conditions can have two types: `parameter` and `AnyOf`. As with
     # requirements, conditions are using the AND semantic.
     - parameter: someParameter
       value: 100
@@ -333,11 +337,11 @@ actions:
 
 #### Achievement Rule `hidden`
 
-This boolean describes whether or not the achievement is "public" and returned 
-when the /user endpoint is used. It defaults to `false`. This is useful for 
+This boolean describes whether or not the achievement is "public" and returned
+when the /user endpoint is used. It defaults to `false`. This is useful for
 achievements which are only used to represent state and should not be visible to
 the user.
-    
+
 #### Achievement Rule `scope`
 
 This is not yet implemented. It is thought to cover cases where the achievement
@@ -345,8 +349,8 @@ is granted in the scope of an entity, for example a course or classroom.
 
 ## Internals
 
-This project uses [Feathers](http://feathersjs.com) as api framework and MongoDB
-for storing data. Mongoose is used to validate the stored data. 
+This project uses [Feathers](http://feathersjs.com) as API framework and MongoDB
+for storing data. Mongoose is used to validate the stored data.
 
 ### Feathers services
 
@@ -354,15 +358,16 @@ The gamification service is built using four Feathers services:
 
 1. Achievements: The achievements service handles achievement data and stores
 granted achievements in the `achivements` collection. Each row consists of the
-`user_id`, the `name` (achievement name), `amount` (how often the user has
-earned the achievement) and `scope` (not yet implemented).
+`user_id`, the `name` (achievement name), `current_amount` (how often the user
+currently has the achievement), `total_amount` (how often the user has received
+the achievement) and `scope` (not yet implemented).
 
 2. Events: The events service handles event data and stores all incoming events
-in the `events` collection.  Each row consists of the  `user_id`, the `name`
+in the `events` collection. Each row consists of the `user_id`, the `name`
 (event name), and the `payload` (event payload).
 
 3. XP: The xp-pool service handles xp-pool data and stores all granted xp in the
-`xp` collection.  Each row consists of the  `user_id`, the `name` (xp-pool
+`xp` collection. Each row consists of the `user_id`, the `name` (xp-pool
 name), and the `amount` (amount of xp the user has in this xp-pool).
 
 4. User: The user service aggregates data from the other three services. It can
@@ -391,7 +396,11 @@ user's level.
 ### Docker Development
 
 This project provides two `docker-compose` files, one meant for development and
-one meant for production. The 
+one meant for production. The production `docker-compose.yml` configuration does
+not contain definitions for the RabbitMQ service, because the gamification
+service is thought to connect to an already existing RabbitMQ instance. The
+development `docker-compose.dev.yml` file, however, also contains a simple
+RabbitMQ definition to make development easier.
 
 First run `npm install`. Then start the docker environment.
 
@@ -410,7 +419,7 @@ You can send events manually in the *Exchanges* section. Select the exchange and
 
 ### Testing
 
-Run `npm test` to run all linters and tests. Use `npm coverage` to also generate 
+Run `npm test` to run all linters and tests. Use `npm coverage` to also generate
 coverage.
 
 ## Running in Production
