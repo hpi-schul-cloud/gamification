@@ -51,7 +51,7 @@ class Service {
 
       switch(rules['levels']['type']) {
         case 'manual':
-          for (let step of rules['levels']['steps']) {
+          for (const step of rules['levels']['steps']) {
             if (currentXP >= step) {
               level += 1;
             }

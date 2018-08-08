@@ -196,8 +196,7 @@ class AnyOfRequirement extends Requirement {
 }
 
 module.exports = function (config_path) {
-
-  let rules = yaml.safeLoad(fs.readFileSync(config_path, 'utf8'));
+  const rules = yaml.safeLoad(fs.readFileSync(config_path, 'utf8'));
 
   const achievementRules = [];
 
