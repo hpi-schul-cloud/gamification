@@ -18,7 +18,7 @@ to the user.
 
 ### User
 
-All gamification data is always associated with a user. Users are identified
+All gamification data is associated with a user. Users are identified
 by a unique string we commonly call `user_id`. Each user has
 
 - a *level*
@@ -31,8 +31,8 @@ over multiple other tables and aggregated on demand.
 ### Achievement
 
 Achievements are the core object of the gamification service. Users strive to
-collect achievements. Achievements can be thought of as badges, belts, and
-whatever other visualizations you can think of. To the gamification service,
+collect achievements. Achievements can be thought of as badges, belts, or
+whatever other representation of progress you can think of. To the gamification service,
 however, these are all the same: achievements. Achievements usually define one
 or multiple requirements to be granted, for example:
 
@@ -47,12 +47,12 @@ achievement.
 Some achievements may be granted again even after being revoked, others may
 not be granted again after being revoked.
 The behaviour can be configured using the `maxAwarded` and `maxAwardedTotal`
-configuration options.
+configuration options, respectively.
 
 ### XP-Pool
 
 The application may define multiple xp-pools. The default pool is called "XP"
-and always defined. Each user has a number of xp in each xp-pool. A new user has
+and is always defined. Each user has a number of xp in each xp-pool. A new user has
 0 xp in all xp-pools. XP may be incremented as well as decremented, but should
 never go below 0. The different xp-pools may be used for purposes such as
 
@@ -68,7 +68,7 @@ Each user has a level. The user starts at level 1 and can never go below that.
 The level is strictly tied to the user's main xp "XP". The required xp for each
 level can be configured to either be linearly increasing, exponentially
 increasing, or completely custom-defined. The level is not stored anywhere but
-always calculated on the fly. If the user, for whatever reason, looses xp, their
+always calculated on the fly. If the user, for whatever reason, loses xp, their
 level may also decrease.
 
 ## Workflow
@@ -80,18 +80,18 @@ architecture. It listens to configurable events emitted by your other services.
 These events are explicitly not gamification-specific. For example, normally,
 your application wouldn't send a "Grant10XP". Instead, you should send events
 like "ForumPost" or "UserSignup". You need to configure rules (see next section)
-detailing what happens after a "ForumPost" or "UserSignup" event (such as giving
-10 XP). Your existing services, however, should not even be aware of the events
+detailing what happens after a "ForumPost" or "UserSignup" event (e.g., giving
+10 XP). Your existing services do not need to be aware of their events
 being used for gamification purposes.
 
 The gamification service subscribes to a RabbitMQ queue from which it processes
 events. Whenever the service receives an event, it checks whether or not the
-event should be listened to. If it should, it then goes on to execute any
+event is relevant to gamification. If yes, the service executes any
 configured immediate actions, if there are any. Then, it checks all configured
 achievement rules to see whether or not a new achievement should be granted to
 the user. It is your job to setup the events to listen to, event actions and
 achievement rules for your application as you see fit. Once an achievement or xp
-are granted, these are persisted to MongoDB. It is planned to also send an event
+are granted, they are persisted to MongoDB. It is planned to also send an event
 back to RabbitMQ when an achievement or xp are granted.
 
 The gamification service also provides a (mostly) read-only REST API, which can
