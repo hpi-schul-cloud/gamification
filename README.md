@@ -155,7 +155,7 @@ levels:
   type: linear
   interval: 100
   # Exponential level steps: The XP required to reach the next level doubles
-  # after every level. While the first level takes 100 XP, the next level will
+  # after every level. While the second level takes 100 XP, the next level will
   # take 200 XP, then 400 XP, and so on.
   type: exponential
   starting_value: 100
@@ -196,7 +196,7 @@ achievements:
     # List of requirements for the achievement.
     requirements: []
     # List of other achievement names to un-grant, should the user have them,
-    # if the achievement is granted,
+    # when the achievement is granted.
     replaces: []
     maxAwarded: 1
     maxAwardedTotal: 1
@@ -306,7 +306,8 @@ The `replaces` key allows you to specify an array of other achievement names.
 Should the user receiving the new achievement have one of the other achievements
 specified in here, they are taken away from the user. This is useful for
 multi-stage achievements where the best "gold" achievement replaces the "silver"
-achievement.
+achievement. If the user has more than one of the replaced achievements,
+they are all removed.
 
 #### Achievement Rule `maxAwarded` and `maxAwardedTotal`
 
