@@ -1,3 +1,4 @@
+const path = require('path');
 const assert = require('chai').assert;
 const feathers = require('@feathersjs/feathers');
 const configuration = require('@feathersjs/configuration');
@@ -16,7 +17,7 @@ describe('\'User\' service', () => {
   beforeEach(async () => {
     app = feathers();
 
-    app.set('rules', require('../../src/rule-parser')(__dirname + '/../config/user_config.yml'));
+    app.set('rules', require('../../src/rule-parser')(path.join(__dirname, '..', 'config', 'user_config.yml')));
     app.configure(configuration());
     app.configure(require('../../src/mongoose.js'));
     await cleanDatabase(app);
@@ -85,7 +86,7 @@ describe('\'User\' service', () => {
   });
 
   it('returns the correct level when using linear levels', async () => {
-    app.set('rules', require('../../src/rule-parser')(__dirname + '/../config/linear_level_config.yml'));
+    app.set('rules', require('../../src/rule-parser')(path.join(__dirname, '..', 'config', 'linear_level_config.yml')));
 
     await app.service('xp').create({
       name: 'XP',
@@ -99,7 +100,7 @@ describe('\'User\' service', () => {
   });
 
   it('returns the correct level when using exponential levels', async () => {
-    app.set('rules', require('../../src/rule-parser')(__dirname + '/../config/exponential_level_config.yml'));
+    app.set('rules', require('../../src/rule-parser')(path.join(__dirname, '..', 'config', 'exponential_level_config.yml')));
 
     await app.service('xp').create({
       name: 'XP',
@@ -124,7 +125,7 @@ describe('\'User\' service', () => {
   });
 
   it('throws the correct error when given an invalid type', async () => {
-    app.set('rules', require('../../src/rule-parser')(__dirname + '/../config/invalid_level_config.yml'));
+    app.set('rules', require('../../src/rule-parser')(path.join(__dirname, '..', 'config', 'invalid_level_config.yml')));
 
     await app.service('xp').create({
       name: 'XP',

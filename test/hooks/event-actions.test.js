@@ -1,3 +1,4 @@
+const path = require('path');
 const configuration = require('@feathersjs/configuration');
 const feathers = require('@feathersjs/feathers');
 const services = require('../../src/services');
@@ -16,7 +17,7 @@ describe('\'xp rule checker\' hook', () => {
   beforeEach(async () => {
     app = feathers();
 
-    app.set('rules', require('../../src/rule-parser')(__dirname + '/../config/xp-rule-checker-config.yml'));
+    app.set('rules', require('../../src/rule-parser')(path.join(__dirname, '..', 'config', 'xp-rule-checker-config.yml')));
     app.configure(configuration());
     app.configure(require('../../src/mongoose.js'));
 
