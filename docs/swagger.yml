@@ -1,0 +1,241 @@
+openapi: 3.0.1
+paths:
+  /achievements:
+    get:
+      summary: Retrieves a list of all achievements.
+      parameters:
+      - $ref: '#/components/parameters/limitParam'
+      - $ref: '#/components/parameters/skipParam'
+      - $ref: '#/components/parameters/sortParam'
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/achievements'
+        '500':
+          description: general error
+      tags:
+      - achievements
+  /xp:
+    get:
+      summary: Retrieves a list of all XP.
+      parameters:
+      - $ref: '#/components/parameters/limitParam'
+      - $ref: '#/components/parameters/skipParam'
+      - $ref: '#/components/parameters/sortParam'
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/xp'
+        '500':
+          description: general error
+      tags:
+      - xp
+  /events:
+    get:
+      summary: Retrieves a list of all events.
+      parameters:
+      - $ref: '#/components/parameters/limitParam'
+      - $ref: '#/components/parameters/skipParam'
+      - $ref: '#/components/parameters/sortParam'
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/events'
+        '500':
+          description: general error
+      tags:
+      - events
+    post:
+      responses:
+        '201':
+          description: created
+        '500':
+          description: general error
+      summary: Creates a new event.
+      tags:
+      - events
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                user_id:
+                  type: string
+                name:
+                  type: string
+                payload:
+                  type: object
+              required:
+              - user_id
+              - name
+        required: true
+  '/user/{id}':
+    get:
+      summary: Retrieve user information
+      description: >-
+        Get achievements, xp and level for a single user by their id. If the
+        user doesn't exist in the gamification service, a default object with no
+        achievements, 0 xp, and level 0 will be returned.
+      parameters:
+      - description: ID of user to return
+        in: path
+        required: true
+        name: id
+        schema:
+          type: string
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        '500':
+          description: general error
+      tags:
+      - user
+tags:
+- name: user
+  description: Retrieve gamification data for a user.
+- name: events
+  description: >-
+    Endpoint handling incoming events. In general, you should not use this
+    endpoint directly and instead rely on the RabbitMQ integration to deliver
+    events. The RabbitMQ integration will call this endpoint internally.
+- name: achievements
+  description: >-
+    Endpoint returning a list of all granted achievements. In general, you
+    should not use this endpoint directly and instead rely on the /user
+    endpoint for retrieving achievements granted to a user.
+- name: xp
+  description: >-
+    Endpoint returning a list of all granted XP. In general, you should not
+    use this endpoint directly and instead rely on the /user endpoint for
+    retrieving XP granted to a user.
+info:
+  title: Gamification Service
+  description: A reusable microservice for gamification.
+  version: 0.0.0
+servers:
+- url: /
+components:
+  parameters:
+    limitParam:
+      description: Number of results to return
+      in: query
+      name: $limit
+      schema:
+        type: integer
+    skipParam:
+      description: Number of results to skip
+      in: query
+      name: $skip
+      schema:
+        type: integer
+    sortParam:
+      description: >-
+        Sort results by a field, e.g., $sort[name]=-1 for descending by name
+        property or $sort[user_id]=1 for ascending by user_id. You can use
+        this parameter multiple times to sort by multiple fields.
+      in: query
+      name: $sort
+      style: deepObject
+      explode: true
+      schema:
+        type: object
+      example:
+        name: 1
+        user_id: 1
+  schemas:
+    achievements:
+      title: achievement
+      properties:
+        user_id:
+          type: string
+        name:
+          type: string
+        amount:
+          type: number
+        scope:
+          type: object
+        _id:
+          type: string
+        __v:
+          type: number
+      required:
+      - user_id
+      - name
+      - amount
+    xp:
+      title: xp
+      properties:
+        user_id:
+          type: string
+        name:
+          type: string
+        amount:
+          type: number
+        _id:
+          type: string
+        __v:
+          type: number
+      required:
+      - user_id
+      - name
+      - amount
+    events:
+      title: event
+      properties:
+        user_id:
+          type: string
+        name:
+          type: string
+        payload:
+          type: object
+        _id:
+          type: string
+        __v:
+          type: number
+      required:
+      - user_id
+      - name
+    user:
+      title: User
+      properties:
+        user_id:
+          type: string
+        achievements:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              amount:
+                type: number
+              scope:
+                type: object
+        xp:
+          type: number
+        level:
+          type: number
+      required:
+      - user_id
+      - achievements
+      - xp
+      - level
