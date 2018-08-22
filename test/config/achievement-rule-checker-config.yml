@@ -102,21 +102,34 @@ achievements:
         requirements:
             - xp:
                 name: XP
-                amount: 20
+                amount: 10
         replaces: [AchievementBeingReplaced]
     AchievementBeingReplaced:
         requirements:
-            - xp:
-                name: XP
-                amount: 10
-    AchievementCanBeAwardedTwiceAtOnce:
+            - event:
+                name: EventGrantingAchievement
+        maxAwardedTotal: 2
+
+    AchievementCanBeMaxAwardedTwiceAtOnce:
         requirements:
             - xp:
                 name: XP
                 amount: 10
         maxAwarded: 2
-    AchievementCanBeAwardedTwice:
+    AchievementCanBeMaxAwardedTotalTwiceAtOnce:
+        requirements:
+            - xp:
+                name: XP
+                amount: 10
+        maxAwardedTotal: 2
+
+    AchievementCanBeMaxAwardedTwice:
         requirements:
             - event:
                 name: EventGiving10XP
         maxAwarded: 2
+    AchievementCanBeMaxAwardedTotalTwice:
+        requirements:
+            - event:
+                name: EventGiving10XP
+        maxAwardedTotal: 2
