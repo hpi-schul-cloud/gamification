@@ -7,7 +7,26 @@ class AchievementRule {
     const requirements = rule['requirements'] === undefined ? [] : rule['requirements'];
     this.requirements = requirements.map(requirement => Requirement.fromYamlRequirement(requirement));
     this.replaces = rule['replaces'] === undefined ? [] : rule['replaces'] ;
-    this.maxAwarded = rule['maxAwarded'] === undefined ? 1 : rule['maxAwarded'];
+
+    let maxAwarded = rule['maxAwarded'];
+    let maxAwardedTotal = rule['maxAwardedTotal'];
+    if (maxAwarded === undefined && maxAwardedTotal === undefined) {
+      // By default, an achievement can only be awarded once, ever.
+      maxAwarded = maxAwardedTotal = 1;
+    } else if (maxAwarded === undefined && maxAwardedTotal !== undefined) {
+      // If only maxAwardedTotal is set, we can also safely set maxAwarded to
+      // the same value.
+      maxAwarded = maxAwardedTotal;
+    } else if (maxAwarded !== undefined && maxAwardedTotal === undefined) {
+      // In case only maxAwarded is set, we need to set maxAwardedTotal to +Infinity.
+      maxAwardedTotal = Number.POSITIVE_INFINITY;
+    }
+    if (maxAwarded > maxAwardedTotal) {
+      throw new Error(`The achievement "${this.name}" has maxAwarded > maxAwardedTotal (${this.maxAwarded} > ${this.maxAwardedTotal}).`);
+    }
+    this.maxAwarded = maxAwarded;
+    this.maxAwardedTotal = maxAwardedTotal;
+
     this.scope = rule['scope'] === undefined ? ['user_id'] : rule['scope'];
     this.actions = rule['actions'] === undefined ? [] : rule['actions'];
     this.hidden = rule['hidden'] === undefined ? false : rule['hidden'];
@@ -30,8 +49,10 @@ class AchievementRule {
         name: this.name
       }
     });
-    const amountSoFar = awardedSoFar.length === 0 ? 0 : awardedSoFar[0].amount;
-    return amountSoFar < this.maxAwarded;
+    const currentAmount = awardedSoFar.length === 0 ? 0 : awardedSoFar[0].current_amount;
+    const totalAmount = awardedSoFar.length === 0 ? 0 : awardedSoFar[0].total_amount;
+
+    return currentAmount < this.maxAwarded && totalAmount < this.maxAwardedTotal;
   }
 }
 
@@ -122,7 +143,7 @@ class AchievementRequirement extends Requirement {
     });
     if (matches.length === 0) return false;
     if (matches.length > 1) throw new Error('Found more than one match, this should be impossible');
-    if (!Requirement.isValidAmount(matches[0].amount, this.requirement['amount'])) return false;
+    if (!Requirement.isValidAmount(matches[0].current_amount, this.requirement['amount'])) return false;
 
     return true;
   }
@@ -209,3 +230,5 @@ module.exports = function (config_path) {
 
   return rules;
 };
+
+module.exports.AchievementRule = AchievementRule;

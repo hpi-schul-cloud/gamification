@@ -82,8 +82,10 @@ achievements:
                 conditions:
                     - parameter: completion_percentage
                       value: 100
-        # maxAwarded is implicitly 1
+        # maxAwarded and maxAwardedTotal are implicitly 1
         # maxAwarded: 1
+        # maxAwardedTotal: 1
+
         # could be e.g. per user and course, could be renamed to "per"
         scope: [user]
         actions:

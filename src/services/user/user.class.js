@@ -21,13 +21,14 @@ class Service {
         user_id: id
       }
     })).filter(achievement => {
-      return rules['achievements'].find(rule => {
+      const achievementRule = rules['achievements'].find(rule => {
         return rule.name === achievement.name;
-      }).hidden == false;
+      });
+      return achievement.current_amount > 0 && achievementRule.hidden === false;
     }).map(achievement => {
       return {
         name: achievement.name,
-        amount: achievement.amount,
+        amount: achievement.current_amount,
         scope: achievement.scope
       };
     });

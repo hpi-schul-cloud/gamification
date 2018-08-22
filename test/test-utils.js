@@ -16,7 +16,11 @@ module.exports = {
     });
   },
 
-  async assertAchievement(app, user_id, achievement_name, amount) {
+  async assertAchievement(app, user_id, achievement_name, currentAmount, totalAmount) {
+    if (totalAmount === undefined) {
+      totalAmount = currentAmount;
+    }
+
     const result = await app.service('achievements').find({
       query: {
         user_id: user_id,
@@ -24,11 +28,12 @@ module.exports = {
       }
     });
 
-    if (amount === 0) {
-      assert.deepEqual(result.length, 0);
-    } else {
-      assert.deepEqual(result[0].amount, amount);
+    if (currentAmount === 0 && totalAmount === 0 && result.length === 0) {
+      return;
     }
+
+    assert.deepEqual(result[0].current_amount, currentAmount);
+    assert.deepEqual(result[0].total_amount, totalAmount);
   },
 
   async assertXP(app, user_id, xp_name, amount) {

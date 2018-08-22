@@ -63,43 +63,52 @@ describe('\'achievement-rule-checker\' hook', () => {
   });
 
 
-  describe.skip('replaces achievement', async () => {
+  it('replaces an achievement', async () => {
     const achievement_name = 'AchievementBeingReplaced';
 
-    await utils.createEvent(app, user_id, 'EventGiving10XP');
+    await utils.createEvent(app, user_id, 'EventGrantingAchievement');
+    await utils.createEvent(app, user_id, 'EventGrantingAchievement');
 
-    await utils.assertAchievement(app, user_id, achievement_name, 1);
+    await utils.assertAchievement(app, user_id, achievement_name, 2);
 
     await utils.createEvent(app, user_id, 'EventGiving10XP');
 
     await utils.assertAchievement(app, user_id, 'AchievementReplacingOther', 1);
-    await utils.assertAchievement(app, user_id, achievement_name, 0);
+
+    await utils.assertAchievement(app, user_id, achievement_name, 0, 2);
   });
 
-  it('gives achievement maxAwarded times', async () => {
-    const achievement_name = 'AchievementCanBeAwardedTwice';
+  [
+    'MaxAwarded',
+    'MaxAwardedTotal'
+  ].forEach(awardedType => {
+    it(`gives achievement ${awardedType} times`, async () => {
+      const achievementName = `AchievementCanBe${awardedType}Twice`;
 
-    await utils.createEvent(app, user_id, 'EventGiving10XP');
+      await utils.createEvent(app, user_id, 'EventGiving10XP');
 
-    await utils.assertAchievement(app, user_id, achievement_name, 1);
+      await utils.assertAchievement(app, user_id, achievementName, 1);
 
-    await utils.createEvent(app, user_id, 'EventGiving10XP');
+      await utils.createEvent(app, user_id, 'EventGiving10XP');
 
-    await utils.assertAchievement(app, user_id, achievement_name, 2);
+      await utils.assertAchievement(app, user_id, achievementName, 2);
 
-    await utils.createEvent(app, user_id, 'EventGiving10XP');
+      await utils.createEvent(app, user_id, 'EventGiving10XP');
 
-    await utils.assertAchievement(app, user_id, achievement_name, 2);
-  });
+      await utils.assertAchievement(app, user_id, achievementName, 2);
+    });
 
-  it('gives maxAwarded achievements at once', async () => {
-    await utils.createEvent(app, user_id, 'EventGiving10XP');
+    it(`gives achievement ${awardedType} times at once`, async () => {
+      const achievementName = `AchievementCanBe${awardedType}TwiceAtOnce`;
 
-    await utils.assertAchievement(app, user_id, 'AchievementCanBeAwardedTwiceAtOnce', 2);
+      await utils.createEvent(app, user_id, 'EventGiving10XP');
 
-    await utils.createEvent(app, user_id, 'EventGiving10XP');
+      await utils.assertAchievement(app, user_id, achievementName, 2);
 
-    await utils.assertAchievement(app, user_id, 'AchievementCanBeAwardedTwiceAtOnce', 2);
+      await utils.createEvent(app, user_id, 'EventGiving10XP');
+
+      await utils.assertAchievement(app, user_id, achievementName, 2);
+    });
   });
 
   it('gives chained achievements', async () => {
