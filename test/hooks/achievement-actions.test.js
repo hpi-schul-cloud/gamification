@@ -1,3 +1,4 @@
+const path = require('path');
 const feathers = require('@feathersjs/feathers');
 const configuration = require('@feathersjs/configuration');
 const services = require('../../src/services');
@@ -16,7 +17,7 @@ describe('\'achievement-actions\' hook', () => {
   beforeEach(async () => {
     app = feathers();
 
-    app.set('rules', require('../../src/rule-parser.js')(__dirname + '/../config/after-achievement-module-config.yml'));
+    app.set('rules', require('../../src/rule-parser.js')(path.join(__dirname, '..', 'config', 'after-achievement-module-config.yml')));
     app.configure(configuration());
     app.configure(require('../../src/mongoose.js'));
 
