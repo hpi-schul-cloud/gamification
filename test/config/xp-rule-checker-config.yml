@@ -7,6 +7,12 @@ events:
             - xp:
                 name: XP
                 amount: 10
+    EventGiving10XPForPoster:
+        actions:
+            - xp:
+                name: XP
+                amount: 10
+                awardee_id: poster_id
     EventGiving25NonStandardXP:
         actions:
             - xp:

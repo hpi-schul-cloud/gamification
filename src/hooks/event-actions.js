@@ -12,12 +12,19 @@ module.exports = function (options = {}) {
       const eventActions = eventRule['actions'];
 
       for (const action of eventActions) {
+        let user_id;
+        if (action['xp']['awardee_id']) {
+          user_id = context.data.payload[action['xp']['awardee_id']];
+        } else {
+          user_id = context.data.user_id;
+        }
+
         //post to xp
         const appFromContext = context.app;
         const xpService = appFromContext.service('xp');
         const uniqueCombination = await xpService.find({
           query: {
-            user_id: context.data.user_id,
+            user_id: user_id,
             name: action['xp']['name']
           }
         });
@@ -25,7 +32,7 @@ module.exports = function (options = {}) {
         if (uniqueCombination.length > 0) {
           await xpService.patch(uniqueCombination[0]._id, {amount: uniqueCombination[0].amount + action['xp']['amount']});
         } else {
-          await xpService.create({user_id: context.data.user_id, name: action['xp']['name'], amount: action['xp']['amount']});
+          await xpService.create({user_id: user_id, name: action['xp']['name'], amount: action['xp']['amount']});
         }
       }
     }

@@ -1,10 +1,11 @@
 const assert = require('assert');
 
 module.exports = {
-  async createEvent(app, user_id, event_name) {
+  async createEvent(app, user_id, event_name, payload = {}) {
     await app.service('events').create({
       'name': event_name,
-      'user_id': user_id
+      'user_id': user_id,
+      'payload': payload
     });
   },
 
