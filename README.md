@@ -168,8 +168,7 @@ Each key is an event name to listen to. The associated value describes
 immediate actions to take when receiving the event.
 
 You can use the `actions` array to specify actions to be executed as soon as the
-event is received. See the "Achievement Rule `actions`" section further down for
-more information.
+event is received. 
 
 ```yml
 events:
@@ -180,6 +179,25 @@ events:
   # This is equivalent to
   MyEvent:
     actions: []
+```
+
+Each action is an object with a single top-level key denoting the action type.
+Currently, only the "xp" action is supported. Implicitly, the awardee is always
+assumed to be defined in the event's top-level `user_id` field. When you don't
+want the user that triggers the event getting the xp, you can use the
+`awardee_id` configuration option to instead get the awardee's id from the
+event's payload.
+
+```yml
+actions:
+  - xp:
+    # The name of the xp-pool
+    name: myXP
+    # The amount to add. You can also specify a negative amount here
+    # to subtract xp.
+    amount: 1
+    # Optional: The field inside the payload containing the awardee's user_id.
+    awardee_id: receiver_id
 ```
 
 ### Achievement Rules
