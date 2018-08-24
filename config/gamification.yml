@@ -14,7 +14,6 @@ events:
             - xp:
                 name: postXP
                 amount: 1
-                awardee_id: poster_id
             - xp:
                 name: XP
                 amount: 10
