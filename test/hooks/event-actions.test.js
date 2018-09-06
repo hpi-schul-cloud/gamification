@@ -59,4 +59,13 @@ describe('\'xp rule checker\' hook', () => {
 
     await utils.assertXP(app, user_id, 'XP', 20);
   });
+
+  it('gives XP to the awardee if specified', async () => {
+    const eventName = 'EventGiving10XPForPoster';
+    const poster_id = 'PosterId';
+
+    await utils.createEvent(app, user_id, eventName, {poster_id: poster_id});
+
+    await utils.assertXP(app, poster_id, 'XP', 10);
+  });
 });
