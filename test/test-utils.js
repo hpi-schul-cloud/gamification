@@ -9,14 +9,6 @@ module.exports = {
     });
   },
 
-  async createEventWithPayload(app, user_id, event_name, payload) {
-    await app.service('events').create({
-      'name': event_name,
-      'user_id': user_id,
-      'payload': payload
-    });
-  },
-
   async assertAchievement(app, user_id, achievement_name, currentAmount, totalAmount) {
     if (totalAmount === undefined) {
       totalAmount = currentAmount;

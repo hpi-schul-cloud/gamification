@@ -57,7 +57,7 @@ describe('\'achievement-rule-checker\' hook', () => {
   });
 
   it('gives AnyOf Conditions Achievement', async () => {
-    await utils.createEventWithPayload(app, user_id, 'ParameterEvent', {'x': 1, 'y': 3});
+    await utils.createEvent(app, user_id, 'ParameterEvent', {'x': 1, 'y': 3});
 
     await utils.assertAchievement(app, user_id, 'AnyOfConditionsAchievement', 1);
   });
