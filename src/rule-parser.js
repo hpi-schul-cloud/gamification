@@ -30,6 +30,7 @@ class AchievementRule {
     this.scope = rule['scope'] === undefined ? ['user_id'] : rule['scope'];
     this.actions = rule['actions'] === undefined ? [] : rule['actions'];
     this.hidden = rule['hidden'] === undefined ? false : rule['hidden'];
+    this.meta = rule['meta'] === undefined ? [] : rule['meta'];
   }
 
   async isFulfilled(context, isFirstCycle) {

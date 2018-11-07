@@ -50,6 +50,13 @@ achievements:
                             value: hobbit
 
     CommunicatorBronze:
+        #meta de mai jos e definit ca un Map/(HashTable)/Key:value. Daca punem "-" in fata key, rezultatul va fi un vector de obiecte [ { culoare: '#890123' }, ...] ceea ce nu vrem...
+        meta:
+            color: "#890123"
+            image: "https://econ.unitbv.ro/images/UNIVTB-01.png"
+            details: "bla bla 1"
+            title: "un nou inceput!"
+            desc: "d sakldl ksf nsdkjfs nfkjsd nfk js nfksj f nskjfsd kjfs"
         requirements:
             - xp:
                 name: postXP
@@ -61,6 +68,12 @@ achievements:
         hidden: true
 
     CommunicatorSilver:
+        meta:
+            culoare: "#AA00AA"
+            imagine: "https://econ.unitbv.ro/images/UNIVTB-01.png"
+            detaliu: "bla bla 2"
+            title: "sa continuam!"
+            desc: "alta descriere jmekera"
         requirements:
             - achievement:
                 name: CommunicatorBronze
