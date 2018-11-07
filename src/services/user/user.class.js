@@ -29,7 +29,8 @@ class Service {
       return {
         name: achievement.name,
         amount: achievement.current_amount,
-        scope: achievement.scope
+        scope: achievement.scope,
+        meta: achievement.meta
       };
     });
 
