@@ -8,8 +8,7 @@ cache:
   directories:
     - "$HOME/.npm"
 
-install:
-  - npm ci
+install: case $TRAVIS_BRANCH in greenkeeper*) npm i;; *) npm ci;; esac;
 
 before_install:
   - npm i -g npm@6.1.0
