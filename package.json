@@ -43,7 +43,7 @@
     "@feathersjs/errors": "^3.3.0",
     "@feathersjs/express": "^1.2.2",
     "@feathersjs/feathers": "^3.1.5",
-    "amqplib": "^0.5.2",
+    "amqplib": "^0.5.3",
     "compression": "^1.7.2",
     "cors": "^2.8.4",
     "feathers-mongoose": "^6.1.1",
