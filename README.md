@@ -452,7 +452,7 @@ RabbitMQ integration, simply omit the environment variable.
 
 ## License
 
-Copyright (c) 2018 Kim-Pascal Borchart, Christian Flach, Corinna Jaschek,
+Copyright (c) 2019 Kim-Pascal Borchart, Christian Flach, Corinna Jaschek,
 Sebastian Kliem, Mandy Klingbeil, Marcus Konrad, Frederike Ramin.
 
 Licensed under the [MIT license](LICENSE).
