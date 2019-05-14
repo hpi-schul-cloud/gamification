@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.com/schul-cloud/gamification.svg?branch=master)](https://travis-ci.com/schul-cloud/gamification)
 [![Coverage Status](https://coveralls.io/repos/github/schul-cloud/gamification/badge.svg?branch=master)](https://coveralls.io/github/schul-cloud/gamification?branch=master)
-[![GitHub license](https://img.shields.io/github/license/schul-cloud/gamification.svg)](https://github.com/schul-cloud/gamification/blob/master/LICENSE)
+[![GitHub license](https://img.shields.io/github/license/schul-cloud/gamification.svg)](https://github.com/schul-cloud/gamification/blob/master/LICENSE) [![Greenkeeper badge](https://badges.greenkeeper.io/schul-cloud/gamification.svg)](https://greenkeeper.io/)
 
 # Gamification
 
