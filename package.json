@@ -46,7 +46,7 @@
     "amqplib": "^0.5.2",
     "compression": "^1.7.2",
     "cors": "^2.8.4",
-    "feathers-mongoose": "^7.0.0",
+    "feathers-mongoose": "^8.0.2",
     "helmet": "^3.12.1",
     "js-yaml": "^3.11.0",
     "mongoose": "^5.1.3",
