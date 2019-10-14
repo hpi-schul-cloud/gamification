@@ -41,7 +41,7 @@
   "dependencies": {
     "@feathersjs/configuration": "^2.0.4",
     "@feathersjs/errors": "^3.3.0",
-    "@feathersjs/express": "^1.2.2",
+    "@feathersjs/express": "^4.3.7",
     "@feathersjs/feathers": "^3.1.5",
     "amqplib": "^0.5.2",
     "compression": "^1.7.2",
