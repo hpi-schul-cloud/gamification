@@ -15,7 +15,8 @@ module.exports = function (app) {
     name: {type: String, required: true},
     current_amount: {type: Number, required: true},
     total_amount: {type: Number, required: true},
-    scope: {type: Map, required: false, default: null}
+    scope: {type: Map, required: false, default: null},
+    meta: {type: Map, required: false, default: {}}
   });
   achievement.index({ user_id: 1, name: 1 }, {unique: true});
 

@@ -29,7 +29,8 @@ class Service {
       return {
         name: achievement.name,
         amount: achievement.current_amount,
-        scope: achievement.scope
+        scope: achievement.scope,
+        meta: achievement.meta
       };
     });
 
@@ -45,6 +46,7 @@ class Service {
     });
 
     let level = 1;
+    let value = 0;
 
     if(xp.length) {
       const currentXP = xp.find(x => x['name'] === 'XP')['amount'];
@@ -81,7 +83,8 @@ class Service {
       user_id: id,
       achievements: achievements,
       xp: xp,
-      level: level
+      level: level,
+      value: value
     };
   }
 }

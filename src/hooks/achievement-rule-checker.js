@@ -35,7 +35,8 @@ module.exports = function (options = {}) {
               user_id: context.data.user_id,
               name: achievementRule.name,
               current_amount: 1,
-              total_amount: 1
+              total_amount: 1,
+              meta:achievementRule.meta
             });
           }
 
