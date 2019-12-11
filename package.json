@@ -61,7 +61,7 @@
     "eslint": "^6.0.0",
     "istanbul": "^0.4.5",
     "mocha": "^5.2.0",
-    "nodemon": "^1.17.5",
+    "nodemon": "^2.0.2",
     "nyc": "^13.1.0",
     "request": "^2.87.0",
     "request-promise": "^4.2.2"
