@@ -39,14 +39,14 @@
     ]
   },
   "dependencies": {
-    "@feathersjs/configuration": "^2.0.4",
-    "@feathersjs/errors": "^3.3.0",
-    "@feathersjs/express": "^1.2.2",
-    "@feathersjs/feathers": "^3.1.5",
+    "@feathersjs/configuration": "^4.5.1",
+    "@feathersjs/errors": "^4.5.1",
+    "@feathersjs/express": "^4.5.1",
+    "@feathersjs/feathers": "^4.5.1",
     "amqplib": "^0.5.2",
     "compression": "^1.7.2",
     "cors": "^2.8.4",
-    "feathers-mongoose": "^7.0.0",
+    "feathers-mongoose": "^8.3.0",
     "helmet": "^3.12.1",
     "js-yaml": "^3.11.0",
     "mongoose": "^5.1.3",
@@ -57,12 +57,12 @@
   "devDependencies": {
     "chai": "^4.1.2",
     "coveralls": "^3.0.1",
-    "cross-env": "^5.2.0",
+    "cross-env": "^7.0.0",
     "eslint": "^6.0.0",
     "istanbul": "^0.4.5",
-    "mocha": "^5.2.0",
-    "nodemon": "^1.17.5",
-    "nyc": "^13.1.0",
+    "mocha": "^7.0.1",
+    "nodemon": "^2.0.2",
+    "nyc": "^15.0.0",
     "request": "^2.87.0",
     "request-promise": "^4.2.2"
   }
